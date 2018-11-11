@@ -21,7 +21,12 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias vi="vim"
-alias ytaudio="youtube-dl -x --audio-format m4a --audio-quality 0 --restrict-filenames -o '%(title)s-%(id)s.%(ext)s'"
+alias e="emacsclient -c"
+alias ytaudio="youtube-dl -x --audio-format vorbis --audio-quality 0 --restrict-filenames -o '%(title)s-%(id)s.%(ext)s'"
+alias Rv="R --vanilla"
+
+# special alias for haskell builds
+alias cabal="env TMPDIR=/usr/local/cabal/build cabal"
 
 toggle_touchpad() {
 	synclient TouchpadOff=$(synclient -l | grep -c "TouchpadOff.*=.*0")
