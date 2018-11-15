@@ -1,4 +1,4 @@
-set -b
+xset -b
 xbacklight -set 100
 setxkbmap -option "ctrl:nocaps"
 setxkbmap -option "shift:both_capslock"
