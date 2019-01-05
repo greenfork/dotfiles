@@ -372,7 +372,11 @@ globalkeys = gears.table.join(
     --          {description = "show the menubar", group = "launcher"})
     -- MPC playing
        awful.key({ modkey }, "p", function() os.execute("mpc toggle") end,
-                {description = "toggle MPD play/pause", group = "launcher"})
+                {description = "MPD: toggle play/pause", group = "launcher"}),
+       awful.key({ modkey }, "[", function() os.execute("mpc prev") end,
+                {description = "MPD: play previous", group = "launcher"}),
+       awful.key({ modkey }, "]", function() os.execute("mpc next") end,
+                {description = "MPD: play next", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
