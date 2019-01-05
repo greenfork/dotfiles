@@ -376,7 +376,9 @@ globalkeys = gears.table.join(
        awful.key({ modkey }, "[", function() os.execute("mpc prev") end,
                 {description = "MPD: play previous", group = "launcher"}),
        awful.key({ modkey }, "]", function() os.execute("mpc next") end,
-                {description = "MPD: play next", group = "launcher"})
+                {description = "MPD: play next", group = "launcher"}),
+       awful.key({ modkey }, "e", function() awful.spawn("emacsclient -c") end,
+                {description = "launch Emacs client GUI", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
