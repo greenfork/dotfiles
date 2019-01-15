@@ -41,9 +41,9 @@ use github.com/zzamboni/elvish-completions/cd
 #use github.com/zzamboni/elvish-completions/builtins
 #use github.com/zzamboni/elvish-completions/git
 
-# Send notification if command runs more than 10 seconds
+# Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
-long-running-notifications:threshold = 10
+long-running-notifications:threshold = 40
 
 # Shortcuts for inserting previous commands with !! and !$
 use github.com/zzamboni/elvish-modules/bang-bang
