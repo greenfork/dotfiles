@@ -1,5 +1,6 @@
 /* Mein patch, changes font to Fantasque Sans Mono, colors to solarized palette
-   and removes border gaps for tiled window managers */
+   and removes border gaps for tiled window managers. config.mk made for OpenBSD,
+   need to restore default for linuxes. */
 diff --git a/config.def.h b/config.def.h
 index 823e79f..ba74506 100644
 --- a/config.def.h
