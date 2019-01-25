@@ -1,0 +1,4 @@
+apmd_flags=-A
+mpd_user=greenfork
+pkg_scripts=mpd emacsd
+sshd_flags=NO

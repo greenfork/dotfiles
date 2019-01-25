@@ -1,0 +1,3 @@
+latex:
+For xetex: install l3kernel, l3package, lmroman fonts, fontspec
+For hyperref: install pzdr font, texmf-local/fonts/tfm/adobe/zapfding/pzdr.tfm

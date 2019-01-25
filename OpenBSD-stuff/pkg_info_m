@@ -1,0 +1,69 @@
+R-3.5.1p0           powerful math/statistics/graphics language
+ValyriaTear-1.0.0p7 free J-RPG game
+adb-5.1.1.4         Android Debug Bridge
+aspell-ru-0.99f7.1p0v1 aspell dictionary for Russian
+awesome-4.2p0       highly configurable framework window manager
+clojure-1.9.0.375   Lisp-1 dialect for the Java Virtual Machine
+cmake-3.10.2p0v0    portable build system
+deluge-1.3.15p2     bittorrent client
+easyrpg-0.5.3       free interpreter for RPG Maker 2000/2003 and EasyRPG games
+elvish-0.12         cross-platform, friendly, and expressive shell
+emacs-26.1p2-gtk3   GNU editor: extensible, customizable, self-documenting
+exa-0.8.0p1         ls alternative written in Rust
+fantasque-sans-1.7.2 programming font designed with functionality in mind
+firefox-62.0.3p0    Mozilla web browser
+gimp-2.8.22p3       GNU Image Manipulation Program
+git-2.19.1          GIT - Tree History Storage Tool
+gmake-4.2.1         GNU make
+go-1.11             Go programming language
+hedgewars-0.9.23    Worms-like strategy game
+innoextract-1.7     unpack Inno Setup installers
+intel-firmware-20180807p0v0 microcode update binaries for Intel CPUs
+jdk-1.8.0.172p0v0   OpenJDK Software Development Kit v1.8.0.172
+liberation-fonts-2.00.1p1 substitute for MS TTF core fonts
+libgit2-0.27.2      the Git library, take 2
+libreoffice-6.1.1.2p0v0 multi-platform productivity suite
+libreoffice-i18n-ru-6.1.1.2v0 ru language pack for LibreOffice
+lua-5.3.5           powerful, light-weight programming language (version 5.3.5)
+luakit-2017.08.10p0v0 fast, small, webkit based browser written in lua
+mariadb-client-10.0.36v1 multithreaded SQL database (client)
+mariadb-server-10.0.36p0v1 multithreaded SQL database (server)
+mars-0.7.5p6        ridiculous shoot-em-up game
+maven-3.5.3         software project management and comprehension tool
+mozilla-dicts-ru-1.3p1 ru dictionary for Mozilla
+mpc-0.30            command line client for mpd
+mpd-0.20.20         Music Player Daemon
+mpv-0.22.0p4        movie player based on MPlayer/mplayer2
+mupdf-1.13.0p2      graphic library, pdf parser, viewer and utilities
+ncmpc-0.30v0        curses based frontend for mpd
+newsboat-2.13       RSS/Atom feed reader for text terminals
+node-8.12.0         V8 JavaScript for clients and servers
+offlineimap-7.2.1   powerful IMAP/Maildir synchronization and reader support
+omega-0.90.4p2      complex rogue-style game of dungeon exploration
+p7zip-16.02p4       file archiver with high compression ratio
+password-store-1.7.3 simple password store
+pfm-1.92.2          personal file manager
+pkg_mgr-0.2.3p0     user-friendly package browser and manager
+qemu-3.0.0p2        multi system emulator
+qtwebkit-5.9.0p6    old Webkit integration framework for Qt
+quirks-3.16         exceptions to pkg_add rules
+ripgrep-0.8.1p2     line oriented search tool using Rust's regex library 
+ruby-2.4.4          object oriented script language with threads
+ruby-2.5.1          object oriented script language with threads
+ruby24-bundler-1.15.1 ruby application dependency manager
+rust-1.29.2         compiler for Rust Language
+rust-doc-1.29.2     html documentation for rustc
+screenfetch-3.8.0p1 display system information in the terminal for screenshots
+scrot-0.8p3         commandline screen capture util
+slock-1.3p1         simple X screen locker
+sxiv-24p2           simple X Image Viewer
+tor-0.3.4.8         anonymity service using onion routing
+tor-browser-8.0.2   Tor Browser meta package
+unrar-5.60v1        extract, list, and test RAR archives
+uvideo-firmware-1.2p2 firmware binary images for uvideo(4) driver
+vim-8.1.0438-no_x11 vi clone, many additional features
+vimb-3.2.0p1        modal webkit-based browser inspired by vim
+vmm-firmware-1.11.0p0 firmware binary images for vmm(4) driver
+w3m-0.5.3p6-image   pager/text-based web browser
+wesnoth-1.14.5      fantasy turn-based strategy game
+xclip-0.13p0        command line interface to X selections
