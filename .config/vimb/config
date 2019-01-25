@@ -1,0 +1,40 @@
+set home-page=about:blank
+set download-path=~/Downloads/
+set editor-command=st -e "vim %s"
+set input-autohide=true
+set spell-checking=true
+set spell-checking-languages=en,ru
+set incsearch=false
+
+set webgl=true
+
+set default-font=DejaVu Sans
+set monospace-font=Fantasque Sans Mono
+set sans-serif-font=DejaVu Sans
+set serif-font=DejaVu Serif
+set font-size=16
+set monospace-font-size=11
+
+
+shortcut-add duck=https://duckduckgo.com/?q=$0
+shortcut-add d=http://dict.cc/?s=$0
+shortcut-add g=https://encrypted.google.com/search?q=$0
+shortcut-add y=http://www.youtube.com/results?search_query=$0
+shortcut-add s=https://www.startpage.com/do/dsearch?query=$0
+shortcut-default duck
+
+set default-zoom=100
+nmap + zI
+nmap - zO
+nmap = zz
+
+# GUI color settings
+# Color scheme: Base16 Eighties (https://github.com/chriskempson/base16)
+set completion-css=color:#d3d0c8;background-color:#393939;font:10pt DejaVu Sans Mono;
+set completion-hover-css=color:#d3d0c8;background-color:#393939;font:10pt DejaVu Sans Mono;
+set completion-selected-css=color:#d3d0c8;background-color:#515151;font:10pt DejaVu Sans Mono;
+set input-css=color:#d3d0c8;background-color:#393939;font:10pt DejaVu Sans Mono;
+set input-error-css=color:#f2777a;background-color:#393939;font:10pt DejaVu Sans Mono;
+set status-css=color:#ffcc66;background-color:#393939;font:10pt DejaVu Sans Mono;
+set status-ssl-css=color:#99cc99;background-color:#393939;font:10pt DejaVu Sans Mono;
+set status-ssl-invalid-css=color:#f2777a;background-color:#393939;font:10pt DejaVu Sans Mono;
