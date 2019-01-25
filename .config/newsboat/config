@@ -1,0 +1,13 @@
+browser "w3m %u"
+goto-next-feed no
+max-items 100
+reload-threads 4
+text-width 80
+
+color background         color102 color102
+color listnormal         default  black
+color listfocus          black    yellow
+color listnormal_unread  yellow   black 
+color listfocus_unread   black    yellow 
+color info               yellow   black 
+color article            default  color102
