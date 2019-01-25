@@ -3,7 +3,8 @@ E:PAGER=less
 E:EDITOR=vim
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
-E:PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games:/usr/local/jdk-1.8.0/bin
+home=$E:HOME
+E:PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games:/usr/local/jdk-1.8.0/bin:$home/.gem/ruby/2.5/bin:$home/.yarn/yarn-v1.13.0/bin
 
 # Aliases
 fn l [@a]{ exa -F $@a }
@@ -35,11 +36,13 @@ edit:rprompt = (constantly (edit:styled (whoami) inverse))
 # Completions
 use github.com/xiaq/edit.elv/smart-matcher
 smart-matcher:apply
-edit:insert:binding[Tab] = { edit:completion:smart-start; edit:completion:trigger-filter }
 use github.com/zzamboni/elvish-completions/cd
 #use github.com/zzamboni/elvish-completions/ssh
 #use github.com/zzamboni/elvish-completions/builtins
 #use github.com/zzamboni/elvish-completions/git
+
+# Autocompletion on pressing Tab
+edit:insert:binding[Tab] = { edit:completion:smart-start; edit:completion:trigger-filter }
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
