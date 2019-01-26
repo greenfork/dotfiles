@@ -47,6 +47,8 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 terminal = "st -e tmux"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " " .. editor
+home = os.getenv("HOME")
+scripts = home .. "/.scripts"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -297,7 +299,7 @@ globalkeys = gears.table.join(
               {description = "show main menu", group = "awesome"}),
 
     awful.key({ modkey,           }, "z", 
-              function () os.execute(". /home/greenfork/.kshrc; toggle_touchpad") end,
+              function () awful.spawn(scripts .. "/toggle_touchpad.sh") end,
               {description = "toggle touchpad", group = "awesome"}),
 
     -- Layout manipulation
@@ -374,11 +376,11 @@ globalkeys = gears.table.join(
     -- awful.key({ modkey }, "p", function() menubar.show() end,
     --          {description = "show the menubar", group = "launcher"})
     -- MPC playing
-       awful.key({ modkey }, "p", function() os.execute("mpc toggle") end,
+       awful.key({ modkey }, "p", function() awful.spawn("mpc toggle") end,
                 {description = "MPD: toggle play/pause", group = "launcher"}),
-       awful.key({ modkey }, "[", function() os.execute("mpc prev") end,
+       awful.key({ modkey }, "[", function() awful.spawn("mpc prev") end,
                 {description = "MPD: play previous", group = "launcher"}),
-       awful.key({ modkey }, "]", function() os.execute("mpc next") end,
+       awful.key({ modkey }, "]", function() awful.spawn("mpc next") end,
                 {description = "MPD: play next", group = "launcher"}),
        awful.key({ modkey }, "e", function() awful.spawn("emacsclient -c") end,
                 {description = "launch Emacs client GUI", group = "launcher"})

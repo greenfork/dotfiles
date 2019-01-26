@@ -4,7 +4,7 @@ E:EDITOR=vim
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
-E:PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games:/usr/local/jdk-1.8.0/bin:$home/.gem/ruby/2.5/bin:$home/.yarn/yarn-v1.13.0/bin
+E:PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:(go env GOPATH)/bin
 
 # Aliases
 fn l [@a]{ exa -F $@a }
@@ -12,7 +12,7 @@ fn ll [@a]{ exa -Flg $@a }
 fn la [@a]{ exa -Flga $@a }
 fn ytaudio [@a]{ youtube-dl -x --audio-format vorbis --audio-quality 0 --restrict-filenames -o '%(title)s-%(id)s.%(ext)s' $@a }
 fn Rv [@a]{ R --vanilla $@a }
-fn phonet []{ doas sh /etc/netstart urndis0 }
+fn xbi [@a]{ doas xbps-install -S $@a }
 
 use epm
 epm:install &silent-if-installed=$true \
@@ -40,9 +40,6 @@ use github.com/zzamboni/elvish-completions/cd
 #use github.com/zzamboni/elvish-completions/ssh
 #use github.com/zzamboni/elvish-completions/builtins
 #use github.com/zzamboni/elvish-completions/git
-
-# Autocompletion on pressing Tab
-edit:insert:binding[Tab] = { edit:completion:smart-start; edit:completion:trigger-filter }
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
