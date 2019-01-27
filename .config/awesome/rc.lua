@@ -214,48 +214,15 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
+            awful.widget.watch(scripts .. "/memory_free.sh"),
             delimiter,
-            awful.widget.watch("curl ifconfig.me/ip", 600,
-function(widget, stdout)
-if stdout ~= "" then 
-if stdout:find("^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?") then
-widget:set_text("Public: " .. stdout)
-else
-widget:set_text("Not parsable")
-end
-else 
-widget:set_text("No IP address") 
-end 
-end),
+            awful.widget.watch(scripts .. "/uptime.sh"),
             delimiter,
-            awful.widget.watch("sh -c \"ifconfig | awk 'match($0, /inet/) && match($0, /broadcast/) { print $2 }'\"", 15, 
-function(widget, stdout) 
-if stdout ~= "" then 
-widget:set_text("Internal: " .. stdout) 
-else 
-widget:set_text("No IP address") 
-end 
-end),
-            delimiter,
-            awful.widget.watch("sh -c \"vmstat | awk 'NR==3 { print $3\\\" / \\\"$4\\\" / 4G\\\" }'\"", 15),
-            wibox.widget.textbox(" |"),
-            awful.widget.watch("uptime", 15,
-function(widget, stdout)
-local s = ""
-for n in stdout:gmatch("%d%.%d%d") do
-s = s .. " " ..  n
-end
-widget:set_text(s)
-end),
-            delimiter,
-            wibox.widget.textbox("Temp "),
-            awful.widget.watch("sh -c \"sysctl hw.sensors.cpu0.temp0 | awk -F= '{ print substr($2, 1, 2) }'\"", 15),
-            wibox.widget.textbox("℃"),
+            awful.widget.watch(scripts .. "/temp_lmsensors.sh", 15),
             delimiter,
             wibox.widget.textclock("%a %H:%M | %d.%m.%Y"),
             delimiter,
-            awful.widget.watch("apm -l"),
-            wibox.widget.textbox("%"),
+            awful.widget.watch(scripts .. "/battery_acpi.sh"),
             delimiter,
             awful.widget.keyboardlayout(),
             s.mylayoutbox,
