@@ -2,13 +2,15 @@
 ;;; https://github.com/bbatsov/prelude
 ;;; File location: ~/.emacs.d/personal/personal-prelude.el
 
+;;; How to customize fonts:
+;;;
+;;; - M-x menu-set-font
+;;; - M-x customize-group, choose basic-faces
+;;; - Go to Default face, click on State, choose to save for future sesions
+
 (toggle-scroll-bar -1)
 (add-to-list 'default-frame-alist
              '(vertical-scroll-bars . nil))
-
-;;; Lua
-(prelude-require-packages '(lua-mode))
-(setq lua-default-application "/usr/local/bin/lua53")
 
 ;;; Company mode
 (progn
@@ -19,6 +21,9 @@
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map [return] nil)
   (define-key company-active-map (kbd "RET") nil))
+
+;;; I have `super' key in use with my window manager, the following
+;;; settings are intended to remove or change any use of this key
 
 ;;; Prelude minor
 (progn
@@ -38,7 +43,7 @@
   (define-key prelude-mode-map (kbd "s-y") nil) ;; 'browse-kill-ring (currently keychord "yy")
   )
 ;;; Prelude global
-(progn
-  (define-key prelude-mode-map (kbd "C-x p") nil) ;; 'proced (not available on OpenBSD, only Linux)
-  )
+;; (progn
+;;   (define-key prelude-mode-map (kbd "C-x p") nil) ;; 'proced (not available on OpenBSD, only Linux)
+;; )
 (setq prelude-flyspell nil)
