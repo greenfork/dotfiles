@@ -174,7 +174,6 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-delimiter = wibox.widget.textbox(" | ")
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
@@ -201,6 +200,8 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "bottom", screen = s })
+
+    delimiter = wibox.widget.textbox(" | ")
 
     -- Add widgets to the wibox
     s.mywibox:setup {
