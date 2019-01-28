@@ -44,9 +44,10 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "st -e tmux"
+terminal_emulator = "st"
+terminal = terminal_emulator .. " tmux"
 editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " " .. editor
+editor_cmd = terminal_emulator .. " " .. editor
 home = os.getenv("HOME")
 scripts = home .. "/.scripts"
 
