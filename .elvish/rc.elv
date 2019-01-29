@@ -4,7 +4,8 @@ E:EDITOR=vim
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
-E:PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:(go env GOPATH)/bin
+# /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
+E:PATH=/usr/bin:/usr/local/bin:/usr/local/sbin:(go env GOPATH)/bin
 
 # Aliases
 fn l [@a]{ exa -F $@a }
