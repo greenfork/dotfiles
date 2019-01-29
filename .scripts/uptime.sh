@@ -1,3 +1,3 @@
 #!/bin/sh
 
-uptime | awk -F, '{ split($3 $4 $5, a, " " ); print a[3], a[4], a[5] }'
+uptime | awk 'BEGIN{ FS="," } { split($(NF-2), a, " "); print a[3] $(NF-1) $(NF) }'
