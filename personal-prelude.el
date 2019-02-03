@@ -12,6 +12,9 @@
 (add-to-list 'default-frame-alist
              '(vertical-scroll-bars . nil))
 
+;; Disable auto magick comments in Ruby
+(setq ruby-insert-encoding-magic-comment nil)
+
 ;;; Company mode
 (progn
   (define-key company-active-map (kbd "C-n") 'company-select-next)
