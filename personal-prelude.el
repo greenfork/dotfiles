@@ -15,6 +15,16 @@
 ;; Disable auto magick comments in Ruby
 (setq ruby-insert-encoding-magic-comment nil)
 
+(global-set-key (kbd "C-o") 'pop-to-mark-command)
+
+;;; Nim programming language
+;;; first install `nim-mode' and `indent-guide' from MELPA
+(add-hook 'nim-mode-hook 'nimsuggest-mode)
+;; (add-hook 'nimsuggest-mode-hook 'company-mode)
+;; (add-hook 'nimsuggest-mode-hook 'flycheck-mode)
+(add-hook 'nim-mode-hook 'indent-guide-mode)
+(add-hook 'nim-mode-hook 'subword-mode)
+
 ;;; Company mode
 (progn
   (define-key company-active-map (kbd "C-n") 'company-select-next)
