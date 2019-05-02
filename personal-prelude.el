@@ -25,6 +25,10 @@
 (add-hook 'nim-mode-hook 'indent-guide-mode)
 (add-hook 'nim-mode-hook 'subword-mode)
 
+;;; Elixir programming language
+;;; first install `elixir-mode' and `alchemist' from MELPA
+(add-hook 'elixir-mode-hook 'alchemist-mode)
+
 ;;; Company mode
 (progn
   (define-key company-active-map (kbd "C-n") 'company-select-next)
