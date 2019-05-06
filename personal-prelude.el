@@ -18,8 +18,11 @@
 (global-set-key (kbd "C-o") 'pop-to-mark-command)
 
 ;;; Nim programming language
-;;; first install `nim-mode' and `indent-guide' from MELPA
-(add-hook 'nim-mode-hook 'nimsuggest-mode)
+;;; first install `nim-mode' and `indent-guide', `flycheck-nim' from MELPA
+(setenv "PATH" (concat (getenv "PATH") ":/home/grfork/.nimble/bin"))
+(setq exec-path (append exec-path '("/home/grfork/.nimble/bin")))
+;; (setq nimsuggest-path "/home/grfork/.nimble/bin/nimsuggest")
+;; (add-hook 'nim-mode-hook 'nimsuggest-mode) ;; leaks memory
 ;; (add-hook 'nimsuggest-mode-hook 'company-mode)
 ;; (add-hook 'nimsuggest-mode-hook 'flycheck-mode)
 (add-hook 'nim-mode-hook 'indent-guide-mode)
