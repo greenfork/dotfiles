@@ -31,8 +31,8 @@ edit:navigation:binding["Alt-n"] = $nop~
 
 # Left and right prompts
 edit:prompt = { tilde-abbr $pwd; put '> ' }
-#edit:rprompt = (constantly (edit:styled (whoami)@(hostname) inverse))
-edit:rprompt = (constantly (edit:styled (whoami) inverse))
+#edit:rprompt = (constantly (edit:styled (whoami) inverse))
+edit:rprompt = (constantly 'no return')
 
 # Completions
 use github.com/xiaq/edit.elv/smart-matcher
