@@ -504,6 +504,13 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
+    -- Configure terminal to spawn considering my broken laptop screen
+    -- 23 is the size of the status bar
+    { rule = { instance = "Alacritty" },
+      properties = { floating = true,
+                     x = 235, y = 0,
+                     width = 1366 - 235, height = 768 - 23 }},
+
     -- Add titlebars to normal clients and dialogs
     -- { rule_any = {type = { "normal", "dialog" }
     --   }, properties = { titlebars_enabled = true }
