@@ -17,6 +17,8 @@
 
 (global-set-key (kbd "C-o") 'pop-to-mark-command)
 
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+
 ;;; Nim programming language
 ;;; first install `nim-mode' and `indent-guide', `flycheck-nim' from MELPA
 (setenv "PATH" (concat (getenv "PATH") ":/home/grfork/.nimble/bin"))
