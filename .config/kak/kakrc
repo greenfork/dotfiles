@@ -104,7 +104,7 @@ hook global InsertChar k %{ try %{
 
 define-command lint-on-write -docstring 'Activate linting on buffer write' %{
     lint-enable
-    hook buffer BufWritePost .* lint
+    hook window BufWritePost .* lint
     lint
 }
 
@@ -112,14 +112,14 @@ hook global WinSetOption filetype=kak %{
     no-tabs 4
 }
 hook global WinSetOption filetype=ruby %{
-    set-option buffer lintcmd rubocop
-    set-option buffer formatcmd "rubocop -a ${kak_buffile}"
+    set-option window lintcmd 'run() { cat "$1" | rubocop -s "$kak_buffile"; } && run '
+    set-option window formatcmd 'rubocop -a "$kak_buffile"'
     lint-on-write
     no-tabs 2
 }
 hook global WinSetOption filetype=nim %{
-    set-option buffer formatcmd "nimpretty ${kak_buffile}"
-    set-option buffer makecmd 'nimble build'
+    set-option window formatcmd 'nimpretty "$kak_buffile"'
+    set-option window makecmd 'nimble build'
     no-tabs 2
 }
 
