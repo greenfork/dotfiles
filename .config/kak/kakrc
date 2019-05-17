@@ -124,6 +124,9 @@ hook global WinSetOption filetype=nim %{
     set-option window makecmd 'nimble build'
     no-tabs 2
 }
+hook global BufCreate .*\.erb %{
+    set-option buffer filetype html
+}
 
 # Git
 
