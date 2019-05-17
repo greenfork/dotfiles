@@ -130,7 +130,7 @@ plug 'lenormf/kakoune-extra' load %{
 }
 hook global WinCreate .* %{ evaluate-commands %sh{
     if [ -n '${kak_opt_vcs_root_path}' ]; then
-        case '${kak_opt_vcs_name}' in
+        case "${kak_opt_vcs_name}" in
             git)
                 echo "
                     git show-diff
