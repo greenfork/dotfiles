@@ -41,12 +41,19 @@ set-option global autoreload yes
 
 # Navigation
 
+plug 'delapouite/kakoune-cd' config %{
+  map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
+  alias global cdb change-directory-current-buffer
+  alias global cdr change-directory-project-root
+  alias global ecd edit-current-buffer-directory
+  alias global pwd print-working-directory
+}
 plug 'andreyorst/fzf.kak' config %{
     set-option global fzf_implementation 'sk'
     set-option global fzf_file_command 'fd'
     set-option global fzf_sk_grep_command 'rg -iLHn'
     set-option global fzf_highlight_cmd 'bat'
-    map global user p -docstring 'open fzf-mode' %{: fzf-mode<ret>}
+    map global user p -docstring 'open fzf-mode' ': change-directory-project-root; fzf-mode<ret>'
 }
 plug 'TeddyDD/kakoune-edit-or-dir' config %{
     define-command open-current-directory -docstring 'Open directory of current buffer' %{
