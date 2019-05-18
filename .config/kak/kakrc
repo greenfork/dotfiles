@@ -127,6 +127,24 @@ hook global WinSetOption filetype=nim %{
 hook global BufCreate .*\.erb %{
     set-option buffer filetype html
 }
+hook global WinSetOption filetype=(html|javascript) %{
+  evaluate-commands %sh{
+    exec 2>/dev/null # silence STDERR
+    eslintrc_path=$(ls -1 .eslintrc* || (grep -q 'eslintConfig' package.json && echo 'package.json'))
+    if [ -n "$eslintrc_path" ]; then
+      if [ -x ./node_modules/.bin/eslint ]; then
+        eslint_path='./node_modules/.bin/eslint'
+      elif command -v eslint > /dev/null 2>&1; then
+        eslint_path='eslint'
+      else
+        echo "echo -debug 'No eslint available'"
+        exit 1
+      fi
+      echo "set-option buffer lintcmd '"$eslint_path" --config "$eslintrc_path" --format ~/.config/kak/eslint-formatter-kakoune.js --stdin-filename "$kak_buffile" --stdin <'"
+      echo 'lint-on-write'
+    fi
+  }
+}
 
 # Git
 
