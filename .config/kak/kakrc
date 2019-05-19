@@ -42,6 +42,12 @@ map global normal -docstring 'enter user mode' <space> ,
 map global normal -docstring 'remove all sels except main' <backspace> <space>
 map global normal -docstring 'remove main sel' <a-backspace> <a-space>
 set-option global autoreload yes
+map global normal ^ q
+map global normal <a-^> Q
+map global normal q b
+map global normal Q B
+map global normal <a-q> <a-b>
+map global normal <a-Q> <a-B>
 
 # Navigation
 
@@ -66,6 +72,11 @@ plug 'TeddyDD/kakoune-edit-or-dir' config %{
     unalias global e edit
     alias global e edit-or-dir
     alias global dir open-current-directory
+}
+plug 'Delapouite/kakoune-buffers' config %{
+    hook global WinDisplay .* info-buffers
+    map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
+    map global normal -docstring 'buffers (lock)...' B ': enter-user-mode -lock buffers<ret>'
 }
 
 # Editing
