@@ -48,6 +48,7 @@ map global normal q b
 map global normal Q B
 map global normal <a-q> <a-b>
 map global normal <a-Q> <a-B>
+set global scrolloff 7,7
 
 # Navigation
 
