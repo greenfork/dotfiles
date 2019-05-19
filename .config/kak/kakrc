@@ -31,6 +31,10 @@ plug 'alexherbo2/search-highlighter.kak' config %{
     set-face global Search black,magenta
     set-face global PrimarySelectionSearch black,red
 }
+plug 'https://gitlab.com/fsub/kakoune-mark' config %{
+	map global user -docstring 'mark word with color' m ': mark-word<ret>'
+    map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
+}
 
 # General options
 
@@ -53,7 +57,7 @@ plug 'andreyorst/fzf.kak' config %{
     set-option global fzf_file_command 'fd'
     set-option global fzf_sk_grep_command 'rg -iLHn'
     set-option global fzf_highlight_cmd 'bat'
-    map global user p -docstring 'open fzf-mode' ': change-directory-project-root; fzf-mode<ret>'
+    map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
 }
 plug 'TeddyDD/kakoune-edit-or-dir' config %{
     define-command open-current-directory -docstring 'Open directory of current buffer' %{
