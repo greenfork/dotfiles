@@ -11,6 +11,10 @@ source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 colorscheme gruvbox
 # cursor is bright only in current window
+hook global WinDisplay .* %{
+    set-face window PrimaryCursor rgb:282828,rgb:ebdbb2
+    set-face window PrimaryCursorEol default,rgb:68ff68
+}
 hook global FocusIn .* %{
     set-face window PrimaryCursor rgb:282828,rgb:ebdbb2
     set-face window PrimaryCursorEol default,rgb:68ff68
