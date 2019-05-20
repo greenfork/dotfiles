@@ -32,7 +32,7 @@ add-highlighter global/ column 80 default,rgb:303030
 add-highlighter global/ wrap -word -indent
 add-highlighter global/ regex '\h+$' 0:default,red
 add-highlighter global/ show-matching
-add-highlighter global/ regex '\b(TODO|FIXME|NOTE)\b' 0:default+rb
+add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
 plug 'alexherbo2/search-highlighter.kak' config %{
     hook global WinCreate .* %{ search-highlighter-enable }
     set-face global Search black,magenta
