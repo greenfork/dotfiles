@@ -55,3 +55,6 @@ fn cd [@a]{ dir:cd $@a }
 fn cdb [@a]{ dir:cdb $@a }
 edit:insert:binding[Alt-b] = $dir:left-word-or-prev-dir~
 edit:insert:binding[Alt-f] = $dir:right-word-or-next-dir~
+
+# Case-insensitive search when prompting
+edit:location:matcher = [@a]{ edit:location:match-dir-pattern &ignore-case $@a }
