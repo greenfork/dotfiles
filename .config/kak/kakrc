@@ -1,6 +1,6 @@
 # Installation instructions:
 # 1. git clone https://github.com/andreyorst/plug.kak.git ~/.config/kak/plugins/plug.kak
-# 2. Install bat, fd, ripgrep, sk, git packages
+# 2. Install bat, fd, ripgrep, sk, git, tmux packages
 # 3. Run ':plug-install' inside kakoune
 # 4. Reload kakoune
 # 5. Profit
