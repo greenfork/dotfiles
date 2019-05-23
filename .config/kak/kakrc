@@ -76,6 +76,11 @@ evaluate-commands %sh{
 
 # Navigation
 
+define-command newv -params .. -command-completion -docstring '"new" but vertical' %{
+    try %{
+        tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
+    }
+}
 plug 'delapouite/kakoune-cd' config %{
   map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
   alias global cdb change-directory-current-buffer
