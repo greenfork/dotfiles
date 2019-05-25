@@ -247,4 +247,4 @@ hook global WinSetOption modeline_git_branch=.* %{
 }
 
 # Load local project config
-try %{ cdr; source '.local.kak' }
+try %{ source '.local.kak' }
