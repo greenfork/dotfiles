@@ -88,7 +88,7 @@ plug 'delapouite/kakoune-cd' config %{
   alias global ecd edit-current-buffer-directory
   alias global pwd print-working-directory
 }
-plug 'andreyorst/fzf.kak' config %{
+plug 'andreyorst/fzf.kak' defer fzf %{
     set-option global fzf_implementation 'sk'
     set-option global fzf_file_command 'fd'
     set-option global fzf_sk_grep_command 'rg -iLHn'
