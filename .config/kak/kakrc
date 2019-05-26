@@ -189,6 +189,7 @@ hook global WinSetOption filetype=(html|javascript) %{
         exit 1
       fi
       echo "set-option buffer lintcmd '"$eslint_path" --config "$eslintrc_path" --format ~/.config/kak/eslint-formatter-kakoune.js --stdin-filename "$kak_buffile" --stdin <'"
+      echo "set-option buffer formatcmd '"$eslint_path" --config "$eslintrc_path" --fix "$kak_buffile"'"
       echo 'lint-on-write'
     fi
   }
