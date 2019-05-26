@@ -82,11 +82,11 @@ define-command newv -params .. -command-completion -docstring '"new" but vertica
     }
 }
 plug 'delapouite/kakoune-cd' config %{
-  map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
-  alias global cdb change-directory-current-buffer
-  alias global cdr change-directory-project-root
-  alias global ecd edit-current-buffer-directory
-  alias global pwd print-working-directory
+    map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
+    alias global cdb change-directory-current-buffer
+    alias global cdr change-directory-project-root
+    alias global ecd edit-current-buffer-directory
+    alias global pwd print-working-directory
 }
 plug 'andreyorst/fzf.kak' defer fzf %{
     set-option global fzf_implementation 'sk'
