@@ -5,7 +5,7 @@ E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
 # /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
-E:PATH=/usr/bin:/usr/local/bin:/usr/local/sbin:$home/go/bin:$home/.gem/ruby/2.6.0/bin:$home/.nimble/bin
+E:PATH=$home/.rbenv/shims:$home/go/bin:$home/.nimble/bin:/usr/local/bin:/usr/local/sbin:/usr/bin
 
 # Aliases
 fn l [@a]{ exa -F $@a }
