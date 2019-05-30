@@ -88,13 +88,14 @@ plug 'delapouite/kakoune-cd' config %{
     alias global ecd edit-current-buffer-directory
     alias global pwd print-working-directory
 }
-plug 'andreyorst/fzf.kak' defer fzf %{
-    set-option global fzf_implementation 'sk'
-    set-option global fzf_file_command 'fd'
-    set-option global fzf_sk_grep_command 'rg -iLHn'
-    set-option global fzf_highlight_cmd 'bat'
-    map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
-}
+plug 'andreyorst/fzf.kak'
+require-module fzf
+set-option global fzf_implementation 'sk'
+set-option global fzf_file_command 'fd'
+set-option global fzf_sk_grep_command 'rg -iLHn'
+set-option global fzf_highlight_cmd 'bat'
+map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
+
 plug 'TeddyDD/kakoune-edit-or-dir' config %{
     define-command open-current-directory -docstring 'Open directory of current buffer' %{
         edit-or-dir %sh{dirname $kak_buffile}
