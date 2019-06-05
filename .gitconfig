@@ -1,3 +1,8 @@
 [user]
 	email = dm.matveyev@protonmail.com
 	name = Dmitry Matveyev
+[merge]
+	tool = kakmerge
+[mergetool "kakmerge"]
+	cmd = env LOCAL=\"${LOCAL}\" BASE=\"${BASE}\" REMOTE=\"${REMOTE}\" MERGED=\"${MERGED}\" kakmerge
+	trustExitCode = true
