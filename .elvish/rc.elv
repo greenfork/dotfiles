@@ -38,6 +38,19 @@ edit:navigation:binding["Alt-n"] = $nop~
 epm:install &silent-if-installed=$true github.com/zzamboni/elvish-themes
 use github.com/zzamboni/elvish-themes/chain
 edit:rprompt = (constantly 'no return')
+chain:glyph = [
+  &git-branch=    ""
+  &git-dirty=     "●"
+  &git-ahead=     "⬆"
+  &git-behind=    "⬇"
+  &git-staged=    "✔"
+  &git-untracked= "+"
+  &git-deleted=   "-"
+  &su=            "⚡"
+  &chain=         "-"
+  &session=       "▪"
+  &arrow=         ">"
+]
 
 # Completions
 use github.com/xiaq/edit.elv/smart-matcher
