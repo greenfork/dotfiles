@@ -34,8 +34,9 @@ edit:insert:binding[Alt-Backspace] = $edit:kill-small-word-left~
 edit:navigation:binding["Alt-n"] = $nop~
 
 # Left and right prompts
-edit:prompt = { tilde-abbr $pwd; put '> ' }
-#edit:rprompt = (constantly (edit:styled (whoami) inverse))
+# edit:prompt = { tilde-abbr $pwd; put '> ' }
+epm:install &silent-if-installed=$true github.com/zzamboni/elvish-themes
+use github.com/zzamboni/elvish-themes/chain
 edit:rprompt = (constantly 'no return')
 
 # Completions
@@ -44,7 +45,7 @@ smart-matcher:apply
 use github.com/zzamboni/elvish-completions/cd
 #use github.com/zzamboni/elvish-completions/ssh
 #use github.com/zzamboni/elvish-completions/builtins
-#use github.com/zzamboni/elvish-completions/git
+use github.com/zzamboni/elvish-completions/git
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
