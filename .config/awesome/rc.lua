@@ -44,8 +44,8 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal_emulator = "alacritty"
-terminal = terminal_emulator .. " -e tmux"
+terminal_emulator = "kitty"
+terminal = terminal_emulator .. " tmux"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal_emulator .. " " .. editor
 home = os.getenv("HOME")
@@ -506,7 +506,7 @@ awful.rules.rules = {
 
     -- Configure terminal to spawn considering my broken laptop screen
     -- 23 is the size of the status bar
-    { rule = { instance = "Alacritty" },
+    { rule_any = { instance = { "Alacritty" }, class = { "kitty" } },
       properties = { floating = true,
                      x = 235, y = 0,
                      width = 1366 - 235, height = 768 - 23 }},
