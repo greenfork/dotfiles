@@ -35,22 +35,24 @@ edit:navigation:binding["Alt-n"] = $nop~
 
 # Left and right prompts
 # edit:prompt = { tilde-abbr $pwd; put '> ' }
-epm:install &silent-if-installed=$true github.com/zzamboni/elvish-themes
-use github.com/zzamboni/elvish-themes/chain
+epm:install &silent-if-installed=$true github.com/muesli/elvish-libs
+use github.com/muesli/elvish-libs/git
+fn git-dirty {
+  data = (git:status)
+  if (> (+ (count $data[local-modified]) \
+           (count $data[untracked]) \
+           (count $data[local-deleted])) \
+        0) {
+    put '*'
+  }
+}
+fn git-branch {
+  if (git:status)[is-git-repo] {
+    put '(' (styled (git:branch_name) blue) (styled (or (git-dirty) '') magenta) ')'
+  }
+}
+edit:prompt = { put (tilde-abbr $pwd) (git-branch) '> ' }
 edit:rprompt = (constantly 'no return')
-chain:glyph = [
-  &git-branch=    ""
-  &git-dirty=     "●"
-  &git-ahead=     "⬆"
-  &git-behind=    "⬇"
-  &git-staged=    "✔"
-  &git-untracked= "+"
-  &git-deleted=   "-"
-  &su=            "⚡"
-  &chain=         "-"
-  &session=       "▪"
-  &arrow=         ">"
-]
 
 # Completions
 use github.com/xiaq/edit.elv/smart-matcher
@@ -58,7 +60,7 @@ smart-matcher:apply
 use github.com/zzamboni/elvish-completions/cd
 #use github.com/zzamboni/elvish-completions/ssh
 #use github.com/zzamboni/elvish-completions/builtins
-use github.com/zzamboni/elvish-completions/git
+# use github.com/zzamboni/elvish-completions/git
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
@@ -73,6 +75,3 @@ fn cd [@a]{ dir:cd $@a }
 fn cdb [@a]{ dir:cdb $@a }
 edit:insert:binding[Alt-b] = $dir:left-word-or-prev-dir~
 edit:insert:binding[Alt-f] = $dir:right-word-or-next-dir~
-
-# Case-insensitive search when prompting
-edit:location:matcher = [@a]{ edit:location:match-dir-pattern &ignore-case $@a }
