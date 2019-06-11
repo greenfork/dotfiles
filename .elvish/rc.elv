@@ -1,6 +1,6 @@
 # Environment settings
 E:PAGER=less
-E:EDITOR=vim
+E:EDITOR=kak
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
@@ -9,6 +9,7 @@ E:PATH=/usr/local/bin:/usr/local/sbin:/usr/bin
 E:PATH=$home/.nimble/bin:$E:PATH
 E:PATH=$home/go/bin:$E:PATH
 E:PATH=$home/.rbenv/shims:$E:PATH
+E:PATH=$home/.cargo/bin:$E:PATH
 E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
 
 # Aliases
