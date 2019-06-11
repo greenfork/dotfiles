@@ -12,6 +12,16 @@ E:PATH=$home/.rbenv/shims:$E:PATH
 E:PATH=$home/.cargo/bin:$E:PATH
 E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
 
+use epm
+epm:install &silent-if-installed=$true \
+  github.com/zzamboni/elvish-completions \
+  github.com/xiaq/edit.elv \
+  github.com/zzamboni/elvish-modules \
+  github.com/muesli/elvish-libs
+
+use re
+use github.com/muesli/elvish-libs/git
+
 # Aliases
 fn l [@a]{ exa -F $@a }
 fn ll [@a]{ exa -Flg $@a }
@@ -20,13 +30,23 @@ fn ytaudio [@a]{ youtube-dl -x --audio-format vorbis --audio-quality 0 --restric
 fn Rv [@a]{ R --vanilla $@a }
 fn xbi [@a]{ doas xbps-install -S $@a }
 
-use epm
-epm:install &silent-if-installed=$true \
-  github.com/zzamboni/elvish-completions \
-  github.com/xiaq/edit.elv \
-  github.com/zzamboni/elvish-modules
+fn gc [@a]{ git commit -v $@a }
+fn gca [@a]{ git commit -av $@a }
+fn ga [@a]{ git add $@a }
+fn gco [@a]{ git checkout $@a }
+fn gcb [@a]{ git checkout -b $@a }
+fn gcm [@a]{ git checkout master $@a }
+fn gd [@a]{ git diff $@a }
+fn gdw [@a]{ git diff --word-diff $@a }
+fn gl [@a]{ git pull $@a }
+fn gp [@a]{ git push $@a }
+fn gpsup [@a]{ git push -u origin (git:branch_name) $@a }
+fn gpf [@a]{ git push --force-with-lease $@a }
+fn glog [@a]{ git log --oneline --decorate --graph $@a }
+fn gloga [@a]{ git log --oneline --decorate --graph --all $@a }
+fn gst [@a]{ git status $@a }
+fn gsb [@a]{ git status -sb $@a }
 
-use re
 
 # Readline
 use readline-binding
@@ -36,8 +56,6 @@ edit:navigation:binding["Alt-n"] = $nop~
 
 # Left and right prompts
 # edit:prompt = { tilde-abbr $pwd; put '> ' }
-epm:install &silent-if-installed=$true github.com/muesli/elvish-libs
-use github.com/muesli/elvish-libs/git
 fn git-dirty {
   data = (git:status)
   if (> (+ (count $data[local-modified]) \
