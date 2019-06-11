@@ -152,10 +152,9 @@ define-command lint-on-write -docstring 'Activate linting on buffer write' %{
     hook window BufWritePost .* lint
     lint
 }
+hook global WinSetOption filetype=kak %{ no-tabs 4 }
+hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 
-hook global WinSetOption filetype=kak %{
-    no-tabs 4
-}
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
 hook global WinSetOption filetype=ruby %{
