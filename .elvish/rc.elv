@@ -11,6 +11,7 @@ E:PATH=$home/go/bin:$E:PATH
 E:PATH=$home/.rbenv/shims:$E:PATH
 E:PATH=$home/.cargo/bin:$E:PATH
 E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
+E:PATH=$home/flutter/bin:$E:PATH
 
 use epm
 epm:install &silent-if-installed=$true \
