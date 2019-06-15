@@ -4,6 +4,7 @@ E:EDITOR=kak
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
+E:ANDROID_HOME=$home/android
 # /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
 E:PATH=/usr/local/bin:/usr/local/sbin:/usr/bin
 E:PATH=$home/.nimble/bin:$E:PATH
