@@ -13,6 +13,9 @@ E:PATH=$home/.rbenv/shims:$E:PATH
 E:PATH=$home/.cargo/bin:$E:PATH
 E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
 E:PATH=$home/flutter/bin:$E:PATH
+E:PATH=$home/android/sdk/platform-tools:$E:PATH
+E:PATH=$home/android/sdk/tools:$E:PATH
+E:PATH=$home/android/sdk/tools/bin:$E:PATH
 
 use epm
 epm:install &silent-if-installed=$true \
