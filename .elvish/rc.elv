@@ -35,22 +35,23 @@ fn ytaudio [@a]{ youtube-dl -x --audio-format vorbis --audio-quality 0 --restric
 fn Rv [@a]{ R --vanilla $@a }
 fn xbi [@a]{ doas xbps-install -S $@a }
 
-fn gc [@a]{ git commit -v $@a }
-fn gca [@a]{ git commit -av $@a }
-fn ga [@a]{ git add $@a }
-fn gco [@a]{ git checkout $@a }
-fn gcb [@a]{ git checkout -b $@a }
-fn gcm [@a]{ git checkout master $@a }
-fn gd [@a]{ git diff $@a }
-fn gdw [@a]{ git diff --word-diff $@a }
-fn gl [@a]{ git pull $@a }
-fn gp [@a]{ git push $@a }
+fn gc    [@a]{ git commit -v $@a }
+fn gca   [@a]{ git commit -av $@a }
+fn ga    [@a]{ git add $@a }
+fn gaa   [@a]{ git add --all $@a }
+fn gco   [@a]{ git checkout $@a }
+fn gcb   [@a]{ git checkout -b $@a }
+fn gcm   [@a]{ git checkout master $@a }
+fn gd    [@a]{ git diff $@a }
+fn gdw   [@a]{ git diff --word-diff $@a }
+fn gl    [@a]{ git pull $@a }
+fn gp    [@a]{ git push $@a }
 fn gpsup [@a]{ git push -u origin (git:branch_name) $@a }
-fn gpf [@a]{ git push --force-with-lease $@a }
-fn glog [@a]{ git log --oneline --decorate --graph $@a }
+fn gpf   [@a]{ git push --force-with-lease $@a }
+fn glog  [@a]{ git log --oneline --decorate --graph $@a }
 fn gloga [@a]{ git log --oneline --decorate --graph --all $@a }
-fn gst [@a]{ git status $@a }
-fn gsb [@a]{ git status -sb $@a }
+fn gst   [@a]{ git status $@a }
+fn gsb   [@a]{ git status -sb $@a }
 
 
 # Readline
