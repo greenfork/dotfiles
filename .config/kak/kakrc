@@ -152,6 +152,7 @@ hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=html %{ no-tabs 4 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
+hook global WinSetOption filetype=(css|scss) %{ no-tabs 2 }
 
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
