@@ -9,17 +9,20 @@ source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 # Colors
 
-colorscheme red-phoenix
+colorscheme tomorrow-night
 # cursor is bright only in current window
 hook global FocusIn .* %{
-    set-face window PrimaryCursor rgb:000000,rgb:D2C3AD+fg
-    set-face window PrimaryCursorEol default,rgb:F2361E+fg
+    set-face window PrimaryCursor PrimaryCursor
+    set-face window PrimaryCursorEol PrimaryCursorEol
+    set-face window SecondaryCursor SecondaryCursor
+    set-face window SecondaryCursorEol SecondaryCursorEol
 }
 hook global FocusOut .* %{
     set-face window PrimaryCursor rgb:000000,rgb:5d5d5d
     set-face window PrimaryCursorEol default,rgb:5d5d5d
+    set-face window SecondaryCursor rgb:000000,rgb:5d5d5d
+    set-face window SecondaryCursorEol default,rgb:5d5d5d
 }
-# https://github.com/insipx/kak-crosshairs - highlight current line/column
 
 # Highlighters
 
