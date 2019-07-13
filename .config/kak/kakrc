@@ -158,6 +158,9 @@ hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=(css|scss) %{ no-tabs 2 }
 hook global WinSetOption filetype=ledger %{ no-tabs 4 }
 
+hook global BufCreate .*\.erb %{ set-option buffer filetype html }
+hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
+
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
 hook global WinSetOption filetype=ruby %{
@@ -170,9 +173,6 @@ hook global WinSetOption filetype=nim %{
     set-option window formatcmd 'nimpretty "$kak_buffile"'
     set-option window makecmd 'nimble build'
     no-tabs 2
-}
-hook global BufCreate .*\.erb %{
-    set-option buffer filetype html
 }
 # eslint should be installed as a local packages via npm or yarn
 hook global WinSetOption filetype=(html|javascript) %{
