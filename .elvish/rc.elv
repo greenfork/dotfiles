@@ -1,3 +1,5 @@
+if ?(test -f $E:HOME/.elvish/profile.elv) { -source $E:HOME/.elvish/profile.elv }
+
 # Environment settings
 E:PAGER=less
 E:EDITOR=kak
