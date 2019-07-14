@@ -9,6 +9,7 @@ home=$E:HOME
 E:ANDROID_HOME=$home/android
 # /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
 E:PATH=/usr/local/bin:/usr/local/sbin:/usr/bin
+E:PATH=$home/.local/bin:$E:PATH
 E:PATH=$home/.nimble/bin:$E:PATH
 E:PATH=$home/go/bin:$E:PATH
 E:PATH=$home/.rbenv/shims:$E:PATH
