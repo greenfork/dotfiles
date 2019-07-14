@@ -35,6 +35,7 @@ fn la [@a]{ exa -Flga $@a }
 fn ytaudio [@a]{ youtube-dl -x --audio-format vorbis --audio-quality 0 --restrict-filenames -o '%(title)s-%(id)s.%(ext)s' $@a }
 fn Rv [@a]{ R --vanilla $@a }
 fn xbi [@a]{ doas xbps-install -S $@a }
+fn xbr [@a]{ doas xbps-remove $@a }
 fn xbq [@a]{ xbps-query $@a }
 
 fn gc    [@a]{ git commit -v $@a }
