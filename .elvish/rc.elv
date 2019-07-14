@@ -11,6 +11,7 @@ E:PATH=$home/.nimble/bin:$E:PATH
 E:PATH=$home/go/bin:$E:PATH
 E:PATH=$home/.rbenv/shims:$E:PATH
 E:PATH=$home/.cargo/bin:$E:PATH
+E:PATH=$home/.cabal/bin:$E:PATH
 E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
 E:PATH=$home/flutter/bin:$E:PATH
 E:PATH=$home/android/sdk/platform-tools:$E:PATH
