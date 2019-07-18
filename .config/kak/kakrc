@@ -92,7 +92,7 @@ require-module fzf
 set-option global fzf_implementation 'sk'
 set-option global fzf_file_command 'fd -H --exclude .git'
 set-option global fzf_sk_grep_command 'rg -iLHn'
-set-option global fzf_highlight_cmd 'bat'
+set-option global fzf_highlight_command 'bat'
 map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
 
 plug 'TeddyDD/kakoune-edit-or-dir' config %{
@@ -200,7 +200,7 @@ hook global WinSetOption filetype=dart %{
 
 # Git
 
-plug 'lenormf/kakoune-extra' load %{
+plug 'lenormf/kakoune-extra' subset %{
     vcs.kak
 }
 hook global WinCreate .* %{ evaluate-commands %sh{
