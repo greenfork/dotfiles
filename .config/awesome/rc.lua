@@ -506,7 +506,7 @@ awful.rules.rules = {
 
     -- Configure terminal to spawn considering my broken laptop screen
     -- 23 is the size of the status bar
-    { rule_any = { instance = { "Alacritty" }, class = { "kitty" } },
+    { rule_any = { instance = { "Alacritty" }, class = { "kitty", "Emacs" } },
       properties = { floating = true,
                      x = 235, y = 0,
                      width = 1366 - 235, height = 768 - 23 }},
