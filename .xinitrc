@@ -1,3 +1,5 @@
+[ -f $HOME/.Xresources ] && xrdb -merge $HOME/.Xresources
+
 xset -b
 xbacklight -set 100
 setxkbmap -option "ctrl:nocaps"
