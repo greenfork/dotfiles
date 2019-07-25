@@ -72,6 +72,8 @@ evaluate-commands %sh{
     printf "map global user -docstring 'yank to clipboard' y '<a-|>%s<ret>:echo -markup %%{{Information}copied selection to X11 clipboard}<ret>'\n" "$copy"
     printf "map global user -docstring 'replace from clipboard' R '|%s<ret>'\n" "$paste"
 }
+map global user w -docstring 'save file' ': write<ret>'
+map global user q -docstring 'save and quit' ': write-quit<ret>'
 
 # Navigation
 
