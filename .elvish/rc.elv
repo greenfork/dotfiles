@@ -20,6 +20,7 @@ E:PATH=$home/flutter/bin:$E:PATH
 E:PATH=$home/android/sdk/platform-tools:$E:PATH
 E:PATH=$home/android/sdk/tools:$E:PATH
 E:PATH=$home/android/sdk/tools/bin:$E:PATH
+E:PATH=$home/.cask/bin:$E:PATH
 
 use epm
 epm:install &silent-if-installed=$true \
