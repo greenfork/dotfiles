@@ -1,11 +1,9 @@
-# $OpenBSD: dot.profile,v 1.5 2018/02/02 02:29:54 yasuoka Exp $
-#
-# sh/ksh initialization
-
 export PAGER=less
-export EDITOR=vim
+export EDITOR=kak
 export XDG_CONFIG_HOME=$HOME/.config
-export LC_CTYPE=en_US.UTF-8
-export ENV=$HOME/.kshrc
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games:/usr/local/jdk-1.8.0/bin
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export MY_SHELL=/home/grfork/go/bin/elvish
+export MPW_FULLNAME=greenfork
 
+export PATH="/home/grfork/.cask/bin:/home/grfork/android/sdk/tools/bin:/home/grfork/android/sdk/tools:/home/grfork/android/sdk/platform-tools:/home/grfork/flutter/bin:/home/grfork/.yarn/bin:/home/grfork/.config/yarn/global/node_modules/.bin:/home/grfork/.cabal/bin:/home/grfork/.cargo/bin:/home/grfork/.rbenv/shims:/home/grfork/go/bin:/home/grfork/.nimble/bin:/home/grfork/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin"
