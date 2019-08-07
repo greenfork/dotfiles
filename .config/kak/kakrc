@@ -7,6 +7,22 @@
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
+# Language Server Protocol stuff
+
+plug "ul/kak-lsp" do %{
+    cargo install --locked --force --path .
+} config %{
+    hook global KakEnd .* lsp-exit
+
+    def lsp-engage -docstring 'Enable language server' %{
+        set global lsp_cmd "kak-lsp -s %val{session} -c /home/grfork/.config/kak/plugins/kak-lsp/kak-lsp.toml"
+        lsp-enable
+        lsp-auto-hover-enable
+        map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
+        map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
+    }
+}
+
 # Colors
 
 colorscheme tomorrow-night
@@ -177,6 +193,7 @@ hook global WinSetOption filetype=nim %{
     set-option window formatcmd 'nimpretty "$kak_buffile"'
     set-option window makecmd 'nimble build'
     no-tabs 2
+    lsp-engage # add `args` to toml config and set as path to nim sources
 }
 # eslint should be installed as a local packages via npm or yarn
 hook global WinSetOption filetype=(html|javascript) %{
