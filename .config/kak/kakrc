@@ -119,12 +119,14 @@ define-command clean-trailing-whitespace -docstring 'Remove trailing whitespace'
     try %{ execute-keys -draft '%s\h+$<ret>d' }
     try %{ execute-keys -draft '%s\n+\z<ret>d' }
 }
-plug 'andreyorst/smarttab.kak' config %{
+plug 'andreyorst/smarttab.kak' defer smarttab %{
+    set-option global softtabstop 4
+} config %{
     define-command no-tabs -params 0..1 -docstring 'Indent with spaces' %{
         eval %sh{ [ -n '$1' ] && printf %s "
             set-option buffer indentwidth $1
             set-option buffer tabstop $1
-            set-option buffer softtabstop $1
+            # set-option buffer softtabstop $1
         " }
         expandtab
     }
