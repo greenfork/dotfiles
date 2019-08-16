@@ -25,7 +25,7 @@ plug "ul/kak-lsp" do %{
 
 # Highlighters
 
-colorscheme tomorrow-night
+# colorscheme tomorrow-night
 
 plug 'greenfork/active-window.kak'
 add-highlighter global/ number-lines -relative -separator ' ' -hlcursor
