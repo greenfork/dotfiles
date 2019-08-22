@@ -150,9 +150,19 @@ define-command lint-on-write -docstring 'Activate linting on buffer write' %{
 }
 hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
-hook global WinSetOption filetype=html %{ no-tabs 4 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
-hook global WinSetOption filetype=(css|scss) %{ no-tabs 2 }
+hook global WinSetOption filetype=html %{
+    no-tabs 4
+    lsp-engage
+}
+hook global WinSetOption filetype=(css|scss) %{
+    no-tabs 2
+    lsp-engage
+}
+hook global WinSetOption filetype=json %{
+    no-tabs 4
+    lsp-engage
+}
 hook global WinSetOption filetype=ledger %{ no-tabs 4 }
 
 hook global BufCreate .*\.erb %{ set-option buffer filetype html }
