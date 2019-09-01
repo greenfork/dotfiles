@@ -182,6 +182,11 @@ hook global WinSetOption filetype=nim %{
     no-tabs 2
     lsp-engage # add `args` to toml config and set as path to nim sources
 }
+hook global WinSetOption filetype=go %{
+    noexpandtab
+    lsp-engage
+    hook window BufWritePost .* %{ go-format -use-goimports }
+}
 # eslint should be installed as a local packages via npm or yarn
 hook global WinSetOption filetype=(html|javascript) %{
   evaluate-commands %sh{
