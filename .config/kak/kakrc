@@ -128,13 +128,6 @@ plug 'alexherbo2/auto-pairs.kak' config %{
     hook global WinCreate .* %{ auto-pairs-enable }
     map global user s -docstring 'Surround' ': auto-pairs-surround<ret>'
 }
-plug 'occivink/kakoune-phantom-selection' config %{
-    map global user f -docstring 'add phantom selection' ': phantom-selection-add-selection<ret>'
-    map global user F -docstring 'select all  phantom selection' ': phantom-selection-select-all<ret>'
-    map global user <a-f> -docstring 'clear phantom selection' ': phantom-selection-clear<ret>'
-    map global user ( -docstring 'previous phantom selection' ': phantom-selection-iterate-prev<ret>'
-    map global user ) -docstring 'next phantom selection' ': phantom-selection-iterate-next<ret>'
-}
 
 # Searching
 
