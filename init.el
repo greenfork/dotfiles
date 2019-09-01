@@ -29,7 +29,7 @@
 ;; Essentials
 (toggle-scroll-bar -1)
 (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
-(add-to-list 'default-frame-alist '(height . 46))
+(add-to-list 'default-frame-alist '(height . 44))
 (add-to-list 'default-frame-alist '(width . 184))
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -83,11 +83,16 @@
             (crux-with-region-or-line kill-ring-save)))
 
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+(add-hook 'comint-mode-hook 'my-comint-mode-hook)
 (defun my-prog-mode-hook ()
   "Prog mode hook consisting of built-in functions and packages."
   (show-paren-mode 1)
   (electric-pair-local-mode t)
   (setq show-trailing-whitespace t))
+(defun my-comint-mode-hook ()
+  "Prog mode hook consisting of built-in functions and packages."
+  (show-paren-mode 1)
+  (electric-pair-local-mode t))
 
 (use-package diminish
   :config (progn
@@ -140,9 +145,9 @@
   :mode ("\\.journal\\'" "\\.hledger\\'")
   :init (setq hledger-jfile (expand-file-name "~/.hledger.journal"))
   (defun find-ledger-file () (interactive) (find-file hledger-jfile)))
-(use-package smooth-scrolling
-  :init (setq smooth-scroll-margin 7)
-  :hook (prog-mode . smooth-scrolling-mode))
+;; (use-package smooth-scrolling
+;;   :init (setq smooth-scroll-margin 7)
+;;   :hook (prog-mode . smooth-scrolling-mode))
 (use-package ox-twbs)
 (use-package perspective
   :config (persp-mode))
@@ -159,6 +164,17 @@
             (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
 (use-package imenu-anywhere
   :bind (("C-." . imenu-anywhere)))
+;; (use-package slime
+;;   :init (progn
+;; 		  (setq inferior-lisp-program "/usr/bin/sbcl"
+;; 				slime-contribs '(slime-fancy))
+;; 		  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+;; 		  (add-to-list 'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode))))
+(use-package sly
+  :init (progn
+		  (setq inferior-lisp-program "/usr/bin/sbcl")
+		  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
+		  (add-to-list 'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode))))
 
 
 (custom-set-variables
