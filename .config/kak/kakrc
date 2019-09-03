@@ -138,7 +138,7 @@ plug "occivink/kakoune-snippets" config %{
         }
     ]
     map -docstring 'expand any trigger' global insert <c-t> '<esc>: snippets-expand-any-trigger<ret>i'
-    map -docstring 'select next snippet placeholder' global insert <c-n> '<esc>: snippets-select-next-placeholders<ret>i'
+    map -docstring 'select next snippet placeholder' global insert <c-l> '<esc>: snippets-select-next-placeholders<ret>i'
 }
 plug "greenfork/kakoune-snippet-collection" branch "personal"
 
