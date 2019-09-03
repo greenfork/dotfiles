@@ -128,6 +128,19 @@ plug 'alexherbo2/auto-pairs.kak' config %{
     hook global WinCreate .* %{ auto-pairs-enable }
     map global user s -docstring 'Surround' ': auto-pairs-surround<ret>'
 }
+plug "occivink/kakoune-snippets" config %{
+    set-option global snippets_auto_expand false
+    set-option -add global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
+    define-command snippets-expand-any-trigger %[
+        snippets-expand-trigger %{
+            reg / "%opt{snippets_triggers_regex}"
+            exec 'hGhs<ret>'
+        }
+    ]
+    map -docstring 'expand any trigger' global insert <c-t> '<esc>: snippets-expand-any-trigger<ret>i'
+    map -docstring 'select next snippet placeholder' global insert <c-n> '<esc>: snippets-select-next-placeholders<ret>i'
+}
+plug "greenfork/kakoune-snippet-collection" branch "personal"
 
 # Searching
 
@@ -237,10 +250,8 @@ hook global WinCreate .* %{
 # https://github.com/lenormf/kakoune-extra
 map -docstring 'move the cursor one character to the left' global insert <c-b> <esc>hi
 map -docstring 'move the cursor one character to the right' global insert <c-f> <esc>li
-map -docstring 'move the cursor one word to the left' global insert <a-b> <esc>b\;i
-map -docstring 'move the cursor one word to the right' global insert <a-f> <esc>e\;i
 map -docstring 'move the cursor to the start of the line' global insert <c-a> <esc>I
-map -docstring 'move the cursor to the end of the line' global insert <c-e> <esc>gli
+map -docstring 'move the cursor to the end of the line' global insert <c-e> <esc>glli
 map -docstring 'delete the character under the anchor' global insert <c-d> <esc>c
 
 # For my own amusement
