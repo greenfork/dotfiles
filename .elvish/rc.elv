@@ -85,14 +85,11 @@ fn git-branch {
 }
 edit:prompt = { put (tilde-abbr $pwd) (git-branch) '> ' }
 edit:rprompt = (constantly 'no return')
+edit:rprompt-persistent = $true
 
 # Completions
-use github.com/xiaq/edit.elv/smart-matcher
-smart-matcher:apply
 use github.com/zzamboni/elvish-completions/cd
-#use github.com/zzamboni/elvish-completions/ssh
-#use github.com/zzamboni/elvish-completions/builtins
-# use github.com/zzamboni/elvish-completions/git
+edit:completion:matcher[''] = [seed]{ edit:match-prefix $seed &ignore-case=$true }
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
@@ -101,9 +98,5 @@ long-running-notifications:threshold = 40
 # Shortcuts for inserting previous commands with !! and !$
 use github.com/zzamboni/elvish-modules/bang-bang
 
-# Shortcuts for directory traversal
 use github.com/zzamboni/elvish-modules/dir
 fn cd [@a]{ dir:cd $@a }
-fn cdb [@a]{ dir:cdb $@a }
-edit:insert:binding[Alt-b] = $dir:left-word-or-prev-dir~
-edit:insert:binding[Alt-f] = $dir:right-word-or-next-dir~
