@@ -120,6 +120,9 @@
   :config (winner-mode 1))
 ;; (use-package highlight-parentheses
 ;;   :hook (prog-mode . highlight-parentheses-mode))
+(use-package yafolding
+  :hook (prog-mode . yafolding-mode)
+  :bind ([C RET] . yafolding-toggle-element)))
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 (use-package ace-window
@@ -192,7 +195,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
