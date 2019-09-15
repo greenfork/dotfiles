@@ -90,7 +90,7 @@ edit:rprompt-persistent = $true
 
 # Completions
 use github.com/zzamboni/elvish-completions/cd
-edit:completion:matcher[''] = [seed]{ edit:match-prefix $seed &ignore-case=$true }
+edit:completion:matcher[''] = [seed]{ edit:match-substr $seed &ignore-case=$true }
 
 # Send notification if command runs more than `threshold` seconds
 use github.com/zzamboni/elvish-modules/long-running-notifications
