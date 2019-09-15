@@ -122,7 +122,12 @@
 ;;   :hook (prog-mode . highlight-parentheses-mode))
 (use-package yafolding
   :hook (prog-mode . yafolding-mode)
-  :bind ([C RET] . yafolding-toggle-element)))
+  :bind (([C return] . yafolding-toggle-element)
+		 ([C M return] . yafolding-toggle-all)))
+(use-package json-mode
+  :hook (json-mode-hook . (lambda ()
+							(make-local-variable 'js-indent-level)
+							(setq js-indent-level 4))))
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 (use-package ace-window
@@ -195,7 +200,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
