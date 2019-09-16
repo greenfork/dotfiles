@@ -246,7 +246,12 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
+-- Setting multiple monitor config script
+local xrandr = require("xrandr")
+
 globalkeys = gears.table.join(
+    awful.key({ modkey, }, "b", function() xrandr.xrandr() end,
+              {description="change monitor configuration", group="screen"}),
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
@@ -271,7 +276,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
-    awful.key({ modkey,           }, "z", 
+    awful.key({ modkey,           }, "z",
               function () awful.spawn(scripts .. "/toggle_touchpad.sh") end,
               {description = "toggle touchpad", group = "awesome"}),
 
