@@ -185,6 +185,7 @@
 		  (setq inferior-lisp-program "/usr/bin/sbcl")
 		  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 		  (add-to-list 'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode))))
+(use-package racket-mode)
 
 
 (custom-set-variables
@@ -202,7 +203,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(racket-mode json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
