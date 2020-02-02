@@ -142,7 +142,9 @@
 (use-package cyberpunk-theme
   :config (load-theme 'cyberpunk t))
 (use-package erc
-  :init (load "~/.emacs.d/.erc-auth"))
+  :init (load "~/.emacs.d/.erc-auth")
+  :config (progn
+			(setq erc-hide-list '("JOIN" "PART" "QUIT"))))
 ;; (use-package ledger-mode
 ;;   :mode ("\\.journal\\'" "\\.hledger\\'")
 ;;   :init
