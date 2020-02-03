@@ -34,11 +34,13 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (blink-cursor-mode -1)
-(set-face-attribute 'default nil :font "Iosevka" :height 90)
+;; On MacOS due to retina display font should be bigger.
+(if (eq system-type 'darwin)
+	(set-face-attribute 'default nil :font "Iosevka" :height 120)
+  (set-face-attribute 'default nil :font "Iosevka" :height 90))
 (global-auto-revert-mode 1)
 (delete-selection-mode 1)
 (global-subword-mode 1)
-
 (setq-default
  indicate-empty-lines 1
  tab-width 4
