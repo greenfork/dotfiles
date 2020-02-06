@@ -21,6 +21,7 @@ E:PATH=$home/android/sdk/platform-tools:$E:PATH
 E:PATH=$home/android/sdk/tools:$E:PATH
 E:PATH=$home/android/sdk/tools/bin:$E:PATH
 E:PATH=$home/.cask/bin:$E:PATH
+E:PATH=$home/.racket/7.5/bin:$E:PATH
 E:PATH=/bedrock/cross/pin/bin:$E:PATH
 E:PATH=/bedrock/bin:$E:PATH
 E:PATH=(put $E:PATH):/bedrock/cross/bin
