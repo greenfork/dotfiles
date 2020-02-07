@@ -6,25 +6,32 @@ E:EDITOR=kak
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
 home=$E:HOME
-E:ANDROID_HOME=$home/android
-# /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
-E:PATH=/usr/local/bin:/usr/local/sbin:/usr/bin
-E:PATH=$home/.local/bin:$E:PATH
-E:PATH=$home/.nimble/bin:$E:PATH
-E:PATH=$home/go/bin:$E:PATH
-E:PATH=$home/.rbenv/shims:$E:PATH
-E:PATH=$home/.cargo/bin:$E:PATH
-E:PATH=$home/.cabal/bin:$E:PATH
-E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
-E:PATH=$home/flutter/bin:$E:PATH
-E:PATH=$home/android/sdk/platform-tools:$E:PATH
-E:PATH=$home/android/sdk/tools:$E:PATH
-E:PATH=$home/android/sdk/tools/bin:$E:PATH
-E:PATH=$home/.cask/bin:$E:PATH
-E:PATH=$home/.racket/7.5/bin:$E:PATH
-E:PATH=/bedrock/cross/pin/bin:$E:PATH
-E:PATH=/bedrock/bin:$E:PATH
-E:PATH=(put $E:PATH):/bedrock/cross/bin
+if (==s $E:ELVISH_OS_PROFILE macos_work) {
+  paths = [$home/go/bin $@paths]
+  paths = [$home/.cargo/bin $@paths]
+  paths = [/usr/local/opt/node@10/bin $@paths]
+  paths = [$home/.nimble/bin $@paths]
+} else {
+  E:ANDROID_HOME=$home/android
+  # /bin /sbin /usr/sbin are all symbolic links to /usr/bin on Void Linux
+  E:PATH=/usr/local/bin:/usr/local/sbin:/usr/bin
+  E:PATH=$home/.local/bin:$E:PATH
+  E:PATH=$home/.nimble/bin:$E:PATH
+  E:PATH=$home/go/bin:$E:PATH
+  E:PATH=$home/.rbenv/shims:$E:PATH
+  E:PATH=$home/.cargo/bin:$E:PATH
+  E:PATH=$home/.cabal/bin:$E:PATH
+  E:PATH=$home/.yarn/bin:$home/.config/yarn/global/node_modules/.bin:$E:PATH
+  E:PATH=$home/flutter/bin:$E:PATH
+  E:PATH=$home/android/sdk/platform-tools:$E:PATH
+  E:PATH=$home/android/sdk/tools:$E:PATH
+  E:PATH=$home/android/sdk/tools/bin:$E:PATH
+  E:PATH=$home/.cask/bin:$E:PATH
+  E:PATH=$home/.racket/7.5/bin:$E:PATH
+  E:PATH=/bedrock/cross/pin/bin:$E:PATH
+  E:PATH=/bedrock/bin:$E:PATH
+  E:PATH=(put $E:PATH):/bedrock/cross/bin
+}
 
 use epm
 epm:install &silent-if-installed=$true \

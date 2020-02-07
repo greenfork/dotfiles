@@ -217,6 +217,9 @@ hook global WinSetOption filetype=(html|javascript) %{
 hook global WinSetOption filetype=dart %{
     no-tabs 2
 }
+hook global WinSetOption filetype=elvish %{
+    no-tabs 2
+}
 
 # Git
 
