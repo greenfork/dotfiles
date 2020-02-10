@@ -72,12 +72,14 @@ fn gloga [@a]{ git log --oneline --decorate --graph --all $@a }
 fn gst   [@a]{ git status $@a }
 fn gsb   [@a]{ git status -sb $@a }
 
+fn fullrdrs { rake db:drop db:create db:migrate db:fixtures:load }
+fn proddb { rake db:drop db:create; pg_restore -Od hub2_development ../latest.dump }
+fn rt { spring rails test }
+fn rc { spring rails console }
 
 # Readline
 use readline-binding
 edit:insert:binding[Alt-Backspace] = $edit:kill-small-word-left~
-# workaround for https://github.com/elves/elvish/issues/627
-edit:navigation:binding["Alt-n"] = $nop~
 
 # Left and right prompts
 # edit:prompt = { tilde-abbr $pwd; put '> ' }
