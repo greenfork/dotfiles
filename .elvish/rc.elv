@@ -74,8 +74,8 @@ fn gsb   [@a]{ git status -sb $@a }
 
 fn fullrdrs { rake db:drop db:create db:migrate db:fixtures:load }
 fn proddb { rake db:drop db:create; pg_restore -Od hub2_development ../latest.dump }
-fn rt { spring rails test }
-fn rc { spring rails console }
+fn rt [@a]{ spring rails test $@a }
+fn rc [@a]{ spring rails console $@a }
 
 # Readline
 use readline-binding
