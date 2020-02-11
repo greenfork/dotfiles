@@ -163,7 +163,11 @@
 			 erc-auto-discard-away t
 			 erc-autoaway-idle-seconds 600
 			 erc-autoaway-use-emacs-idle t
-			 erc-server-coding-system '(utf-8 . utf-8))))
+			 erc-server-coding-system '(utf-8 . utf-8)))
+  (defun start-erc ()
+	(interactive)
+	(persp-switch "erc")
+	(erc)))
 ;; (use-package ledger-mode
 ;;   :mode ("\\.journal\\'" "\\.hledger\\'")
 ;;   :init
