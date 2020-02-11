@@ -62,7 +62,7 @@ fn gco   [@a]{ git checkout $@a }
 fn gcb   [@a]{ git checkout -b $@a }
 fn gcm   [@a]{ git checkout master $@a }
 fn gd    [@a]{ git diff $@a }
-fn gdw   [@a]{ git diff --word-diff $@a }
+fn gdca  [@a]{ git diff --cached $@a }
 fn gl    [@a]{ git pull $@a }
 fn gp    [@a]{ git push $@a }
 fn gpsup [@a]{ git push -u origin (git:branch_name) $@a }
