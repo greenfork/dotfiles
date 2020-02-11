@@ -61,6 +61,7 @@ fn gaa   [@a]{ git add --all $@a }
 fn gco   [@a]{ git checkout $@a }
 fn gcb   [@a]{ git checkout -b $@a }
 fn gcm   [@a]{ git checkout master $@a }
+fn gf    [@a]{ put "You have no gf"; git fetch $@a }
 fn gd    [@a]{ git diff $@a }
 fn gdca  [@a]{ git diff --cached $@a }
 fn gl    [@a]{ git pull $@a }
