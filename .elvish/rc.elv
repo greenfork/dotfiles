@@ -77,6 +77,8 @@ fn fullrdrs { rake db:drop db:create db:migrate db:fixtures:load }
 fn proddb { rake db:drop db:create; pg_restore -Od hub2_development ../latest.dump }
 fn rt [@a]{ spring rails test $@a }
 fn rc [@a]{ spring rails console $@a }
+fn rdm [@a]{ rails db:migrate $@a }
+fn rgm [@a]{ rails generate migration $@a }
 
 # Readline
 use readline-binding
