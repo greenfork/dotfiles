@@ -120,8 +120,6 @@
   :config (ido-yes-or-no-mode 1))
 (use-package winner
   :config (winner-mode 1))
-;; (use-package highlight-parentheses
-;;   :hook (prog-mode . highlight-parentheses-mode))
 (use-package yafolding
   :hook (prog-mode . yafolding-mode)
   :bind (([C return] . yafolding-toggle-element)
@@ -168,19 +166,10 @@
 	(interactive)
 	(persp-switch "erc")
 	(erc)))
-;; (use-package ledger-mode
-;;   :mode ("\\.journal\\'" "\\.hledger\\'")
-;;   :init
-;;   (setq ledger-init-file-name (expand-file-name "~/.hledger.journal")
-;;     ledger-binary-path (expand-file-name "~/.cabal/bin/hledger"))
-;;   (defun find-ledger-file () (interactive) (find-file ledger-init-file-name)))
 (use-package hledger-mode
   :mode ("\\.journal\\'" "\\.hledger\\'")
   :init (setq hledger-jfile (expand-file-name "~/.hledger.journal"))
   (defun find-ledger-file () (interactive) (find-file hledger-jfile)))
-;; (use-package smooth-scrolling
-;;   :init (setq smooth-scroll-margin 7)
-;;   :hook (prog-mode . smooth-scrolling-mode))
 (use-package ox-twbs)
 (use-package perspective
   :config (persp-mode))
@@ -197,19 +186,24 @@
             (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
 (use-package imenu-anywhere
   :bind (("C-." . imenu-anywhere)))
-;; (use-package slime
-;;   :init (progn
-;; 		  (setq inferior-lisp-program "/usr/bin/sbcl"
-;; 				slime-contribs '(slime-fancy))
-;; 		  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-;; 		  (add-to-list 'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode))))
-(use-package sly
-  :init (progn
-		  (setq inferior-lisp-program "/usr/bin/sbcl")
-		  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-		  (add-to-list 'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode))))
-(use-package racket-mode)
+(use-package geiser
+  :config (progn
+			(setq
+			 geiser-repl-use-other-window nil
+			 geiser-active-implementations '(chicken))))
 
+;; Chicken scheme indentation tweaks
+(progn
+  ;; Indenting module body code at column 0
+  (defun scheme-module-indent (state indent-point normal-indent) 0)
+  (put 'module 'scheme-indent-function 'scheme-module-indent)
+
+  (put 'and-let* 'scheme-indent-function 1)
+  (put 'parameterize 'scheme-indent-function 1)
+  (put 'handle-exceptions 'scheme-indent-function 1)
+  (put 'when 'scheme-indent-function 1)
+  (put 'unless 'scheme-indent-function 1)
+  (put 'match 'scheme-indent-function 1))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -226,7 +220,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(racket-mode json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
