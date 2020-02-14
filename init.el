@@ -190,7 +190,8 @@
   :config (progn
 			(setq
 			 geiser-repl-use-other-window nil
-			 geiser-active-implementations '(chicken))))
+			 geiser-active-implementations '(chicken))
+			(define-key geiser-mode-map (kbd "C-.") nil)))
 
 ;; Chicken scheme indentation tweaks
 (progn
@@ -220,7 +221,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs smooth-scrolling hledger-mode rainbow-delimiters highlight-parentheses flycheck-ledger ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
