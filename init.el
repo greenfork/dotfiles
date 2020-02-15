@@ -71,6 +71,7 @@
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 (global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-z") nil)
 
 (use-package crux
   :bind (("M-o" . crux-smart-open-line)
