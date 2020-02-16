@@ -190,12 +190,17 @@
             (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
 (use-package imenu-anywhere
   :bind (("C-." . imenu-anywhere)))
+(use-package lispy
+  :config (progn
+            (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))))
 (use-package geiser
   :config (progn
             (setq
              geiser-repl-use-other-window nil
              geiser-active-implementations '(chicken))
-            (define-key geiser-mode-map (kbd "C-.") nil)))
+            (define-key geiser-mode-map (kbd "C-.") nil))
+  :init (progn
+          (lispy-mode 1)))
 
 ;; Chicken scheme indentation tweaks
 (progn
@@ -225,7 +230,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-    (zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+    (lispy zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
