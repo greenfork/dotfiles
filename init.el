@@ -85,6 +85,9 @@
             (crux-with-region-or-line kill-region)
             (crux-with-region-or-line kill-ring-save)))
 
+(use-package zop-to-char
+  :bind (([remap zap-to-char] . zop-to-char)))
+
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 (add-hook 'comint-mode-hook 'my-comint-mode-hook)
 (defun my-prog-mode-hook ()
@@ -222,7 +225,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-    (geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+    (zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
