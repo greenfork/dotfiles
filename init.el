@@ -18,8 +18,7 @@
 ;; tags-loop-continue   【Alt+,】
 ;; find-tag     【Alt+.】
 
-
-(setq package-archives '(;("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(;; ("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 (eval-when-compile
@@ -193,20 +192,22 @@
 (use-package lispy
   :config (progn
             (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
-            (define-key lispy-mode-map (kbd "M-(") 'lispy-wrap-round)))
+            (add-hook 'scheme-mode-hook (lambda () (lispy-mode 1)))
+            (define-key lispy-mode-map (kbd "M-(") 'lispy-wrap-round)
+            (define-key lispy-mode-map (kbd "M-s") 'lispy-splice)))
 (use-package geiser
-  :config (progn
-            (setq
-             geiser-repl-use-other-window nil
-             geiser-active-implementations '(chicken))
-            (define-key geiser-mode-map (kbd "C-.") nil))
-  :init (progn
-          (lispy-mode 1)))
+  :custom
+  (geiser-repl-use-other-window nil)
+  (geiser-active-implementations '(chicken))
+  :config
+  (require 'geiser-mode)                ;required for geiser-mode-map variable
+  :bind (:map geiser-mode-map
+              ("C-." . nil)))
 
 ;; Chicken scheme indentation tweaks
 (progn
   ;; Indenting module body code at column 0
-  (defun scheme-module-indent (state indent-point normal-indent) 0)
+  (defun scheme-module-indent (_state _indent-point _normal-indent) 0)
   (put 'module 'scheme-indent-function 'scheme-module-indent)
 
   (put 'and-let* 'scheme-indent-function 1)
