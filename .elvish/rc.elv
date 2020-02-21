@@ -79,6 +79,7 @@ fn rt [@a]{ spring rails test $@a }
 fn rc [@a]{ spring rails console $@a }
 fn rdm [@a]{ rails db:migrate $@a }
 fn rgm [@a]{ rails generate migration $@a }
+fn yic [@a]{ yarn install --check-files $@a }
 
 # Readline
 use readline-binding
