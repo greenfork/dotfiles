@@ -177,6 +177,7 @@ hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
 
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
+hook global BufCreate .*\.jbuilder %{ set-option buffer filetype ruby }
 hook global WinSetOption filetype=ruby %{
     set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile"; } && run '
     set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
