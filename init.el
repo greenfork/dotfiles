@@ -1,3 +1,4 @@
+
 ;;; init.el --- My init file for Emacs -*- lexical-binding: t -*-
 ;;; Commentary:
 
@@ -141,7 +142,8 @@
          ("C-h k" . helpful-key)
          ("C-c C-d" . helpful-at-point)))
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config (setq flycheck-global-modes '(not scheme-mode)))
 (use-package cyberpunk-theme
   :config (load-theme 'cyberpunk t))
 (use-package erc
@@ -197,7 +199,7 @@
             (define-key lispy-mode-map (kbd "M-s") 'lispy-splice)))
 (use-package geiser
   :custom
-  (geiser-repl-use-other-window nil)
+  ;; (geiser-repl-use-other-window nil)
   (geiser-active-implementations '(chicken))
   :config
   (require 'geiser-mode)                ;required for geiser-mode-map variable
