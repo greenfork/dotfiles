@@ -125,11 +125,8 @@ plug 'andreyorst/smarttab.kak' defer smarttab %{
         expandtab
     }
 }
-plug 'alexherbo2/auto-pairs.kak' config %{
-    hook global WinCreate .* %{ auto-pairs-enable }
-    map global user s -docstring 'Surround' ': auto-pairs-surround<ret>'
-}
-plug "occivink/kakoune-snippets" config %{
+plug 'alexherbo2/auto-pairs.kak'
+plug 'occivink/kakoune-snippets' config %{
     set-option global snippets_auto_expand false
     set-option -add global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
     define-command snippets-expand-any-trigger %[
