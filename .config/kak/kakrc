@@ -233,6 +233,7 @@ hook global WinCreate .* %{ evaluate-commands %sh{
                     hook global BufWritePost %val{buffile} %{git update-diff}
                     hook global BufReload %val{buffile} %{git update-diff}
                     hook global WinDisplay %val{buffile} %{git update-diff}
+                    hook global BufWritePost %val{buffile}  %sh{git ls-files | xargs ctags}
                 ";;
         esac
     fi
