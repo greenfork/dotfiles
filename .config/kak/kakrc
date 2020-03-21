@@ -229,11 +229,11 @@ hook global WinCreate .* %{ evaluate-commands %sh{
                     hook global BufWritePost %val{buffile} %{git update-diff}
                     hook global BufReload %val{buffile} %{git update-diff}
                     hook global WinDisplay %val{buffile} %{git update-diff}
-                    hook global BufWritePost %val{buffile} %sh{git ls-files | xargs ctags}
                 ";;
         esac
     fi
 } }
+
 declare-option -docstring 'name of the git branch holding the current buffer' \
     str modeline_git_branch
 hook global WinCreate .* %{
@@ -244,6 +244,23 @@ hook global WinCreate .* %{
         fi
     } }
 }
+
+# ctags
+
+define-command gen-ctags %{
+    echo %sh{git ls-files | xargs ctags 2>/dev/null &}
+}
+hook global ClientCreate .* %{ evaluate-commands %sh{
+    if [ -n "${kak_opt_vcs_root_path}" ]; then
+        case "${kak_opt_vcs_name}" in
+            git)
+                echo "
+                    hook global BufWritePost .* gen-ctags
+                ";;
+        esac
+    fi
+} }
+
 
 # Readline key bindings
 # https://github.com/lenormf/kakoune-extra
