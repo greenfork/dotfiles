@@ -174,7 +174,7 @@ hook global BufCreate .*\.jbuilder %{ set-option buffer filetype ruby }
 hook global WinSetOption filetype=ruby %{
     set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile"; } && run '
     set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
-    # lint-on-write
+    lint-on-write
     no-tabs 2
 }
 hook global WinSetOption filetype=nim %{
