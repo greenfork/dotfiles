@@ -34,11 +34,7 @@ add-highlighter global/ wrap -word -indent
 add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
 add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
-plug 'alexherbo2/search-highlighter.kak' config %{
-    hook global WinCreate .* %{ search-highlighter-enable }
-    set-face global Search black,magenta
-    set-face global PrimarySelectionSearch black,red
-}
+plug 'alexherbo2/search-highlighter.kak'
 plug 'https://gitlab.com/fsub/kakoune-mark' config %{
 	map global user -docstring 'mark word with color' m ': mark-word<ret>'
     map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
