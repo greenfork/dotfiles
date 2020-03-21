@@ -85,9 +85,9 @@ plug 'delapouite/kakoune-cd' config %{
 }
 plug 'andreyorst/fzf.kak'
 require-module fzf
-set-option global fzf_implementation 'sk'
+# set-option global fzf_implementation 'sk'
 set-option global fzf_file_command 'fd -H --exclude .git'
-set-option global fzf_sk_grep_command 'rg -iLHn'
+# set-option global fzf_sk_grep_command 'rg -iLHn'
 set-option global fzf_highlight_command 'bat'
 map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
 
