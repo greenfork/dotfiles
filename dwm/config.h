@@ -56,20 +56,20 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", "tmux" };
-// static const char *mpc_togglecmd[] = { "mpc", "toggle" };
-// static const char *mpc_nextcmd[] = { "mpc", "next" };
-// static const char *mpc_prevcmd[] = { "mpc", "prev" };
-// static const char *switchmoncmd[]  = { "elvish", "/home/grfork/.scripts/switch_monitors.elv" };
+static const char *termcmd[]  = { "kitty", "tmux", NULL };
+static const char *mpc_togglecmd[] = { "mpc", "toggle", NULL };
+static const char *mpc_nextcmd[] = { "mpc", "next", NULL };
+static const char *mpc_prevcmd[] = { "mpc", "prev", NULL };
+// static const char *switchmoncmd[]  = { "elvish", "/home/grfork/.scripts/switch_monitors.elv", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	// { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = switchmoncmd } },
-	// { MODKEY,                       XK_p,      spawn,          {.v = mpc_togglecmd } },
-	// { MODKEY,                       XK_bracketleft,  spawn,    {.v = mpc_nextcmd } },
-	// { MODKEY,                       XK_bracketright, spawn,    {.v = mpc_prevcmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = mpc_togglecmd } },
+	{ MODKEY,                       XK_bracketleft,  spawn,    {.v = mpc_nextcmd } },
+	{ MODKEY,                       XK_bracketright, spawn,    {.v = mpc_prevcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
