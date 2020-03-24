@@ -63,10 +63,11 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function   format        argument */
-	{ temp,       " | %s°C",    "/sys/class/thermal/thermal_zone3/temp" },
-	{ ram_perc,   " | %s%% RAM",    NULL },
-	{ load_avg,   " | %s",      NULL },
-	{ run_command," | %s♫",     "/home/grfork/.scripts/sound_amixer.sh" },
-	{ keymap,     " | %s",      NULL },
-	{ datetime,   " | %s",      "%F %T" },
+	{ run_command, " | %s",       "/home/grfork/.scripts/corona.elv" },
+	{ temp,        " | %s°C",     "/sys/class/thermal/thermal_zone3/temp" },
+	{ ram_perc,    " | %s%% RAM", NULL },
+	{ load_avg,    " | %s",       NULL },
+	{ run_command, " | %s♫",      "/home/grfork/.scripts/sound_amixer.sh" },
+	{ keymap,      " | %s",       NULL },
+	{ datetime,    " | %s",       "%F %T" },
 };
