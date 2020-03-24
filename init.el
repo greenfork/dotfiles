@@ -219,6 +219,12 @@
   (put 'unless 'scheme-indent-function 1)
   (put 'match 'scheme-indent-function 1))
 
+(use-package projectile
+  :config (projectile-mode +1)
+  :bind (("C-c p" . projectile-command-map)))
+(use-package projectile-ripgrep)
+(use-package slim-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -226,15 +232,15 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("1e9001d2f6ffb095eafd9514b4d5974b720b275143fbc89ea046495a99c940b0" default)))
+	("1e9001d2f6ffb095eafd9514b4d5974b720b275143fbc89ea046495a99c940b0" default)))
  '(erc-button-google-url "http://www.duckduckgo.com/search?q=%s")
  '(erc-modules
    (quote
-    (autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands notifications readonly ring stamp track)))
+	(autojoin button completion fill irccontrols list match menu move-to-prompt netsplit networks noncommands notifications readonly ring stamp track)))
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-    (lispy zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(slim-mode projectile projectile-ripgrep lispy zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
