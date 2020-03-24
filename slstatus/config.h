@@ -64,6 +64,7 @@ static const char unknown_str[] = "n/a";
 static const struct arg args[] = {
 	/* function   format        argument */
 	{ run_command, " | %s",       "/home/grfork/.scripts/corona.elv" },
+	{ run_command, " | %s",       "/home/grfork/.scripts/currency_rates.elv" },
 	{ temp,        " | %s°C",     "/sys/class/thermal/thermal_zone3/temp" },
 	{ ram_perc,    " | %s%% RAM", NULL },
 	{ load_avg,    " | %s",       NULL },
