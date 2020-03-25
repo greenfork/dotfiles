@@ -224,6 +224,11 @@
   :bind (("C-c p" . projectile-command-map)))
 (use-package projectile-ripgrep)
 (use-package slim-mode)
+(use-package magit)
+(use-package diff-hl
+  :requires magit
+  :init (global-diff-hl-mode)
+  :hook (magit-post-refresh-hook . diff-hl-magit-post-refresh))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -240,7 +245,7 @@
  '(package-hidden-regexps nil)
  '(package-selected-packages
    (quote
-	(slim-mode projectile projectile-ripgrep lispy zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
+	(diff-hl magit slim-mode projectile projectile-ripgrep lispy zop-to-char geiser json-mode yafolding imenu-anywhere highlight-defined crux diminish perspective company ox-twbs rainbow-delimiters highlight-parentheses ido-completing-read+ ido-yes-or-no smex cyberpunk-theme flycheck use-package helpful anzu which-key ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
