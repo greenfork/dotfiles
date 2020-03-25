@@ -33,6 +33,7 @@ add-highlighter global/column_highlighter column 80 default,rgb:303030
 add-highlighter global/ wrap -word -indent
 add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
+set-face global MatchingChar default,magenta
 add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
 plug 'alexherbo2/search-highlighter.kak'
 plug 'https://gitlab.com/fsub/kakoune-mark' config %{
