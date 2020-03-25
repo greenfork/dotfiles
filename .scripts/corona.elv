@@ -11,8 +11,16 @@ if (!=s $filename-stats[0] (date --iso-8601=date)) {
   download-corona
 }
 
-ru=(cat $filename | from-json)[0]
-cbd=$ru[confirmedByDay]
-todayCases=(- $cbd[(- (count $cbd) 1)] $cbd[(- (count $cbd) 2)])
+try {
+  # source 1
+  ru=(cat $filename | from-json)[0]
+  cbd=$ru[confirmedByDay]
+  todayCases=(- $cbd[(- (count $cbd) 1)] $cbd[(- (count $cbd) 2)])
 
-echo $ru[confirmed]" Σ | "$todayCases' ▲ | '$ru[deaths]' ☠'
+  echo $ru[confirmed]" Σ | "$todayCases' ▲ | '$ru[deaths]' ☠'
+} except e {
+  # source 2
+  ru=(cat $filename | from-json)[data][0]
+
+  echo $ru[active]" Σ | "$ru[todayCases]' ▲ | '$ru[deaths]' ☠'
+}
