@@ -7,7 +7,7 @@ fn download-currency-rates {
 if ?(test ! -r $filename) { download-currency-rates }
 @filename-stats=(splits ' ' (stat --format=%y $filename))
 
-if (and (!=s $filename-stats[0] (date --iso-8601=date)) (> (date +%H) 8)) {
+if (!= (date +%H) $filename-stats[1][0:2]) {
   download-currency-rates
 }
 

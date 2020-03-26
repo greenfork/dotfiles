@@ -2,12 +2,12 @@
 
 filename=/home/grfork/.cache/corona.json
 fn download-corona {
-  curl -s 'https://corona-stats.online/RU?format=json' > $filename
+  curl -s 'https://corona-stats.online/RU?format=json&source=1' > $filename
 }
 if ?(test ! -r $filename) { download-corona }
 @filename-stats=(splits ' ' (stat --format=%y $filename))
 
-if (and (!=s $filename-stats[0] (date --iso-8601=date)) (> (date +%H) 8)) {
+if (!= (date +%H) $filename-stats[1][0:2]) {
   download-corona
 }
 
