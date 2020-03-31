@@ -165,6 +165,7 @@ hook global WinSetOption filetype=json %{
     lsp-engage
 }
 hook global WinSetOption filetype=ledger %{ no-tabs 4 }
+hook global WinSetOption filetype=haskell %{ no-tabs 2 }
 
 hook global BufCreate .*\.erb %{ set-option buffer filetype html }
 hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
