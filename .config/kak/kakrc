@@ -252,16 +252,16 @@ hook global WinCreate .* %{
 define-command gen-ctags %{
     echo %sh{git ls-files | xargs ctags 2>/dev/null &}
 }
-hook global ClientCreate .* %{ evaluate-commands %sh{
-    if [ -n "${kak_opt_vcs_root_path}" ]; then
-        case "${kak_opt_vcs_name}" in
-            git)
-                echo "
-                    hook global BufWritePost .* gen-ctags
-                ";;
-        esac
-    fi
-} }
+# hook global ClientCreate .* %{ evaluate-commands %sh{
+#     if [ -n "${kak_opt_vcs_root_path}" ]; then
+#         case "${kak_opt_vcs_name}" in
+#             git)
+#                 echo "
+#                     hook global BufWritePost .* gen-ctags
+#                 ";;
+#         esac
+#     fi
+# } }
 
 
 # Readline key bindings
