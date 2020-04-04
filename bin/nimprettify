@@ -1,0 +1,6 @@
+#!/bin/sh
+f=$(mktemp "${TMPDIR:-/tmp}"/nimprettify_XXXX.nim)
+cat >"$f"
+nimpretty --indent:2 "$f" >/dev/null 2>/dev/null
+cat "$f"
+rm "$f"
