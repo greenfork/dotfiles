@@ -180,7 +180,7 @@ hook global WinSetOption filetype=ruby %{
     no-tabs 2
 }
 hook global WinSetOption filetype=nim %{
-    set-option buffer formatcmd "nimpretty ${kak_buffile}"
+    set-option buffer formatcmd "nimprettify"
     set-option buffer makecmd 'nimble build'
     no-tabs 2
     lsp-engage # add `args` to toml config and set as path to nim sources
