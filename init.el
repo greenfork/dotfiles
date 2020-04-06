@@ -58,11 +58,12 @@
  gc-cons-threshold 800000
  create-lockfiles nil
  backup-directory-alist '(("." . "~/.emacs.d/backup"))
- backup-by-copying t    ; Don't delink hardlinks
- version-control t      ; Use version numbers on backups
- delete-old-versions t  ; Automatically delete excess backups
- kept-new-versions 20   ; how many of the newest versions to keep
- kept-old-versions 5    ; and how many of the old
+ backup-by-copying t				   ; Don't delink hardlinks
+ version-control t					   ; Use version numbers on backups
+ delete-old-versions t				   ; Automatically delete excess backups
+ kept-new-versions 20				   ; how many of the newest versions to keep
+ kept-old-versions 5				   ; and how many of the old
+ dired-dwim-target t
  )
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -72,6 +73,9 @@
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-z") nil)
+(require 'dired-x)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+(define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
 (use-package crux
   :bind (("M-o" . crux-smart-open-line)
@@ -229,6 +233,7 @@
   :requires magit
   :init (global-diff-hl-mode)
   :hook (magit-post-refresh-hook . diff-hl-magit-post-refresh))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
