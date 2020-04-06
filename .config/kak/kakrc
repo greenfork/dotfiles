@@ -86,7 +86,7 @@ require-module fzf
 set-option global fzf_file_command 'fd -H --exclude .git'
 # set-option global fzf_sk_grep_command 'rg -iLHn'
 set-option global fzf_highlight_command 'bat'
-map global user p -docstring 'fzf' ': change-directory-project-root; fzf-mode<ret>'
+map global user p -docstring 'fzf' ': fzf-mode<ret>'
 
 plug 'TeddyDD/kakoune-edit-or-dir' config %{
     define-command open-current-directory -docstring 'Open directory of current buffer' %{
@@ -182,7 +182,6 @@ hook global WinSetOption filetype=ruby %{
 hook global WinSetOption filetype=nim %{
     set-option buffer formatcmd "nimprettify"
     set-option buffer makecmd 'nimble build'
-    hook buffer BufWritePre .* format
     no-tabs 2
     lsp-engage # add `args` to toml config and set as path to nim sources
 }
