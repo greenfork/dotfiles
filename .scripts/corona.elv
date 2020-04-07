@@ -2,7 +2,7 @@
 
 filename=/home/grfork/.cache/corona.json
 fn download-corona {
-  curl -s 'https://corona-stats.online/RU?format=json&source=1' > $filename
+  curl -s 'https://corona-stats.online/RU?format=json' > $filename
 }
 if ?(test ! -r $filename) { download-corona }
 @filename-stats=(splits ' ' (stat --format=%y $filename))
@@ -19,8 +19,12 @@ try {
 
   echo $ru[confirmed]" Σ | "$todayCases' ▲ | '$ru[deaths]' ☠'
 } except e {
-  # source 2
-  ru=(cat $filename | from-json)[data][0]
+  try {
+    # source 2
+    ru=(cat $filename | from-json)[data][0]
 
-  echo $ru[active]" Σ | "$ru[todayCases]' ▲ | '$ru[deaths]' ☠'
+    echo $ru[active]" Σ | "$ru[todayCases]' ▲ | '$ru[deaths]' ☠'
+  } except e {
+    echo $e
+  }
 }
