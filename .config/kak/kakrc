@@ -96,7 +96,19 @@ map global user q -docstring 'save and quit' ': write-quit<ret>'
 map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 
 # plug "lePerdu/kakboard"
-hook global WinCreate .* %{ kakboard-enable }
+# hook global WinCreate .* %{ kakboard-enable }
+# This is much faster.
+
+set global kakboard_copy_cmd 'xclip -in -selection clipboard'
+set global kakboard_paste_cmd 'xclip -out -selection clipboard'
+
+map global normal y ': kakboard-with-push-clipboard y<ret>'
+map global normal c ': kakboard-with-push-clipboard c<ret>'
+map global normal d ': kakboard-with-push-clipboard d<ret>'
+
+map global normal p ': kakboard-with-pull-clipboard p<ret>'
+map global normal P ': kakboard-with-pull-clipboard P<ret>'
+map global normal R ': kakboard-with-pull-clipboard R<ret>'
 
 
 
