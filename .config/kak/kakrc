@@ -35,7 +35,8 @@ source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
-source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
+eval %sh{kak-lsp --kakoune -s $kak_session}
+#source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
 
 
 
@@ -44,12 +45,12 @@ source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
 
 # plug "ul/kak-lsp"
 hook global KakEnd .* lsp-exit
+# set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
+map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
 def lsp-engage -docstring 'Enable language server' %{
-    set global lsp_cmd "kak-lsp -s %val{session}"
-    lsp-enable
-    lsp-auto-hover-enable
-    map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
-    map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
+   lsp-enable-window
+   lsp-auto-hover-enable
 }
 
 
