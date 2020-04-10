@@ -1,33 +1,62 @@
 # Installation instructions:
 # 1. git clone https://github.com/andreyorst/plug.kak.git ~/.config/kak/plugins/plug.kak
-# 2. Install bat, fd, ripgrep, sk, git, tmux packages
-# 3. Run ':plug-install' inside kakoune
-# 4. Reload kakoune
-# 5. Profit
+# 2. Install bat, fd, ripgrep, fzf, git, tmux packages
+# 3. Uncomment all plug-related stuff
+# 4. Run ':plug-install' inside kakoune
+# 5. Comment it back
+# 6. Reload kakoune
+# 7. Profit
 
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# plug 'alexherbo2/auto-pairs.kak'
+# plug 'alexherbo2/search-highlighter.kak'
+# plug 'andreyorst/fzf.kak'
+# plug 'andreyorst/smarttab.kak'
+# plug 'Delapouite/kakoune-buffers'
+# plug 'delapouite/kakoune-cd'
+# plug 'greenfork/active-window.kak'
+# plug 'https://gitlab.com/fsub/kakoune-mark'
+# plug 'lenormf/kakoune-extra'
+# plug 'lePerdu/kakboard'
+# plug 'occivink/kakoune-find'
+# plug 'ul/kak-lsp'
 
-# Language Server Protocol stuff
+source "%val{config}/plugins/fzf.kak/rc/fzf.kak"
+source "%val{config}/plugins/fzf.kak/rc/modules/fzf-file.kak"
+source "%val{config}/plugins/fzf.kak/rc/modules/fzf-vcs.kak"
+source "%val{config}/plugins/fzf.kak/rc/modules/VCS/fzf-git.kak"
+source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
+source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
+source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
+source "%val{config}/plugins/kakoune-buffers/buffers.kak"
+source "%val{config}/plugins/kakoune-cd/cd.kak"
+source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
+source "%val{config}/plugins/kakoune-mark/mark.kak"
+source "%val{config}/plugins/kakoune-extra/vcs.kak"
+source "%val{config}/plugins/kakboard/kakboard.kak"
+source "%val{config}/plugins/kakoune-find/find.kak"
+source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
 
-plug "ul/kak-lsp" do %{
-    cargo install --locked --force --path .
-} config %{
-    hook global KakEnd .* lsp-exit
 
-    def lsp-engage -docstring 'Enable language server' %{
-        set global lsp_cmd "kak-lsp -s %val{session} -c /home/grfork/.config/kak/plugins/kak-lsp/kak-lsp.toml"
-        lsp-enable
-        lsp-auto-hover-enable
-        map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
-        map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
-    }
+
+# Language Server Protocol
+##########################
+
+# plug "ul/kak-lsp"
+hook global KakEnd .* lsp-exit
+def lsp-engage -docstring 'Enable language server' %{
+    set global lsp_cmd "kak-lsp -s %val{session}"
+    lsp-enable
+    lsp-auto-hover-enable
+    map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
+    map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
 }
 
+
+
 # Highlighters
+##############
 
-# colorscheme tomorrow-night
-
-plug 'greenfork/active-window.kak'
 add-highlighter global/ number-lines -relative -separator ' ' -hlcursor
 add-highlighter global/column_highlighter column 80 default,rgb:303030
 add-highlighter global/ wrap -word -indent
@@ -35,13 +64,15 @@ add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
 set-face global MatchingChar default,magenta
 add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
-plug 'alexherbo2/search-highlighter.kak'
-plug 'https://gitlab.com/fsub/kakoune-mark' config %{
-	map global user -docstring 'mark word with color' m ': mark-word<ret>'
-    map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
-}
+
+# plug 'https://gitlab.com/fsub/kakoune-mark'
+map global user -docstring 'mark word with color' m ': mark-word<ret>'
+map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
+
+
 
 # General options
+################
 
 map global normal -docstring 'enter user mode' <space> ,
 map global normal -docstring 'remove all sels except main' <backspace> <space>
@@ -59,50 +90,46 @@ hook global InsertChar k %{ try %{
     execute-keys -draft hH <a-k>jk<ret> d
     execute-keys <esc>
 }}
-plug "lePerdu/kakboard" %{
-    hook global WinCreate .* %{ kakboard-enable }
-}
 map global user w -docstring 'save file' ': write<ret>'
 map global user q -docstring 'save and quit' ': write-quit<ret>'
 map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 
+# plug "lePerdu/kakboard"
+hook global WinCreate .* %{ kakboard-enable }
+
+
+
 # Navigation
+############
 
 define-command newv -params .. -command-completion -docstring '"new" but vertical' %{
     try %{
         tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
     }
 }
-plug 'delapouite/kakoune-cd' config %{
-    map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
-    alias global cdb change-directory-current-buffer
-    alias global cdr change-directory-project-root
-    alias global ecd edit-current-buffer-directory
-    alias global pwd print-working-directory
-}
-plug 'andreyorst/fzf.kak'
+
+# plug 'delapouite/kakoune-cd'
+map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
+alias global cdb change-directory-current-buffer
+alias global cdr change-directory-project-root
+alias global ecd edit-current-buffer-directory
+alias global pwd print-working-directory
+
+# plug 'andreyorst/fzf.kak'
 require-module fzf
-# set-option global fzf_implementation 'sk'
 set-option global fzf_file_command 'fd -H --exclude .git'
-# set-option global fzf_sk_grep_command 'rg -iLHn'
 set-option global fzf_highlight_command 'bat'
 map global user p -docstring 'fzf' ': fzf-mode<ret>'
 
-plug 'TeddyDD/kakoune-edit-or-dir' config %{
-    define-command open-current-directory -docstring 'Open directory of current buffer' %{
-        edit-or-dir %sh{dirname $kak_buffile}
-    }
-    unalias global e edit
-    alias global e edit-or-dir
-    alias global dir open-current-directory
-}
-plug 'Delapouite/kakoune-buffers' config %{
-    hook global WinDisplay .* info-buffers
-    map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
-    map global normal -docstring 'buffers (lock)...' B ': enter-user-mode -lock buffers<ret>'
-}
+# plug 'Delapouite/kakoune-buffers'
+hook global WinDisplay .* info-buffers
+map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
+map global normal -docstring 'buffers (lock)...' B ': enter-user-mode -lock buffers<ret>'
+
+
 
 # Editing
+#########
 
 map global normal -docstring 'comment line' '#' ': comment-line<ret>'
 map global normal -docstring 'comment line' '<a-#>' ': comment-block<ret>'
@@ -110,39 +137,31 @@ define-command clean-trailing-whitespace -docstring 'Remove trailing whitespace'
     try %{ execute-keys -draft '%s\h+$<ret>d' }
     try %{ execute-keys -draft '%s\n+\z<ret>d' }
 }
-plug 'andreyorst/smarttab.kak' defer smarttab %{
-    set-option global softtabstop 4
-} config %{
-    define-command no-tabs -params 0..1 -docstring 'Indent with spaces' %{
-        eval %sh{ [ -n '$1' ] && printf %s "
-            set-option buffer indentwidth $1
-            set-option buffer tabstop $1
-            # set-option buffer softtabstop $1
-        " }
-        expandtab
-    }
+
+# plug 'andreyorst/smarttab.kak'
+require-module smarttab
+set-option global softtabstop 4
+define-command no-tabs -params 0..1 -docstring 'Indent with spaces' %{
+    eval %sh{ [ -n '$1' ] && printf %s "
+        set-option buffer indentwidth $1
+        set-option buffer tabstop $1
+        # set-option buffer softtabstop $1
+    " }
+    expandtab
 }
-plug 'alexherbo2/auto-pairs.kak'
-plug 'occivink/kakoune-snippets' config %{
-    set-option global snippets_auto_expand false
-    set-option -add global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
-    define-command snippets-expand-any-trigger %[
-        snippets-expand-trigger %{
-            reg / "%opt{snippets_triggers_regex}"
-            exec 'hGhs<ret>'
-        }
-    ]
-    map -docstring 'expand any trigger' global insert <c-t> '<esc>: snippets-expand-any-trigger<ret>i'
-    map -docstring 'select next snippet placeholder' global insert <c-l> '<esc>: snippets-select-next-placeholders<ret>i'
-}
-plug "greenfork/kakoune-snippet-collection" branch "personal"
+
+
 
 # Searching
+###########
 
-plug 'occivink/kakoune-find'
+# plug 'occivink/kakoune-find'
 set-option global grepcmd 'rg -iHL --column'
 
+
+
 # Language options
+##################
 
 define-command lint-on-write -docstring 'Activate linting on buffer write' %{
     lint-enable
@@ -217,11 +236,12 @@ hook global WinSetOption filetype=elvish %{
     no-tabs 2
 }
 
-# Git
 
-plug 'lenormf/kakoune-extra' subset %{
-    vcs.kak
-}
+
+# Git
+#####
+
+# plug 'lenormf/kakoune-extra'
 hook global WinCreate .* %{ evaluate-commands %sh{
     if [ -n "${kak_opt_vcs_root_path}" ]; then
         case "${kak_opt_vcs_name}" in
@@ -247,43 +267,23 @@ hook global WinCreate .* %{
     } }
 }
 
+
+
 # ctags
+#######
 
 define-command gen-ctags %{
     echo %sh{git ls-files | xargs ctags 2>/dev/null &}
 }
-# hook global ClientCreate .* %{ evaluate-commands %sh{
-#     if [ -n "${kak_opt_vcs_root_path}" ]; then
-#         case "${kak_opt_vcs_name}" in
-#             git)
-#                 echo "
-#                     hook global BufWritePost .* gen-ctags
-#                 ";;
-#         esac
-#     fi
-# } }
-
 
 # Readline key bindings
-# https://github.com/lenormf/kakoune-extra
 map -docstring 'move the cursor one character to the left' global insert <c-b> <esc>hi
 map -docstring 'move the cursor one character to the right' global insert <c-f> <esc>li
-map -docstring 'move the cursor to the start of the line' global insert <c-a> <esc>I
-map -docstring 'move the cursor to the end of the line' global insert <c-e> <esc>glli
-map -docstring 'delete the character under the anchor' global insert <c-d> <esc>c
 
-# For my own amusement
 
-hook global WinSetOption modeline_git_branch=.* %{
-    evaluate-commands %sh{
-        echo "set-option window modelinefmt %{"
-        echo "%val{bufname}"
-        [ -n "${kak_opt_vcs_root_path}" ] && echo "%opt{vcs_name}[%opt{modeline_git_branch}]"
-        echo "%val{cursor_line}:%val{cursor_char_column}"
-        echo "{{context_info}} {{mode_info}} - %val{client}@[%val{session}]"
-        echo "}"
-    }
-}
+
+# Misc
+######
 
 # Load local project config
 try %{ source '.local.kak' }
