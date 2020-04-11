@@ -135,7 +135,9 @@ alias global pwd print-working-directory
 # map global user p -docstring 'fzf' ': fzf-mode<ret>'
 
 define-command fzf %{ evaluate-commands %sh{
-    eval "fd -H --exclude .git" | eval "fzf-tmux" | while read path; do \
+    eval "fd -H --exclude .git --type f --type l" | \
+    eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
+    while read path; do \
         printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
     done
 } }
