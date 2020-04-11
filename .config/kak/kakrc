@@ -21,10 +21,10 @@
 # plug 'occivink/kakoune-find'
 # plug 'ul/kak-lsp'
 
-source "%val{config}/plugins/fzf.kak/rc/fzf.kak"
-source "%val{config}/plugins/fzf.kak/rc/modules/fzf-file.kak"
-source "%val{config}/plugins/fzf.kak/rc/modules/fzf-vcs.kak"
-source "%val{config}/plugins/fzf.kak/rc/modules/VCS/fzf-git.kak"
+# source "%val{config}/plugins/fzf.kak/rc/fzf.kak"
+# source "%val{config}/plugins/fzf.kak/rc/modules/fzf-file.kak"
+# source "%val{config}/plugins/fzf.kak/rc/modules/fzf-vcs.kak"
+# source "%val{config}/plugins/fzf.kak/rc/modules/VCS/fzf-git.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
 source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
 source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
@@ -36,7 +36,7 @@ source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
 eval %sh{kak-lsp --kakoune -s $kak_session}
-#source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
+# source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
 
 
 
@@ -129,10 +129,17 @@ alias global ecd edit-current-buffer-directory
 alias global pwd print-working-directory
 
 # plug 'andreyorst/fzf.kak'
-require-module fzf
-set-option global fzf_file_command 'fd -H --exclude .git'
-set-option global fzf_highlight_command 'bat'
-map global user p -docstring 'fzf' ': fzf-mode<ret>'
+# require-module fzf
+# set-option global fzf_file_command 'fd -H --exclude .git'
+# set-option global fzf_highlight_command 'bat'
+# map global user p -docstring 'fzf' ': fzf-mode<ret>'
+
+define-command fzf %{ evaluate-commands %sh{
+    eval "fd -H --exclude .git" | eval "fzf-tmux" | while read path; do \
+        printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
+    done
+} }
+map global user f -docstring 'fzf' ': fzf<ret>'
 
 # plug 'Delapouite/kakoune-buffers'
 hook global WinDisplay .* info-buffers
