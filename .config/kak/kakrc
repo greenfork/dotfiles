@@ -144,9 +144,7 @@ define-command fzf %{ evaluate-commands %sh{
 map global user f -docstring 'fzf' ': fzf<ret>'
 
 # plug 'Delapouite/kakoune-buffers'
-hook global WinDisplay .* info-buffers
 map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
-map global normal -docstring 'buffers (lock)...' B ': enter-user-mode -lock buffers<ret>'
 
 
 
