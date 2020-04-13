@@ -5,6 +5,7 @@ E:PAGER=less
 E:EDITOR=kak
 E:XDG_CONFIG_HOME=$E:HOME/.config
 E:LC_CTYPE=en_US.UTF-8
+E:RUBYOPT="-W:no-deprecated -W:no-experimental"
 home=$E:HOME
 if (==s $E:ELVISH_OS_PROFILE macos_work) {
   paths = [$home/go/bin $@paths]
