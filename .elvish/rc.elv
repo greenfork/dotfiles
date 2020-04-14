@@ -115,8 +115,5 @@ edit:completion:matcher[''] = [seed]{ edit:match-substr $seed &ignore-case=$true
 use github.com/zzamboni/elvish-modules/long-running-notifications
 long-running-notifications:threshold = 40
 
-# Shortcuts for inserting previous commands with !! and !$
-use github.com/zzamboni/elvish-modules/bang-bang
-
 use github.com/zzamboni/elvish-modules/dir
 fn cd [@a]{ dir:cd $@a }
