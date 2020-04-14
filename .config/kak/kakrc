@@ -10,7 +10,6 @@
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
 # plug 'alexherbo2/auto-pairs.kak'
 # plug 'alexherbo2/search-highlighter.kak'
-# plug 'andreyorst/fzf.kak'
 # plug 'andreyorst/smarttab.kak'
 # plug 'Delapouite/kakoune-buffers'
 # plug 'delapouite/kakoune-cd'
@@ -21,10 +20,6 @@
 # plug 'occivink/kakoune-find'
 # plug 'ul/kak-lsp'
 
-# source "%val{config}/plugins/fzf.kak/rc/fzf.kak"
-# source "%val{config}/plugins/fzf.kak/rc/modules/fzf-file.kak"
-# source "%val{config}/plugins/fzf.kak/rc/modules/fzf-vcs.kak"
-# source "%val{config}/plugins/fzf.kak/rc/modules/VCS/fzf-git.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
 source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
 source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
@@ -121,19 +116,7 @@ define-command newv -params .. -command-completion -docstring '"new" but vertica
     }
 }
 
-# plug 'delapouite/kakoune-cd'
-map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
-alias global cdb change-directory-current-buffer
-alias global cdr change-directory-project-root
-alias global ecd edit-current-buffer-directory
-alias global pwd print-working-directory
-
-# plug 'andreyorst/fzf.kak'
-# require-module fzf
-# set-option global fzf_file_command 'fd -H --exclude .git'
-# set-option global fzf_highlight_command 'bat'
-# map global user p -docstring 'fzf' ': fzf-mode<ret>'
-
+# fzf and fzf-current-directory only differ in fd options
 define-command fzf %{ evaluate-commands %sh{
     eval "fd -H --exclude .git --type f --type l" | \
     eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
@@ -141,7 +124,19 @@ define-command fzf %{ evaluate-commands %sh{
         printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
     done
 } }
+define-command fzf-current-directory %{ evaluate-commands %sh{
+    buffer_dirname=$(dirname "$kak_bufname")
+    eval "fd -H --exclude .git --type f --type l --max-depth 1 . ${buffer_dirname}" | \
+    eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
+    while read path; do \
+        printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
+    done
+} }
 map global user f -docstring 'fzf' ': fzf<ret>'
+map global user d -docstring 'fzf in current dir' ': fzf-current-directory<ret>'
+
+# plug 'delapouite/kakoune-cd'
+map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
 
 # plug 'Delapouite/kakoune-buffers'
 map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
