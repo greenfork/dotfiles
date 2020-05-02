@@ -71,11 +71,11 @@
         "tooltip": true
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "{usage:2}% ",
         "tooltip": false
     },
     "memory": {
-        "format": "{}% "
+        "format": "{percentage:2}% "
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -147,4 +147,3 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
 }
-
