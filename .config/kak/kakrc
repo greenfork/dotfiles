@@ -148,7 +148,7 @@ map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
 
 map global normal -docstring 'comment line' '#' ': comment-line<ret>'
 map global normal -docstring 'comment line' '<a-#>' ': comment-block<ret>'
-define-command clean-trailing-whitespace -docstring 'Remove trailing whitespace' %{
+define-command delete-trailing-whitespace -docstring 'Remove trailing whitespace' %{
     try %{ execute-keys -draft '%s\h+$<ret>d' }
     try %{ execute-keys -draft '%s\n+\z<ret>d' }
 }
@@ -186,8 +186,9 @@ define-command lint-on-write -docstring 'Activate linting on buffer write' %{
 hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
+hook global WinSetOption filetype=sql %{ no-tabs 2 }
 hook global WinSetOption filetype=html %{
-    no-tabs 4
+    no-tabs 2
     lsp-engage
 }
 hook global WinSetOption filetype=(css|scss) %{
@@ -292,10 +293,7 @@ define-command gen-ctags %{
 }
 
 # Readline key bindings
-map -docstring 'move the cursor one character to the left' global insert <c-b> <esc>hi
-map -docstring 'move the cursor one character to the right' global insert <c-f> <esc>li
-
-
+map global insert <c-d> <esc>di
 
 # Misc
 ######
