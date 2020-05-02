@@ -31,8 +31,6 @@ source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
 eval %sh{kak-lsp --kakoune -s $kak_session}
-# source "%val{config}/plugins/kak-lsp/rc/lsp.kak"
-
 
 
 # Language Server Protocol
@@ -94,8 +92,8 @@ map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 # hook global WinCreate .* %{ kakboard-enable }
 # This is much faster.
 
-set global kakboard_copy_cmd 'xclip -in -selection clipboard'
-set global kakboard_paste_cmd 'xclip -out -selection clipboard'
+set global kakboard_copy_cmd 'wl-copy'
+set global kakboard_paste_cmd 'wl-paste -n'
 
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'

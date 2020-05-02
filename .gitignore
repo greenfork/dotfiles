@@ -1,3 +1,10 @@
 .vim/.netrwhist
 *.swp
 tags
+
+/.config/kak/plugins/
+
+/.config/mpd/database
+/.config/mpd/sticker.sql
+/.config/mpd/pid
+/.config/mpd/state

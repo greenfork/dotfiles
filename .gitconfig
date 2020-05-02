@@ -26,3 +26,5 @@
 	first-run = false
 [diff]
 	algorithm = histogram
+[bash]
+	showInformativeStatus = true
