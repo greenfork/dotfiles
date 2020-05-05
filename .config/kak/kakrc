@@ -114,22 +114,47 @@ define-command newv -params .. -command-completion -docstring '"new" but vertica
     }
 }
 
-# fzf and fzf-current-directory only differ in fd options
-define-command fzf %{ evaluate-commands %sh{
-    eval "fd -H --exclude .git --type f --type l" | \
-    eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
-    while read path; do \
-        printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
-    done
+# fuzzy-finding
+
+# tmux
+# define-command fzf %{ evaluate-commands %sh{
+#     eval "fd -H --exclude .git --type f --type l" | \
+#     eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
+#     while read path; do \
+#         printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
+#     done
+# } }
+# define-command fzf-current-directory %{ evaluate-commands %sh{
+#     buffer_dirname=$(dirname "$kak_bufname")
+#     eval "fd -H --exclude .git --type f --type l --max-depth 1 . ${buffer_dirname}" | \
+#     eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
+#     while read path; do \
+#         printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
+#     done
+# } }
+
+# kitty
+define-command fzf %{ evaluate-commands %{
+    kitty-terminal-tab sh -c "
+        MYTMP=$(mktemp mykakfzf.XXXXXX)
+        trap 'rm -f $MYTMP' EXIT
+        fd -H --exclude .git --type f --type l | \
+            fzf --preview 'bat --color=always --decorations=never {}' > $MYTMP
+        [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
+    "
 } }
-define-command fzf-current-directory %{ evaluate-commands %sh{
-    buffer_dirname=$(dirname "$kak_bufname")
-    eval "fd -H --exclude .git --type f --type l --max-depth 1 . ${buffer_dirname}" | \
-    eval "fzf-tmux --preview 'bat --color=always --decorations=never {}'" | \
-    while read path; do \
-        printf "eval -client '%s' edit '%s'" "${kak_client}" "${path}" | kak -p "${kak_session}"
-    done
+define-command fzf-current-directory %{ evaluate-commands %{
+    kitty-terminal-tab sh -c "
+        MYTMP=$(mktemp mykakfzf.XXXXXX)
+        trap 'rm -f $MYTMP' EXIT
+        BUFFER_DIRNAME=$(dirname %val{bufname})
+        fd -H --exclude .git --type f --type l . $BUFFER_DIRNAME | \
+            fzf --preview 'bat --color=always --decorations=never {}' > $MYTMP
+        [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
+    "
 } }
+
+
 map global user f -docstring 'fzf' ': fzf<ret>'
 map global user d -docstring 'fzf in current dir' ': fzf-current-directory<ret>'
 
@@ -185,6 +210,7 @@ hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
+hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=html %{
     no-tabs 2
     lsp-engage
