@@ -1,4 +1,3 @@
-
 ;;; init.el --- My init file for Emacs -*- lexical-binding: t -*-
 ;;; Commentary:
 
@@ -37,7 +36,7 @@
 ;; On MacOS due to retina display font should be bigger.
 (if (eq system-type 'darwin)
     (set-face-attribute 'default nil :font "Iosevka" :height 120)
-  (set-face-attribute 'default nil :font "Iosevka" :height 90))
+  (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
 (global-auto-revert-mode 1)
 (delete-selection-mode 1)
 (global-subword-mode 1)
@@ -153,7 +152,7 @@
   :config (load-theme 'cyberpunk t))
 (use-package erc
   :init (progn
-          (load "~/.emacs.d/.erc-auth")
+          ;; (load "~/.emacs.d/.erc-auth")
           (erc-track-mode t)
           (require 'erc-log)
           (require 'erc-notify)
