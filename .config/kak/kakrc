@@ -1,6 +1,8 @@
 # Installation instructions:
 # 1. git clone https://github.com/andreyorst/plug.kak.git ~/.config/kak/plugins/plug.kak
-# 2. Install bat, fd, ripgrep, fzf, git, tmux packages
+# 2. Install bat, fd, ripgrep, fzf, git packages
+# 2.1. Optional: tmux/kitty (uncomment appropriate fzf functionality)
+# 2.2. Optional: dos2unix, wl-clipboard for Wayland (configure kakboard accordingly)
 # 3. Uncomment all plug-related stuff
 # 4. Run ':plug-install' inside kakoune
 # 5. Comment it back
@@ -26,6 +28,7 @@ source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
 source "%val{config}/plugins/kakoune-buffers/buffers.kak"
 source "%val{config}/plugins/kakoune-cd/cd.kak"
 source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
+# source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
@@ -106,9 +109,8 @@ map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 # plug "lePerdu/kakboard"
 # hook global WinCreate .* %{ kakboard-enable }
 # This is much faster.
-
 set global kakboard_copy_cmd 'wl-copy'
-set global kakboard_paste_cmd 'wl-paste -n'
+set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
 
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'
@@ -233,6 +235,7 @@ hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
+hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=html %{
     no-tabs 2
     lsp-engage
