@@ -156,7 +156,7 @@ define-command n -params .. -command-completion \
 }
 
 define-command fzf %{ evaluate-commands %{
-    kitty-terminal-tab sh -c "
+    kitty-terminal sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         fd -H --exclude .git --type f --type l | \
@@ -165,7 +165,7 @@ define-command fzf %{ evaluate-commands %{
     "
 } }
 define-command fzf-current-directory %{ evaluate-commands %{
-    kitty-terminal-tab sh -c "
+    kitty-terminal sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         BUFFER_DIRNAME=$(dirname %val{bufname})
@@ -184,6 +184,8 @@ map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
 
 # plug 'Delapouite/kakoune-buffers'
 map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
+
+map global normal / /(?i)
 
 
 
@@ -234,6 +236,7 @@ hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
+hook global WinSetOption filetype=lua %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=html %{
@@ -262,6 +265,13 @@ hook global WinSetOption filetype=ruby %{
     set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
     lint-on-write
     no-tabs 2
+    lsp-enable-window
+}
+hook global WinSetOption filetype=zig %{
+    set-option window formatcmd 'zig fmt --stdin'
+    hook window BufWritePre .* format
+    no-tabs 4
+    lsp-enable-window
 }
 hook global WinSetOption filetype=nim %{
     set-option buffer formatcmd "nimprettify"

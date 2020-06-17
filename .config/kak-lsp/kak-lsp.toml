@@ -145,3 +145,8 @@ elmTestPath = "elm-test"
 filetypes = ["latex"]
 roots = [".git"]
 command = "texlab"
+
+[language.zig]
+filetypes = ["zig"]
+roots = ["build.zig"]
+command = "/home/grfork/reps/zls/zig-cache/bin/zls"

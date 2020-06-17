@@ -28,3 +28,5 @@
 	algorithm = histogram
 [bash]
 	showInformativeStatus = true
+[pull]
+	rebase = false
