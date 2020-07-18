@@ -127,7 +127,7 @@ storagePath = "/tmp/intelephense"
 filetypes = ["nim"]
 roots = ["*.nimble", ".git"]
 command = "nimlsp"
-args = ["/home/grfork/.choosenim/toolchains/nim-1.2.0"]
+args = ["/home/grfork/.choosenim/toolchains/nim-1.2.4"]
 
 [language.elm]
 filetypes = ["elm"]

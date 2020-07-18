@@ -20,6 +20,9 @@
 # plug 'lenormf/kakoune-extra'
 # plug 'lePerdu/kakboard'
 # plug 'occivink/kakoune-find'
+
+# Following plugins require Rust compilation prior to use.
+# plug 'eraserhd/parinfer-rust'
 # plug 'ul/kak-lsp'
 
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
@@ -28,13 +31,14 @@ source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
 source "%val{config}/plugins/kakoune-buffers/buffers.kak"
 source "%val{config}/plugins/kakoune-cd/cd.kak"
 source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
-# source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
+source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
 eval %sh{kak-lsp --kakoune -s $kak_session}
 
+# source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 
 # Language Server Protocol
 ##########################
@@ -227,8 +231,8 @@ set-option global grepcmd 'rg -iHL --column'
 # Language options
 ##################
 
+set global disabled_hooks .*-trim-indent
 define-command lint-on-write -docstring 'Activate linting on buffer write' %{
-    lint-enable
     hook window BufWritePost .* lint
     lint
 }
@@ -257,27 +261,48 @@ hook global WinSetOption filetype=haskell %{ no-tabs 2 }
 hook global BufCreate .*\.erb %{ set-option buffer filetype html }
 hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
 
+hook global BufCreate .*\.jbuilder %{ set-option buffer filetype ruby }
+hook global WinSetOption filetype=elixir %{
+    remove-highlighter global/column_highlighter
+    add-highlighter global/column_highlighter column 98 default,rgb:303030
+    set-option window formatcmd 'mix format -'
+    no-tabs 2
+}
+hook global WinSetOption filetype=eex %{
+    no-tabs 2
+}
+hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
+    parinfer-enable-window -smart
+}
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
-hook global BufCreate .*\.jbuilder %{ set-option buffer filetype ruby }
 hook global WinSetOption filetype=ruby %{
     set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile"; } && run '
-    set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
+    # set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
+    set-option window formatcmd 'rubocop --stdin . -a'
     lint-on-write
     no-tabs 2
-    lsp-enable-window
 }
 hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
     hook window BufWritePre .* format
     no-tabs 4
     lsp-enable-window
+
+    # lsp semantic tokens
+    hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+    hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+    hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+    hook -once -always window WinSetOption filetype=.* %{
+        remove-hooks window semantic-tokens
+    }
 }
 hook global WinSetOption filetype=nim %{
     set-option buffer formatcmd "nimprettify"
     set-option buffer makecmd 'nimble build'
     no-tabs 2
-    lsp-engage # add `args` to toml config and set as path to nim sources
+    # lsp-engage # add `args` to toml config and set as path to nim sources
+    lsp-enable-window
 }
 hook global WinSetOption filetype=go %{
     noexpandtab

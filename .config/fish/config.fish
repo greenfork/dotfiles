@@ -22,7 +22,7 @@ if status --is-interactive
 
     # Rails stuff
     abbr --add --global fullrdrs rake db:drop db:create db:migrate db:fixtures:load
-    abbr --add --global proddb "rake db:drop db:create; pg_restore -Od hub2_development ../latest.dump"
+    abbr --add --global proddb "rake db:drop db:create; pg_restore -Od hub2_development ../latest.dump; rake jobs:clear"
     abbr --add --global rt spring rails test
     abbr --add --global rc spring rails console
     abbr --add --global rdm rails db:migrate
