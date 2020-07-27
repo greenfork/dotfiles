@@ -150,35 +150,6 @@
   :config (setq flycheck-global-modes '(not scheme-mode)))
 (use-package cyberpunk-theme
   :config (load-theme 'cyberpunk t))
-(use-package erc
-  :init (progn
-          ;; (load "~/.emacs.d/.erc-auth")
-          (erc-track-mode t)
-          (require 'erc-log)
-          (require 'erc-notify)
-          (require 'erc-autoaway))
-  :config (progn
-            (setq
-             ;; erc-hide-list '("JOIN" "PART" "QUIT")
-             erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
-                                       "324" "329" "332" "333" "353" "477")
-             erc-kill-buffer-on-part t
-             erc-kill-queries-on-quit t
-             erc-kill-server-buffer-on-quit t
-             erc-save-buffer-on-part t
-             erc-log-channels-directory "~/.erc/logs/"
-             erc-auto-discard-away t
-             erc-autoaway-idle-seconds 600
-             erc-autoaway-use-emacs-idle t
-             erc-server-coding-system '(utf-8 . utf-8)))
-  (defun start-erc ()
-    (interactive)
-    (persp-switch "erc")
-    (erc)))
-(use-package hledger-mode
-  :mode ("\\.journal\\'" "\\.hledger\\'")
-  :init (setq hledger-jfile (expand-file-name "~/.hledger.journal"))
-  (defun find-ledger-file () (interactive) (find-file hledger-jfile)))
 (use-package ox-twbs)
 (use-package perspective
   :config (persp-mode))
