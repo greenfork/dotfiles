@@ -54,3 +54,10 @@
 ;; they are implemented.
 
 (+global-word-wrap-mode +1)
+
+(after! company
+  (map!
+   (:map company-active-map
+    [return] 'newline-and-indent
+    "RET" 'newline-and-indent
+    "\C-f" 'company-complete-selection)))
