@@ -63,6 +63,5 @@
     "RET" 'newline-and-indent
     "\C-f" 'company-complete-selection)))
 
-(after! fill-column
-  (face-spec-set 'hl-fill-column-face
-                 '((t (:inherit font-lock-warning-face :inverse-video t)))))
+(face-spec-set 'hl-fill-column-face
+                '((t (:inherit font-lock-warning-face :inverse-video t))))
