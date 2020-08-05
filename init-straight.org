@@ -106,7 +106,8 @@ Bootstrap use-package and activate `chords' extension.
 
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'use-package)
-  (setq straight-use-package-by-default t)
+  (setq straight-use-package-by-default t
+		use-package-always-demand t)
   (use-package use-package-chords
 	:config (key-chord-mode 1))
 #+END_SRC
@@ -134,23 +135,14 @@ Use fast key presses in the same way as sequential combinations.
 * UI
 ** Diminish
 
-Diminish hides modes in modeline.
+Diminish hides modes in modeline. Make sure it is loaded before any other mode
+uses `:diminish' option.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
 	:config (progn
 			  (diminish 'eldoc-mode)
 			  (diminish 'subword-mode)))
-#+END_SRC
-
-** Anzu
-
-Anzu keeps track of current/total number of searched items.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package anzu
-	:diminish
-	:config (global-anzu-mode 1))
 #+END_SRC
 
 ** Window management
@@ -192,7 +184,7 @@ Add fancy highlighting to dired.
 	:config (diredfl-global-mode))
 #+END_SRC
 
-Display git info by pressing `)' in dired.
+Display git info by pressing right paren in dired.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dired-git-info
@@ -235,7 +227,7 @@ Show possible key shortcuts after pressing e.g. `C-x'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-	:diminish
+    :diminish
 	:config (which-key-mode t))
 #+END_SRC
 
@@ -272,7 +264,7 @@ Complete selected item with `C-f', `Enter' should produce newline.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-	:diminish
+    :diminish
 	:init
 	(setq company-idle-delay 0.4
 		  company-minimum-prefix-length 2
@@ -296,7 +288,7 @@ General completion framework for all sorts of commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
-	:diminish
+    :diminish
 	:config
 	(ivy-mode 1)
 	(counsel-mode 1)
@@ -513,7 +505,7 @@ Access rails-specific commands with `C-c r'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile-rails
-	:hook (ruby-mode . projectile-rails-global-mode)
+	:config (projectile-rails-global-mode)
 	:bind (:map projectile-rails-mode-map
 				("C-c r" . projectile-rails-command-map)))
 #+END_SRC
