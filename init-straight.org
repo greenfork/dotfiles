@@ -332,12 +332,7 @@ General completion framework for all sorts of commands.
   ;; Standard keybindings
   (global-set-key (kbd "C-s") 'swiper-isearch)
   (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-  (global-set-key (kbd "C-c v") 'ivy-push-view)
-  (global-set-key (kbd "C-c V") 'ivy-pop-view)
-
-  ;; Integration with system tools
-  (global-set-key (kbd "C-c c") 'counsel-compile)
-  (global-set-key (kbd "C-c L") 'counsel-git-log)
+  (global-set-key (kbd "C-.") 'counsel-semantic-or-imenu)
 
   ;; Resume commands
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -381,15 +376,6 @@ Quickly type `jj' and several consequtive characters of the place you want to ju
 #+BEGIN_SRC emacs-lisp
   (use-package avy
 	:chords (("jj" . avy-goto-char-timer)))
-#+END_SRC
-
-** Imenu
-
-I don't know how this works but it is pretty good.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package imenu-anywhere
-    :bind (("C-." . imenu-anywhere)))
 #+END_SRC
 
 * Project management
@@ -579,5 +565,43 @@ Just yaml, no fancy stuff here.
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
 	:hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
+#+END_SRC
+
+* REPLs
+** eshell
+
+Better defaults.
+
+#+BEGIN_SRC emacs-lisp
+  (setq eshell-scroll-to-bottom-on-input 'all
+        eshell-scroll-to-bottom-on-output 'all
+        eshell-kill-processes-on-exit t
+        eshell-hist-ignoredups t)
+#+END_SRC
+
+Eldoc support.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package esh-help
+    :config (setup-esh-help-eldoc))
+#+END_SRC
+
+did-you-mean support.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell-did-you-mean
+    :config (eshell-did-you-mean-setup))
+#+END_SRC
+
+Eshell-up.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell-up)
+#+END_SRC
+
+Eshell-z.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell-z)
 #+END_SRC
 
