@@ -185,6 +185,17 @@ Jump to windows you choose.
 	:bind (("C-x o" . ace-window)))
 #+END_SRC
 
+*** Windmove
+
+Choose direction to move between buffers.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-M-h") 'windmove-left)
+  (global-set-key (kbd "C-M-j") 'windmove-down)
+  (global-set-key (kbd "C-M-k") 'windmove-up)
+  (global-set-key (kbd "C-M-l") 'windmove-right)
+#+END_SRC
+
 ** Ibuffer
 
 Group by projectile projects.
@@ -558,7 +569,7 @@ Access rails-specific commands with `C-c r'.
           js2-highlight-level 3
           js2-highlight-external-variables t
           js2-idle-timer-delay 0.2
-          js2-basic-offset 2)
+          js2-basic-offset 2))
 #+END_SRC
 
 ** Yaml
