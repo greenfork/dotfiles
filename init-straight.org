@@ -97,11 +97,7 @@
      (add-hook 'comint-mode-hook 'my-comint-mode-hook)
      (defun my-prog-mode-hook ()
        "Prog mode hook consisting of built-in functions and packages."
-       (show-paren-mode 1)
        (setq show-trailing-whitespace t))
-     (defun my-comint-mode-hook ()
-       "Prog mode hook consisting of built-in functions and packages."
-       (show-paren-mode 1))
    #+END_SRC
 
 ** Org-mode
@@ -415,10 +411,6 @@
         (setq flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch)
            flycheck-buffer-switch-check-intermediate-buffers t
            flycheck-display-errors-delay 0.25))
-
-      (use-package flycheck-popup-tip
-        :hook (flycheck-mode . flycheck-popup-tip-mode)
-        :config (setq flycheck-popup-tip-error-prefix "✕ "))
     #+END_SRC
 
 ** Editing
@@ -493,9 +485,17 @@
     Probably smarter than electric-mode.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package smartparens
-        :hook (eshell-mode . smartparens-mode)
-        :config (smartparens-global-mode))
+      (use-package smartparens-config
+        :straight smartparens
+        :hook (prog-mode . turn-on-smartparens-strict-mode)
+        :config (show-smartparens-global-mode t)
+        :bind (("M-]" . sp-unwrap-sexp)
+               ("C-<right>" . sp-forward-slurp-sexp)
+               ("M-<right>" . sp-forward-barf-sexp)
+               ("C-<left>" . sp-backward-slurp-sexp)
+               ("C-<left>" . sp-backward-barf-sexp)
+               ("C-M-a" . sp-beginning-of-sexp)
+               ("C-M-e" . sp-end-of-sexp)))
     #+END_SRC
 
 ** Languages
