@@ -11,24 +11,40 @@
      (global-set-key (kbd "C-x C-l") 'reload-init-file)
    #+END_SRC
 
-** Org-mode
-*** Shortcuts
-    Use `<se` shortuct to insert emacs-lisp source blocks.
+** Package management
+*** straight.el
+
+    Bootstrap straight.el.
 
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'org-structure-template-alist
-                   '("se" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+      (defvar bootstrap-version)
+      (let ((bootstrap-file
+             (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+            (bootstrap-version 5))
+        (unless (file-exists-p bootstrap-file)
+          (with-current-buffer
+              (url-retrieve-synchronously
+               "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+               'silent 'inhibit-cookies)
+            (goto-char (point-max))
+            (eval-print-last-sexp)))
+        (load bootstrap-file nil 'nomessage))
     #+END_SRC
 
-*** Org-bullets
+*** use-package
+
+    Bootstrap use-package and activate `chords' extension.
 
     #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :hook (org-mode . org-bullets-mode))
+      (straight-use-package 'use-package)
+      (setq straight-use-package-by-default t
+         use-package-always-demand t)
+      (use-package use-package-chords
+        :config (key-chord-mode 1))
     #+END_SRC
 
 ** Essentials
-   Sane defaults.
+*** Sane defaults.
 
    #+BEGIN_SRC emacs-lisp
      (toggle-scroll-bar -1)
@@ -73,8 +89,8 @@
       kept-old-versions 5                 ; and how many of the old
       dired-dwim-target t
       vc-follow-symlinks t
-      recentf-max-menu-items 1000
-      recentf-max-saved-items 1000
+      recentf-max-menu-items 100
+      recentf-max-saved-items 100
       )
 
      (add-hook 'prog-mode-hook 'my-prog-mode-hook)
@@ -82,44 +98,26 @@
      (defun my-prog-mode-hook ()
        "Prog mode hook consisting of built-in functions and packages."
        (show-paren-mode 1)
-       (electric-pair-local-mode t)
        (setq show-trailing-whitespace t))
      (defun my-comint-mode-hook ()
        "Prog mode hook consisting of built-in functions and packages."
-       (show-paren-mode 1)
-       (electric-pair-local-mode t))
+       (show-paren-mode 1))
    #+END_SRC
 
-** Package management
-*** straight.el
-
-    Bootstrap straight.el.
+** Org-mode
+*** Shortcuts
+    Use `<se` shortuct to insert emacs-lisp source blocks.
 
     #+BEGIN_SRC emacs-lisp
-      (defvar bootstrap-version)
-      (let ((bootstrap-file
-             (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-            (bootstrap-version 5))
-        (unless (file-exists-p bootstrap-file)
-          (with-current-buffer
-              (url-retrieve-synchronously
-               "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-               'silent 'inhibit-cookies)
-            (goto-char (point-max))
-            (eval-print-last-sexp)))
-        (load bootstrap-file nil 'nomessage))
+      (add-to-list 'org-structure-template-alist
+                   '("se" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
     #+END_SRC
 
-*** use-package
-
-    Bootstrap use-package and activate `chords' extension.
+*** Org-bullets
 
     #+BEGIN_SRC emacs-lisp
-      (straight-use-package 'use-package)
-      (setq straight-use-package-by-default t
-         use-package-always-demand t)
-      (use-package use-package-chords
-        :config (key-chord-mode 1))
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
     #+END_SRC
 
 ** Theme
@@ -488,6 +486,16 @@
     #+BEGIN_SRC emacs-lisp
       (use-package wgrep
         :config (setq wgrep-auto-save-buffer t))
+    #+END_SRC
+
+*** Smartparens
+
+    Probably smarter than electric-mode.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package smartparens
+        :hook (eshell-mode . smartparens-mode)
+        :config (smartparens-global-mode))
     #+END_SRC
 
 ** Languages
