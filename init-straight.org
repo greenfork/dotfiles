@@ -154,6 +154,36 @@ Use fast key presses in the same way as sequential combinations.
   (use-package key-chord)
 #+END_SRC
 
+** Window management
+*** Winner
+
+Restore previous window configuration e.g. after `C-x 1'.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package winner
+    :config (winner-mode 1))
+#+END_SRC
+
+*** Ace-window
+
+Jump to windows you choose.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :bind (("C-x o" . ace-window)))
+#+END_SRC
+
+*** Windmove
+
+Choose direction to move between buffers.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-M-h") 'windmove-left)
+  (global-set-key (kbd "C-M-j") 'windmove-down)
+  (global-set-key (kbd "C-M-k") 'windmove-up)
+  (global-set-key (kbd "C-M-l") 'windmove-right)
+#+END_SRC
+
 ** UI
 *** Diminish
 
@@ -165,36 +195,6 @@ uses `:diminish' option.
     :config (progn
    		   (diminish 'eldoc-mode)
    		   (diminish 'subword-mode)))
-#+END_SRC
-
-*** Window management
-**** Winner
-
-Restore previous window configuration e.g. after `C-x 1'.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package winner
-    :config (winner-mode 1))
-#+END_SRC
-
-**** Ace-window
-
-Jump to windows you choose.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ace-window
-    :bind (("C-x o" . ace-window)))
-#+END_SRC
-
-**** Windmove
-
-Choose direction to move between buffers.
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-M-h") 'windmove-left)
-  (global-set-key (kbd "C-M-j") 'windmove-down)
-  (global-set-key (kbd "C-M-k") 'windmove-up)
-  (global-set-key (kbd "C-M-l") 'windmove-right)
 #+END_SRC
 
 *** Ibuffer
