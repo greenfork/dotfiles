@@ -44,7 +44,7 @@
     #+END_SRC
 
 ** Essentials
-*** Sane defaults.
+*** Sane defaults
 
    #+BEGIN_SRC emacs-lisp
      (toggle-scroll-bar -1)
@@ -113,6 +113,7 @@
 
     #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
+    :defer t
     :hook (org-mode . org-bullets-mode))
     #+END_SRC
 
@@ -172,6 +173,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package ace-window
+        :defer t
         :bind (("C-x o" . ace-window)))
     #+END_SRC
 
@@ -205,6 +207,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package ibuffer-projectile
+        :defer t
         :hook (ibuffer . ibuffer-projectile-set-filter-groups)
         :config
         (setq ibuffer-projectile-prefix "Project: "))
@@ -216,13 +219,15 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package diredfl
-        :config (diredfl-global-mode))
+        :defer t
+        :hook (dired-mode . diredfl-mode))
     #+END_SRC
 
     Display git info by pressing right paren in dired.
 
     #+BEGIN_SRC emacs-lisp
       (use-package dired-git-info
+        :defer t
         :bind (:map dired-mode-map
                  (")" . dired-git-info-mode)))
     #+END_SRC
@@ -233,6 +238,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package hl-fill-column
+        :defer t
         :hook (prog-mode . hl-fill-column-mode))
     #+END_SRC
 
@@ -242,6 +248,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package rainbow-delimiters
+        :defer t
         :hook (prog-mode . rainbow-delimiters-mode))
     #+END_SRC
 
@@ -270,7 +277,8 @@
     Porcelain wrapper around git.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package magit)
+      (use-package magit
+        :defer t)
     #+END_SRC
 
 *** diff-hl
@@ -365,6 +373,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package helpful
+        :defer t
         :bind (("C-h f" . helpful-callable)
                ("C-h v" . helpful-variable)
                ("C-h k" . helpful-key)
@@ -378,6 +387,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package avy
+        :defer t
         :chords (("jj" . avy-goto-char-timer)))
     #+END_SRC
 
@@ -388,6 +398,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package projectile
+        :defer t
         :bind (("C-c p" . projectile-command-map))
         :config
         (projectile-mode +1)
@@ -439,6 +450,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
+        :defer t
         :chords ("uu" . undo-tree-visualize)
         :config
         (setq undo-tree-visualizer-diff t
@@ -468,6 +480,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package expand-region
+        :defer t
         :bind ("C-=" . er/expand-region))
     #+END_SRC
 
@@ -477,6 +490,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package wgrep
+        :defer t
         :config (setq wgrep-auto-save-buffer t))
     #+END_SRC
 
@@ -486,6 +500,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package smartparens-config
+        :defer t
         :straight smartparens
         :hook (prog-mode . turn-on-smartparens-strict-mode)
         :config (show-smartparens-global-mode t)
@@ -511,6 +526,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package ruby-mode
+        :defer t
         :config
         (setq ruby-insert-encoding-magic-comment nil))
     #+END_SRC
@@ -518,14 +534,17 @@
     Mode for templating enginge "slim".
 
     #+BEGIN_SRC emacs-lisp
-      (use-package slim-mode)
+      (use-package slim-mode
+        :defer t)
     #+END_SRC
 
     Mode for linter, mostly for autocorrect feature, because everything
     else is done via Flycheck. Accessible with `M-x'.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package rubocop)
+      (use-package rubocop
+        :defer t
+        :hook (ruby-mode . rubocop-mode))
     #+END_SRC
 
     Interface for "minitest" testing framework, accessible via `C-c ,'.
@@ -550,6 +569,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package projectile-rails
+        :after ruby-mode
         :config (projectile-rails-global-mode)
         :bind (:map projectile-rails-mode-map
                  ("C-c r" . projectile-rails-command-map)))
@@ -559,6 +579,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package js2-mode
+        :defer t
         :mode "\\.m?js\\'"
         :hook (js2-mode . js2-imenu-extras-mode)
         :config
@@ -582,6 +603,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package yaml-mode
+        :defer t
         :hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
     #+END_SRC
 
@@ -601,6 +623,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package esh-help
+        :defer t
+        :commands eshell
         :config (setup-esh-help-eldoc))
     #+END_SRC
 
@@ -614,12 +638,15 @@
     Eshell-up.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package eshell-up)
+      (use-package eshell-up
+        :defer t
+        :commands (eshell-up eshell-up-peek))
     #+END_SRC
 
     Eshell-z.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package eshell-z)
+      (straight-use-package 'eshell-z)
+      (add-hook 'eshell-mode-hook (lambda () (require 'eshell-z)))
     #+END_SRC
 
