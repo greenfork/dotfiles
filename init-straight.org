@@ -63,10 +63,6 @@ Sane defaults.
    vc-follow-symlinks t
    )
 
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (global-set-key (kbd "M-/") 'hippie-expand)
-  (global-set-key (kbd "C-z") nil)
-
   (add-hook 'prog-mode-hook 'my-prog-mode-hook)
   (add-hook 'comint-mode-hook 'my-comint-mode-hook)
   (defun my-prog-mode-hook ()
@@ -113,17 +109,37 @@ Bootstrap use-package and activate `chords' extension.
 #+END_SRC
 
 * Theme
-
+** Cyberpunk
 Cool cyberpunk theme.
 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package cyberpunk-theme
+#     :config (load-theme 'cyberpunk t)
+# 	:custom-face
+#     (ivy-virtual ((t (:inherit font-lock-constant-face)))))
+# #+END_SRC
+
+** My cyberpunk
+
 #+BEGIN_SRC emacs-lisp
-  (use-package cyberpunk-theme
-    :config (load-theme 'cyberpunk t)
-	:custom-face
-    (ivy-virtual ((t (:inherit font-lock-constant-face)))))
+  (straight-use-package
+   '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
+					 :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "add-diredfl-support")))
+  (load-theme 'cyberpunk t)
+  (global-set-key (kbd "C-h z") 'face-at-point)
 #+END_SRC
 
 * Keybindings
+** Saner defaults
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "M-/") 'hippie-expand)
+  (global-set-key (kbd "C-z") nil)
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
+  (global-set-key (kbd "C-x K") 'kill-buffer)
+#+END_SRC
+
 ** Keychords
 
 Use fast key presses in the same way as sequential combinations.
@@ -198,9 +214,7 @@ Highlight character when line exceeds `fill-column' value.
 
 #+BEGIN_SRC emacs-lisp
   (use-package hl-fill-column
-	:hook (prog-mode . hl-fill-column-mode)
-	:custom-face
-	(hl-fill-column-face ((t (:background "dim grey" :foreground "black")))))
+	:hook (prog-mode . hl-fill-column-mode))
 #+END_SRC
 
 ** Rainbow delimiters
@@ -410,7 +424,8 @@ Different utility commands.
 		   ("C-c D" . crux-delete-file-and-buffer)
 		   ("C-c R" . crux-rename-file-and-buffer)
 		   ("C-^" . crux-top-join-line)
-		   ([remap move-beginning-of-line] . crux-move-beginning-of-line))
+		   ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+		   ("C-c f" . crux-recentf-find-file))
 	:config (progn
 			  (crux-with-region-or-line kill-region)
 			  (crux-with-region-or-line kill-ring-save))
@@ -498,7 +513,18 @@ Interface for "minitest" testing framework, accessible via `C-c ,'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package minitest
-	:hook (ruby-mode . minitest-mode))
+	:after projectile-rails
+	:hook
+	(ruby-mode . (lambda ()
+				   ;; Enable rails support.
+				   ;; Function body is copied from `projectile-rails-on'.
+				   (when (and
+						  (not (projectile-rails--ignore-buffer-p))
+						  (projectile-project-p)
+						  (projectile-rails-root))
+					 (setq minitest-use-spring t))
+
+				   (minitest-mode))))
 #+END_SRC
 
 Access rails-specific commands with `C-c r'.
@@ -510,5 +536,12 @@ Access rails-specific commands with `C-c r'.
 				("C-c r" . projectile-rails-command-map)))
 #+END_SRC
 
-** JavaScript
+** Yaml
+
+Just yaml, no fancy stuff here.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+	:hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
+#+END_SRC
 
