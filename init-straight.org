@@ -1,4 +1,5 @@
-* Config management
+* Config
+** Config management
 `C-x C-l` reloads the init-file.
 
 #+BEGIN_SRC emacs-lisp
@@ -10,7 +11,7 @@
   (global-set-key (kbd "C-x C-l") 'reload-init-file)
 #+END_SRC
 
-* Org-mode
+** Org-mode
 Use `<se` shortuct to insert emacs-lisp source blocks.
 
 #+BEGIN_SRC emacs-lisp
@@ -18,7 +19,7 @@ Use `<se` shortuct to insert emacs-lisp source blocks.
                '("se" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC
 
-* Essentials
+** Essentials
 Sane defaults.
 
 #+BEGIN_SRC emacs-lisp
@@ -81,8 +82,8 @@ Sane defaults.
     (electric-pair-local-mode t))
 #+END_SRC
 
-* Package management
-** straight.el
+** Package management
+*** straight.el
 
 Bootstrap straight.el.
 
@@ -101,20 +102,20 @@ Bootstrap straight.el.
     (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
-** use-package
+*** use-package
 
 Bootstrap use-package and activate `chords' extension.
 
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'use-package)
   (setq straight-use-package-by-default t
-		use-package-always-demand t)
+   	 use-package-always-demand t)
   (use-package use-package-chords
-	:config (key-chord-mode 1))
+    :config (key-chord-mode 1))
 #+END_SRC
 
-* Theme
-** Cyberpunk
+** Theme
+*** Cyberpunk
 Cool cyberpunk theme.
 
 # #+BEGIN_SRC emacs-lisp
@@ -124,18 +125,18 @@ Cool cyberpunk theme.
 #     (ivy-virtual ((t (:inherit font-lock-constant-face)))))
 # #+END_SRC
 
-** My cyberpunk
+*** My cyberpunk
 
 #+BEGIN_SRC emacs-lisp
   (straight-use-package
    '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
-					 :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "add-diredfl-support")))
+   				  :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "add-diredfl-support")))
   (load-theme 'cyberpunk t)
   (global-set-key (kbd "C-h z") 'face-at-point)
 #+END_SRC
 
-* Keybindings
-** Saner defaults
+** Keybindings
+*** Saner defaults
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -145,7 +146,7 @@ Cool cyberpunk theme.
   (global-set-key (kbd "C-x K") 'kill-buffer)
 #+END_SRC
 
-** Keychords
+*** Keychords
 
 Use fast key presses in the same way as sequential combinations.
 
@@ -153,21 +154,21 @@ Use fast key presses in the same way as sequential combinations.
   (use-package key-chord)
 #+END_SRC
 
-* UI
-** Diminish
+** UI
+*** Diminish
 
 Diminish hides modes in modeline. Make sure it is loaded before any other mode
 uses `:diminish' option.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
-	:config (progn
-			  (diminish 'eldoc-mode)
-			  (diminish 'subword-mode)))
+    :config (progn
+   		   (diminish 'eldoc-mode)
+   		   (diminish 'subword-mode)))
 #+END_SRC
 
-** Window management
-*** Winner
+*** Window management
+**** Winner
 
 Restore previous window configuration e.g. after `C-x 1'.
 
@@ -176,16 +177,16 @@ Restore previous window configuration e.g. after `C-x 1'.
     :config (winner-mode 1))
 #+END_SRC
 
-*** Ace-window
+**** Ace-window
 
 Jump to windows you choose.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
-	:bind (("C-x o" . ace-window)))
+    :bind (("C-x o" . ace-window)))
 #+END_SRC
 
-*** Windmove
+**** Windmove
 
 Choose direction to move between buffers.
 
@@ -196,73 +197,73 @@ Choose direction to move between buffers.
   (global-set-key (kbd "C-M-l") 'windmove-right)
 #+END_SRC
 
-** Ibuffer
+*** Ibuffer
 
 Group by projectile projects.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer-projectile
-	:hook (ibuffer . ibuffer-projectile-set-filter-groups)
-	:config
-	(setq ibuffer-projectile-prefix "Project: "))
+    :hook (ibuffer . ibuffer-projectile-set-filter-groups)
+    :config
+    (setq ibuffer-projectile-prefix "Project: "))
 #+END_SRC
 
-** Dired
+*** Dired
 
 Add fancy highlighting to dired.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diredfl
-	:config (diredfl-global-mode))
+    :config (diredfl-global-mode))
 #+END_SRC
 
-Display git info by pressing right paren in dired.
+ Display git info by pressing right paren in dired.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dired-git-info
-	:bind (:map dired-mode-map
-				(")" . dired-git-info-mode)))
+    :bind (:map dired-mode-map
+   			 (")" . dired-git-info-mode)))
 #+END_SRC
 
-** hl-fill-column
+*** hl-fill-column
 
 Highlight character when line exceeds `fill-column' value.
 
 #+BEGIN_SRC emacs-lisp
   (use-package hl-fill-column
-	:hook (prog-mode . hl-fill-column-mode))
+    :hook (prog-mode . hl-fill-column-mode))
 #+END_SRC
 
-** Rainbow delimiters
+*** Rainbow delimiters
 
 Colored parens depending of their nest level.
 
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
-	:hook (prog-mode . rainbow-delimiters-mode))
+    :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
-** Ido-yes-or-no
+*** Ido-yes-or-no
 
 Quickly answer annoying questions with a single letter.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ido-yes-or-no
-	:config (ido-yes-or-no-mode 1))
+    :config (ido-yes-or-no-mode 1))
 #+END_SRC
 
-** Which-key
+*** Which-key
 
 Show possible key shortcuts after pressing e.g. `C-x'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :diminish
-	:config (which-key-mode t))
+    :config (which-key-mode t))
 #+END_SRC
 
-* Source control
-** Magit
+** Source control
+*** Magit
 
 Porcelain wrapper around git.
 
@@ -270,7 +271,7 @@ Porcelain wrapper around git.
   (use-package magit)
 #+END_SRC
 
-** diff-hl
+*** diff-hl
 
 Show git status in fringes.
 
@@ -286,8 +287,8 @@ Show git status in fringes.
   (window-divider-mode 1)
 #+END_SRC
 
-* Completion
-** Company
+** Completion
+*** Company
 
 Completion of text as you type.
 Complete selected item with `C-f', `Enter' should produce newline.
@@ -295,37 +296,37 @@ Complete selected item with `C-f', `Enter' should produce newline.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :diminish
-	:init
-	(setq company-idle-delay 0.4
-		  company-minimum-prefix-length 2
-		  company-tooltip-limit 16
-		  company-tooltip-align-annotations t
-		  company-require-match 'never)
-	:config (progn
-			  (global-company-mode)
-			  (define-key company-active-map (kbd "M-n") nil)
-			  (define-key company-active-map (kbd "M-p") nil)
-			  (define-key company-active-map (kbd "RET") nil)
-			  (define-key company-active-map [return] nil)
-			  (define-key company-active-map (kbd "C-n") 'company-select-next)
-			  (define-key company-active-map (kbd "C-p") 'company-select-previous)
-			  (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
+    :init
+    (setq company-idle-delay 0.4
+   	   company-minimum-prefix-length 2
+   	   company-tooltip-limit 16
+   	   company-tooltip-align-annotations t
+   	   company-require-match 'never)
+    :config (progn
+   		   (global-company-mode)
+   		   (define-key company-active-map (kbd "M-n") nil)
+   		   (define-key company-active-map (kbd "M-p") nil)
+   		   (define-key company-active-map (kbd "RET") nil)
+   		   (define-key company-active-map [return] nil)
+   		   (define-key company-active-map (kbd "C-n") 'company-select-next)
+   		   (define-key company-active-map (kbd "C-p") 'company-select-previous)
+   		   (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
 #+END_SRC
 
-** Ivy
+*** Ivy
 
 General completion framework for all sorts of commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
     :diminish
-	:config
-	(ivy-mode 1)
-	(counsel-mode 1)
-	(setq ivy-use-virtual-buffers t
-		  ivy-count-format "(%d/%d) "
-		  ivy-height 17
-		  ivy-on-del-error-function #'ignore))
+    :config
+    (ivy-mode 1)
+    (counsel-mode 1)
+    (setq ivy-use-virtual-buffers t
+   	   ivy-count-format "(%d/%d) "
+   	   ivy-height 17
+   	   ivy-on-del-error-function #'ignore))
 
   (diminish 'ivy-mode)
 
@@ -338,25 +339,25 @@ General completion framework for all sorts of commands.
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
   (use-package ivy-rich
-	:after ivy
-	:config
-	(ivy-rich-mode 1)
-	(setq ivy-rich-parse-remote-buffer nil
-		  ivy-rich-path-style 'abbrev))
+    :after ivy
+    :config
+    (ivy-rich-mode 1)
+    (setq ivy-rich-parse-remote-buffer nil
+   	   ivy-rich-path-style 'abbrev))
 #+END_SRC
 
-** Amx
+*** Amx
 
 Better completion of `M-x'. Also adds `M-X' for major mode specific commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package amx
-	:config (amx-mode)
-	:bind (("M-X" . amx-major-mode-commands)))
+    :config (amx-mode)
+    :bind (("M-X" . amx-major-mode-commands)))
 #+END_SRC
 
-* Source discovery
-** Helpful
+** Source discovery
+*** Helpful
 
 Show more info in help views.
 
@@ -368,35 +369,35 @@ Show more info in help views.
            ("C-c C-d" . helpful-at-point)))
 #+END_SRC
 
-* Source navigation
-** Avy
+** Source navigation
+*** Avy
 
 Quickly type `jj' and several consequtive characters of the place you want to jump to.
 
 #+BEGIN_SRC emacs-lisp
   (use-package avy
-	:chords (("jj" . avy-goto-char-timer)))
+    :chords (("jj" . avy-goto-char-timer)))
 #+END_SRC
 
-* Project management
-** Projectile
+** Project management
+*** Projectile
 
 Magical `C-c p' to access all commands related to a current directory project.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-	:bind (("C-c p" . projectile-command-map))
-	:config
-	(projectile-mode +1)
-	(setq projectile-completion-system 'ivy))
+    :bind (("C-c p" . projectile-command-map))
+    :config
+    (projectile-mode +1)
+    (setq projectile-completion-system 'ivy))
 
   (use-package counsel-projectile
-	:after counsel
+    :after counsel
     :config (counsel-projectile-mode))
 #+END_SRC
 
-* Checkers
-** Flycheck
+** Checkers
+*** Flycheck
 
 Check syntax on-the-fly. Almost: checking syntax on the fly gives false
 positives because the line is incomplete and it freezes the system when
@@ -404,85 +405,85 @@ linter is slow.
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-	:config (global-flycheck-mode)
-	(setq flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch)
-		  flycheck-buffer-switch-check-intermediate-buffers t
-		  flycheck-display-errors-delay 0.25))
+    :config (global-flycheck-mode)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch)
+   	   flycheck-buffer-switch-check-intermediate-buffers t
+   	   flycheck-display-errors-delay 0.25))
 
   (use-package flycheck-popup-tip
-	:hook (flycheck-mode . flycheck-popup-tip-mode)
-	:config (setq flycheck-popup-tip-error-prefix "✕ "))
+    :hook (flycheck-mode . flycheck-popup-tip-mode)
+    :config (setq flycheck-popup-tip-error-prefix "✕ "))
 #+END_SRC
 
-* Editing
-** Crux
+** Editing
+*** Crux
 
 Different utility commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package crux
-	:bind (("M-o" . crux-smart-open-line)
-		   ("M-O" . crux-smart-open-line-above)
-		   ("C-c D" . crux-delete-file-and-buffer)
-		   ("C-c R" . crux-rename-file-and-buffer)
-		   ("C-^" . crux-top-join-line)
-		   ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-		   ("C-c f" . crux-recentf-find-file))
-	:config (progn
-			  (crux-with-region-or-line kill-region)
-			  (crux-with-region-or-line kill-ring-save))
-	:chords ("JJ" . crux-switch-to-previous-buffer))
+    :bind (("M-o" . crux-smart-open-line)
+   	    ("M-O" . crux-smart-open-line-above)
+   	    ("C-c D" . crux-delete-file-and-buffer)
+   	    ("C-c R" . crux-rename-file-and-buffer)
+   	    ("C-^" . crux-top-join-line)
+   	    ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+   	    ("C-c f" . crux-recentf-find-file))
+    :config (progn
+   		   (crux-with-region-or-line kill-region)
+   		   (crux-with-region-or-line kill-ring-save))
+    :chords ("JJ" . crux-switch-to-previous-buffer))
 #+END_SRC
 
-** Undo
+*** Undo
 
 Type `uu' to look at and navigate undo tree.
 
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-	:chords ("uu" . undo-tree-visualize)
-	:config
-	(setq undo-tree-visualizer-diff t
-		  undo-tree-auto-save-history t
-		  undo-tree-enable-undo-in-region t
-		  ;; Increase undo-limits by a factor of ten to avoid emacs prematurely
-		  ;; truncating the undo history and corrupting the tree. See
-		  ;; https://github.com/syl20bnr/spacemacs/issues/12110
-		  undo-limit 800000
-		  undo-strong-limit 12000000
-		  undo-outer-limit 120000000)
+    :chords ("uu" . undo-tree-visualize)
+    :config
+    (setq undo-tree-visualizer-diff t
+   	   undo-tree-auto-save-history t
+   	   undo-tree-enable-undo-in-region t
+   	   ;; Increase undo-limits by a factor of ten to avoid emacs prematurely
+   	   ;; truncating the undo history and corrupting the tree. See
+   	   ;; https://github.com/syl20bnr/spacemacs/issues/12110
+   	   undo-limit 800000
+   	   undo-strong-limit 12000000
+   	   undo-outer-limit 120000000)
 
-	;; Strip text properties from undo-tree data to stave off bloat. File size
-	;; isn't the concern here; undo cache files bloat easily, which can cause
-	;; freezing, crashes, GC-induced stuttering or delays when opening files.
-	(defadvice undo-list-transfer-to-tree (before strip-undo-tree-text-properties)
-	  (dolist (item buffer-undo-list)
-		(and (consp item)
-			 (stringp (car item))
-			 (setcar item (substring-no-properties (car item)))))))
+    ;; Strip text properties from undo-tree data to stave off bloat. File size
+    ;; isn't the concern here; undo cache files bloat easily, which can cause
+    ;; freezing, crashes, GC-induced stuttering or delays when opening files.
+    (defadvice undo-list-transfer-to-tree (before strip-undo-tree-text-properties)
+      (dolist (item buffer-undo-list)
+   	 (and (consp item)
+   		  (stringp (car item))
+   		  (setcar item (substring-no-properties (car item)))))))
 #+END_SRC
 
-** Expand-region
+*** Expand-region
 
 Consequtively expand the current region by pressing `C-='.
 Shrink it by preceding this command with `C--' (minus).
 
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
-	:bind ("C-=" . er/expand-region))
+    :bind ("C-=" . er/expand-region))
 #+END_SRC
 
-** Wgrep
+*** Wgrep
 
 Type `C-p' in a grep buffer to make it editable.
 
 #+BEGIN_SRC emacs-lisp
   (use-package wgrep
-	:config (setq wgrep-auto-save-buffer t))
+    :config (setq wgrep-auto-save-buffer t))
 #+END_SRC
 
-* Languages
-** Ruby
+** Languages
+*** Ruby
 
 - ruby-mode
 - slim-mode
@@ -494,8 +495,8 @@ Nothing too fancy, just standard Ruby stuff.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ruby-mode
-	:config
-	(setq ruby-insert-encoding-magic-comment nil))
+    :config
+    (setq ruby-insert-encoding-magic-comment nil))
 #+END_SRC
 
 Mode for templating enginge "slim".
@@ -515,29 +516,30 @@ Interface for "minitest" testing framework, accessible via `C-c ,'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package minitest
-	:after projectile-rails
-	:hook
-	(ruby-mode . (lambda ()
-				   ;; Enable rails support.
-				   ;; Function body is copied from `projectile-rails-on'.
-				   (when (and
-						  (not (projectile-rails--ignore-buffer-p))
-						  (projectile-project-p)
-						  (projectile-rails-root))
-					 (setq minitest-use-spring t))
+    :after projectile-rails
+    :hook
+    (ruby-mode . (lambda ()
+   			    ;; Enable rails support.
+   			    ;; Function body is copied from `projectile-rails-on'.
+   			    (when (and
+   					   (not (projectile-rails--ignore-buffer-p))
+   					   (projectile-project-p)
+   					   (projectile-rails-root))
+   				  (setq minitest-use-spring t))
 
-				   (minitest-mode))))
+   			    (minitest-mode))))
 #+END_SRC
 
 Access rails-specific commands with `C-c r'.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile-rails
-	:config (projectile-rails-global-mode)
-	:bind (:map projectile-rails-mode-map
-				("C-c r" . projectile-rails-command-map)))
+    :config (projectile-rails-global-mode)
+    :bind (:map projectile-rails-mode-map
+   			 ("C-c r" . projectile-rails-command-map)))
 #+END_SRC
-** JavaScript
+
+*** JavaScript
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
@@ -558,17 +560,17 @@ Access rails-specific commands with `C-c r'.
           js2-basic-offset 2))
 #+END_SRC
 
-** Yaml
+*** Yaml
 
 Just yaml, no fancy stuff here.
 
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
-	:hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
+    :hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
 #+END_SRC
 
-* REPLs
-** eshell
+** REPLs
+*** eshell
 
 Better defaults.
 
