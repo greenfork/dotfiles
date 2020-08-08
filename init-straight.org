@@ -1,4 +1,10 @@
 * Config
+** Set gc threshold more
+
+   #+begin_src emacs-lisp
+     (setq gc-cons-threshold (* 50 1000 1000))
+   #+end_src
+
 ** Config management
    `C-x C-l` reloads the init-file.
 
@@ -43,85 +49,115 @@
         :config (key-chord-mode 1))
     #+END_SRC
 
+** Profiling
+*** Esup
+
+    Type "M-x esup" to start profiling.
+
+   #+begin_src emacs-lisp
+     (use-package esup
+       :ensure t
+       :commands (esup))
+   #+end_src
+
 ** Essentials
 *** Sane defaults
 
-   #+BEGIN_SRC emacs-lisp
-     (toggle-scroll-bar -1)
-     (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
-     (add-to-list 'default-frame-alist '(height . 44))
-     (add-to-list 'default-frame-alist '(width . 184))
-     (menu-bar-mode -1)
-     (tool-bar-mode -1)
-     (blink-cursor-mode -1)
+    At startup.
 
-     (global-auto-revert-mode 1)
-     (delete-selection-mode 1)
-     (global-subword-mode 1)
-     (recentf-mode 1)
+    #+BEGIN_SRC emacs-lisp
+      (toggle-scroll-bar -1)
+      (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
+      (add-to-list 'default-frame-alist '(height . 44))
+      (add-to-list 'default-frame-alist '(width . 184))
+      (menu-bar-mode -1)
+      (tool-bar-mode -1)
+      (blink-cursor-mode -1)
 
-     (setq-default
-      indicate-empty-lines 1
-      tab-width 4
-      fill-column 80
-      indent-tabs-mode nil)
+      (setq-default
+       indicate-empty-lines 1
+       tab-width 4
+       fill-column 80
+       indent-tabs-mode nil)
 
-     (setq
-      scroll-conservatively most-positive-fixnum
-      column-number-mode t
-      auto-save-timeout 60
-      load-prefer-newer t
-      read-file-name-completion-ignore-case t
-      indent-tabs-mode nil
-      require-final-newline t
-      uniquify-buffer-name-style 'forward
-      gc-cons-threshold 800000
-      create-lockfiles nil
-      backup-directory-alist '(("." . "~/.emacs.d/backup"))
-      backup-by-copying t                 ; Don't delink hardlinks
-      version-control t                   ; Use version numbers on backups
-      delete-old-versions t               ; Automatically delete excess backups
-      kept-new-versions 20                ; how many of the newest versions to keep
-      kept-old-versions 5                 ; and how many of the old
-      dired-dwim-target t
-      vc-follow-symlinks t
-      recentf-max-menu-items 100
-      recentf-max-saved-items 100
-      )
+      (fset 'display-startup-echo-area-message 'ignore)
 
-     (add-hook 'prog-mode-hook 'my-prog-mode-hook)
-     (add-hook 'comint-mode-hook 'my-comint-mode-hook)
-     (defun my-prog-mode-hook ()
-       "Prog mode hook consisting of built-in functions and packages."
-       (setq show-trailing-whitespace t))
-   #+END_SRC
+      (setq
+       initial-buffer-choice t
+       scroll-conservatively most-positive-fixnum
+       column-number-mode t
+       auto-save-timeout 60
+       load-prefer-newer t
+       read-file-name-completion-ignore-case t
+       indent-tabs-mode nil
+       require-final-newline t
+       uniquify-buffer-name-style 'forward
+       create-lockfiles nil
+       backup-directory-alist '(("." . "~/.emacs.d/backup"))
+       backup-by-copying t                 ; Don't delink hardlinks
+       version-control t                   ; Use version numbers on backups
+       delete-old-versions t               ; Automatically delete excess backups
+       kept-new-versions 20                ; how many of the newest versions to keep
+       kept-old-versions 5                 ; and how many of the old
+       dired-dwim-target t
+       vc-follow-symlinks t
+       recentf-max-menu-items 100
+       recentf-max-saved-items 100
+       )
+     #+END_SRC
+
+     After startup.
+
+     #+begin_src emacs-lisp
+       (use-package autorevert
+         :defer 2
+         :config (global-auto-revert-mode 1))
+
+       (use-package delsel
+         :defer 2
+         :config (delete-selection-mode 1))
+
+       (use-package subword
+         :defer 2
+         :config (global-subword-mode 1))
+
+       (use-package recentf
+         :defer 1
+         :config (recentf-mode 1))
+
+       (add-hook 'prog-mode-hook 'my-prog-mode-hook)
+       (defun my-prog-mode-hook ()
+         "Prog mode hook consisting of built-in functions and packages."
+         (setq show-trailing-whitespace t))
+     #+end_src
 
 ** Font
+*** Fantasque Sans Mono
 
-   Use Fantasque Sans Mono font with ligatures.
+    Use Fantasque Sans Mono font with ligatures.
 
-   #+begin_src emacs-lisp
-     ;; On MacOS due to retina display font should be bigger.
-     (if (eq system-type 'darwin)
-     (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
-       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
+    #+begin_src emacs-lisp
+      ;; On MacOS due to retina display font should be bigger.
+      (if (eq system-type 'darwin)
+      (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
+        (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
 
-     (let ((alist `((?& . ,(regexp-opt '("&&")))
-                    (?* . ,(regexp-opt '("*/")))
-                    (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
-                    (?: . ,(regexp-opt '("::")))
-                    (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
-                    (?! . ,(regexp-opt '("!==" "!=")))
-                    (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
-                    (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
-                    (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
-                                         "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
-                    (?/ . ,(regexp-opt '("/**/" "/*" "//")))
-                    (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
-       (dolist (char-regexp alist)
-     (set-char-table-range composition-function-table (car char-regexp)
-                   `([,(cdr char-regexp) 0 font-shape-gstring]))))
-   #+end_src
+      (let ((alist `((?& . ,(regexp-opt '("&&")))
+                     (?* . ,(regexp-opt '("*/")))
+                     (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
+                     (?: . ,(regexp-opt '("::")))
+                     (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
+                     (?! . ,(regexp-opt '("!==" "!=")))
+                     (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
+                     (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
+                     (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+                                          "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
+                     (?/ . ,(regexp-opt '("/**/" "/*" "//")))
+                     (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
+        (dolist (char-regexp alist)
+      (set-char-table-range composition-function-table (car char-regexp)
+                    `([,(cdr char-regexp) 0 font-shape-gstring]))))
+    #+end_src
 
 ** Org-mode
 *** Shortcuts
@@ -308,6 +344,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package diff-hl
+        :defer 2
         :config (global-diff-hl-mode)
         :hook ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
                (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
@@ -327,6 +364,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package company
         :diminish
+        :defer 1
         :init
         (setq company-idle-delay 0.4
            company-minimum-prefix-length 2
@@ -351,6 +389,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package counsel
         :diminish
+        :defer 1
         :config
         (ivy-mode 1)
         (counsel-mode 1)
@@ -383,6 +422,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package amx
+        :defer 2
         :config (amx-mode)
         :bind (("M-X" . amx-major-mode-commands)))
     #+END_SRC
@@ -426,7 +466,7 @@
         (setq projectile-completion-system 'ivy))
 
       (use-package counsel-projectile
-        :after counsel
+        :after projectile
         :config (counsel-projectile-mode))
     #+END_SRC
 
@@ -439,7 +479,9 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
-        :config (global-flycheck-mode)
+        :defer 2
+        :config
+        (global-flycheck-mode)
         (setq flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch)
            flycheck-buffer-switch-check-intermediate-buffers t
            flycheck-display-errors-delay 0.25))
@@ -452,6 +494,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package crux
+        :defer t
         :bind (("M-o" . crux-smart-open-line)
             ("M-O" . crux-smart-open-line-above)
             ("C-c D" . crux-delete-file-and-buffer)
@@ -677,4 +720,10 @@
       (straight-use-package 'eshell-z)
       (add-hook 'eshell-mode-hook (lambda () (require 'eshell-z)))
     #+END_SRC
+
+** Set gc threshold less
+
+   #+begin_src emacs-lisp
+     (setq gc-cons-threshold (* 2 1000 1000))
+   #+end_src
 
