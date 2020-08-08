@@ -289,15 +289,12 @@
                  (")" . dired-git-info-mode)))
     #+END_SRC
 
-*** hl-fill-column
+*** fill-column-indicator
 
-    Highlight character when line exceeds `fill-column' value.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package hl-fill-column
-        :defer t
-        :hook (prog-mode . hl-fill-column-mode))
-    #+END_SRC
+    #+begin_src emacs-lisp
+      (use-package display-fill-column-indicator
+        :hook (prog-mode . display-fill-column-indicator-mode))
+    #+end_src
 
 *** Rainbow delimiters
 
