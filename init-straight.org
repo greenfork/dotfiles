@@ -56,7 +56,6 @@
 
    #+begin_src emacs-lisp
      (use-package esup
-       :ensure t
        :commands (esup))
    #+end_src
 
