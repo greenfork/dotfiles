@@ -58,7 +58,7 @@
      ;; On MacOS due to retina display font should be bigger.
      (if (eq system-type 'darwin)
          (set-face-attribute 'default nil :font "Iosevka" :height 120)
-       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 110))
+       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
      (global-auto-revert-mode 1)
      (delete-selection-mode 1)
      (global-subword-mode 1)
@@ -102,19 +102,17 @@
 
 ** Org-mode
 *** Shortcuts
-    Use `<se` shortuct to insert emacs-lisp source blocks.
 
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'org-structure-template-alist
-                   '("se" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+      (add-hook 'org-mode-hook (lambda () (require 'org-tempo)))
     #+END_SRC
 
 *** Org-bullets
 
     #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :defer t
-    :hook (org-mode . org-bullets-mode))
+      (use-package org-bullets
+        :defer t
+        :hook (org-mode . org-bullets-mode))
     #+END_SRC
 
 ** Theme
@@ -450,7 +448,6 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package undo-tree
-        :defer t
         :chords ("uu" . undo-tree-visualize)
         :config
         (setq undo-tree-visualizer-diff t
@@ -500,11 +497,14 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package smartparens-config
-        :defer t
         :straight smartparens
-        :hook (prog-mode . turn-on-smartparens-strict-mode)
-        :config (show-smartparens-global-mode t)
+        :hook
+        ((clojure-mode emacs-lisp-mode) . turn-on-smartparens-strict-mode)
+        :config
+        (show-smartparens-global-mode t)
+        (smartparens-global-mode)
         :bind (("M-]" . sp-unwrap-sexp)
+               ("M-[" . sp-backward-unwrap-sexp)
                ("C-<right>" . sp-forward-slurp-sexp)
                ("M-<right>" . sp-forward-barf-sexp)
                ("C-<left>" . sp-backward-slurp-sexp)
@@ -544,6 +544,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package rubocop
         :defer t
+        :diminish
         :hook (ruby-mode . rubocop-mode))
     #+END_SRC
 
@@ -552,6 +553,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package minitest
         :after projectile-rails
+        :diminish
         :hook
         (ruby-mode . (lambda ()
                     ;; Enable rails support.
@@ -569,6 +571,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package projectile-rails
+        :diminish
         :after ruby-mode
         :config (projectile-rails-global-mode)
         :bind (:map projectile-rails-mode-map
@@ -576,6 +579,9 @@
     #+END_SRC
 
 *** JavaScript
+
+    Options are mostly copied from Doom Emacs.
+    Install =eslint= for full experience.
 
     #+BEGIN_SRC emacs-lisp
       (use-package js2-mode
@@ -595,6 +601,12 @@
               js2-highlight-external-variables t
               js2-idle-timer-delay 0.2
               js2-basic-offset 2))
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package eslint-fix
+        :defer t
+        :hook (js2-mode . (lambda () (add-hook 'after-save-hook 'eslint-fix nil t))))
     #+END_SRC
 
 *** Yaml
@@ -626,13 +638,6 @@
         :defer t
         :commands eshell
         :config (setup-esh-help-eldoc))
-    #+END_SRC
-
-    did-you-mean support.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package eshell-did-you-mean
-        :config (eshell-did-you-mean-setup))
     #+END_SRC
 
     Eshell-up.
