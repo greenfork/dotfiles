@@ -386,7 +386,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package counsel
         :diminish
-        :defer 1
+        :defer 0.3
         :config
         (ivy-mode 1)
         (counsel-mode 1)
