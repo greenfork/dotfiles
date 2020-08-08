@@ -55,10 +55,6 @@
      (tool-bar-mode -1)
      (blink-cursor-mode -1)
 
-     ;; On MacOS due to retina display font should be bigger.
-     (if (eq system-type 'darwin)
-         (set-face-attribute 'default nil :font "Iosevka" :height 120)
-       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
      (global-auto-revert-mode 1)
      (delete-selection-mode 1)
      (global-subword-mode 1)
@@ -99,6 +95,33 @@
        "Prog mode hook consisting of built-in functions and packages."
        (setq show-trailing-whitespace t))
    #+END_SRC
+
+** Font
+
+   Use Fantasque Sans Mono font with ligatures.
+
+   #+begin_src emacs-lisp
+     ;; On MacOS due to retina display font should be bigger.
+     (if (eq system-type 'darwin)
+     (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
+       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
+
+     (let ((alist `((?& . ,(regexp-opt '("&&")))
+                    (?* . ,(regexp-opt '("*/")))
+                    (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
+                    (?: . ,(regexp-opt '("::")))
+                    (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
+                    (?! . ,(regexp-opt '("!==" "!=")))
+                    (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
+                    (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
+                    (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+                                         "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
+                    (?/ . ,(regexp-opt '("/**/" "/*" "//")))
+                    (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
+       (dolist (char-regexp alist)
+     (set-char-table-range composition-function-table (car char-regexp)
+                   `([,(cdr char-regexp) 0 font-shape-gstring]))))
+   #+end_src
 
 ** Org-mode
 *** Shortcuts
