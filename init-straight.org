@@ -85,9 +85,8 @@
       (setq-default
        indicate-empty-lines 1  ; No idea how this works
        tab-width 4
-       fill-column 80
+       fill-column 80  ; Maximum recommended number of characters per line
        indent-tabs-mode nil  ; Don't use tab
-       save-place t  ; Remember cursor position when opening same file
        display-fill-column-indicator-character ?░)  ; Fancy 80 column indicator
 
       (fset 'display-startup-echo-area-message 'ignore)  ; Don't litter echo area on startup
@@ -117,17 +116,10 @@
        vc-follow-symlinks t
        echo-keystrokes 0.5  ; Display just pressed button faster in minibuffer
        initial-scratch-message ""  ; *scratch* message in minibuffer
-       initial-major-mode 'emacs-lisp-mode  ; *sractch* uses its own major mode, pls no
+       initial-major-mode 'emacs-lisp-mode  ; *sratch* uses its own major mode, pls no
        find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
        custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
        recenter-positions '(top middle bottom)  ; Order for "C-l" recentering command
-       recentf-save-file "~/.emacs.d/etc/recentf"
-       recentf-max-menu-items 100
-       recentf-max-saved-items 100
-       savehist-file "~/.emacs.d/etc/savehist"
-       history-length 150
-       save-place-file "~/.emacs.d/etc/saveplace"  ; Remember the cursor position when
-                                                   ; opening same file
        bookmark-default-file "~/.emacs.d/etc/bookmarks"
        tramp-backup-directory-alist backup-directory-alist  ; Don't keep backup remotely
        )
@@ -161,10 +153,29 @@
        ;; Access recently opened files
        (use-package recentf
          :defer 0.3
-         :config (recentf-mode 1))
+         :config
+         (setq recentf-save-file "~/.emacs.d/etc/recentf"
+               recentf-max-menu-items 100
+               recentf-max-saved-items 100)
+         (recentf-mode 1))
 
        ;; Mark trailing whitespace with color
        (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+
+       ;; Save history for things like M-x
+       (use-package savehist
+         :defer 2
+         :config
+         (setq savehist-file "~/.emacs.d/etc/savehist"
+               history-length 150)
+         (savehist-mode 1))
+
+       ;; Save cursor places when visiting same file
+       (use-package saveplace
+         :defer 2
+         :config
+         (setq save-place-file "~/.emacs.d/etc/saveplace")
+         (save-place-mode 1))
      #+end_src
 
 ** Font
@@ -446,7 +457,7 @@
 
     #+begin_src emacs-lisp
       (use-package amx
-        :defer 2
+        :defer 0.3
         :config (amx-mode)
         :bind (("M-X" . amx-major-mode-commands)))
     #+end_src
