@@ -121,8 +121,10 @@
          :config (global-subword-mode 1))
 
        (use-package recentf
-         :defer 1
+         :defer 0.3
          :config (recentf-mode 1))
+
+       (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
      #+end_src
 
 ** Font
