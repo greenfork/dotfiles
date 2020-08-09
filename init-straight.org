@@ -74,66 +74,96 @@
     At startup.
 
     #+begin_src emacs-lisp
-      (toggle-scroll-bar -1)
-      (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
-      (add-to-list 'default-frame-alist '(height . 44))
-      (add-to-list 'default-frame-alist '(width . 184))
-      (menu-bar-mode -1)
-      (tool-bar-mode -1)
-      (blink-cursor-mode -1)
+      (toggle-scroll-bar -1)  ; Remove vertical scrollbars
+      (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))  ; Remove vertical scrollbars
+      (add-to-list 'default-frame-alist '(height . 44))  ; When not in tiling wm
+      (add-to-list 'default-frame-alist '(width . 184))  ; When not in tiling wm
+      (menu-bar-mode -1)  ; Disable top menu
+      (tool-bar-mode -1)  ; Disable top submenu
+      (blink-cursor-mode -1)  ; Please don't blink cursor
 
       (setq-default
-       indicate-empty-lines 1
+       indicate-empty-lines 1  ; No idea how this works
        tab-width 4
        fill-column 80
-       indent-tabs-mode nil)
+       indent-tabs-mode nil  ; Don't use tab
+       save-place t  ; Remember cursor position when opening same file
+       display-fill-column-indicator-character ?░)  ; Fancy 80 column indicator
 
-      (fset 'display-startup-echo-area-message 'ignore)
+      (fset 'display-startup-echo-area-message 'ignore)  ; Don't litter echo area on startup
+      (fset 'yes-or-no-p 'y-or-n-p)  ; Instead of ido-y-or-n
 
       (setq
-       initial-buffer-choice t
-       scroll-conservatively most-positive-fixnum
-       column-number-mode t
+       initial-buffer-choice t  ; Don't show splash screen
+       scroll-conservatively most-positive-fixnum  ; Scroll smoothly (somewhat)
+       scroll-preserve-screen-position t  ; Try to preserve cursor position
+       column-number-mode t  ; Show column number in mode line
+       load-prefer-newer t  ; Load the "newest" version of a file
+       read-file-name-completion-ignore-case t  ; Ignore case with completion
+       require-final-newline t  ; All modern files require newline at end
+       uniquify-buffer-name-style 'forward  ; Buffer names for files with same name
+       create-lockfiles nil  ; Lockfiles don't play nice with source control
+       backup-directory-alist '((".*" . "~/.emacs.d/backup"))
+       backup-by-copying t  ; Don't delink hardlinks
+       version-control t  ; Use version numbers on backups
+       delete-old-versions t  ; Automatically delete excess backups
+       kept-new-versions 20  ; how many of the newest versions to keep
+       kept-old-versions 5   ; and how many of the old
+       auto-save-list-file-prefix "~/.emacs.d/autosave"
+       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t))
        auto-save-timeout 60
-       load-prefer-newer t
-       read-file-name-completion-ignore-case t
-       indent-tabs-mode nil
-       require-final-newline t
-       uniquify-buffer-name-style 'forward
-       create-lockfiles nil
-       backup-directory-alist '(("." . "~/.emacs.d/backup"))
-       backup-by-copying t                 ; Don't delink hardlinks
-       version-control t                   ; Use version numbers on backups
-       delete-old-versions t               ; Automatically delete excess backups
-       kept-new-versions 20                ; how many of the newest versions to keep
-       kept-old-versions 5                 ; and how many of the old
-       dired-dwim-target t
+       dired-dwim-target t  ; Dired is smarter about location for copying, etc.
+                            ; e.g. when another dired buffer is open side by side
        vc-follow-symlinks t
+       echo-keystrokes 0.5  ; Display just pressed button faster in minibuffer
+       initial-scratch-message ""  ; *scratch* message in minibuffer
+       initial-major-mode 'emacs-lisp-mode  ; *sractch* uses its own major mode, pls no
+       find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
+       custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
+       recenter-positions '(top middle bottom)  ; Order for "C-l" recentering command
+       recentf-save-file "~/.emacs.d/etc/recentf"
        recentf-max-menu-items 100
        recentf-max-saved-items 100
+       savehist-file "~/.emacs.d/etc/savehist"
+       history-length 150
+       save-place-file "~/.emacs.d/etc/saveplace"  ; Remember the cursor position when
+                                                   ; opening same file
+       bookmark-default-file "~/.emacs.d/etc/bookmarks"
+       tramp-backup-directory-alist backup-directory-alist  ; Don't keep backup remotely
        )
+
+      (when (file-exists-p custom-file)
+        (load custom-file))
+
+      (with-eval-after-load 'tramp-cache
+        (setq tramp-persistency-file-name "~/.emacs.d/etc/tramp"))
      #+end_src
 
      After startup.
 
      #+begin_src emacs-lisp
+       ;; Read files from disk when they change
        (use-package autorevert
          :defer 2
          :config (global-auto-revert-mode 1))
 
+       ;; Replace active region when typing instead of inserting characters just before it
        (use-package delsel
          :defer 2
          :config (delete-selection-mode 1))
 
+       ;; Treat PascalCase and camelCase words separately
        (use-package subword
          :defer 2
          :diminish
          :config (global-subword-mode 1))
 
+       ;; Access recently opened files
        (use-package recentf
          :defer 0.3
          :config (recentf-mode 1))
 
+       ;; Mark trailing whitespace with color
        (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
      #+end_src
 
@@ -163,6 +193,20 @@
         (dolist (char-regexp alist)
       (set-char-table-range composition-function-table (car char-regexp)
                     `([,(cdr char-regexp) 0 font-shape-gstring]))))
+    #+end_src
+
+*** Emojis
+
+    #+begin_src emacs-lisp
+      (set-fontset-font
+       t
+       '(#x1f300 . #x1fad0)
+       (cond
+        ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
+        ((member "Noto Emoji" (font-family-list)) "Noto Emoji")
+        ((member "Segoe UI Emoji" (font-family-list)) "Segoe UI Emoji")
+        ((member "Symbola" (font-family-list)) "Symbola")
+        ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji")))
     #+end_src
 
 ** Org-mode
@@ -196,9 +240,8 @@
     #+begin_src emacs-lisp
       (straight-use-package
        '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
-                      :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "add-diredfl-support")))
+                      :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "my-master")))
       (load-theme 'cyberpunk t)
-      (global-set-key (kbd "C-h z") 'face-at-point)
     #+end_src
 
 ** Keybindings
@@ -298,15 +341,6 @@
       (use-package rainbow-delimiters
         :defer t
         :hook (prog-mode . rainbow-delimiters-mode))
-    #+end_src
-
-*** Ido-yes-or-no
-
-    Quickly answer annoying questions with a single letter.
-
-    #+begin_src emacs-lisp
-      (use-package ido-yes-or-no
-        :config (ido-yes-or-no-mode 1))
     #+end_src
 
 *** Which-key
@@ -688,6 +722,12 @@
       (use-package yaml-mode
         :defer t
         :hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
+    #+end_src
+
+*** CSS
+
+    #+begin_src emacs-lisp
+      (setq css-indent-offset 2)
     #+end_src
 
 ** REPLs
