@@ -8,21 +8,21 @@
 ** Config management
    `C-x C-l` reloads the init-file.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun reload-init-file ()
        (interactive)
        (load-file "~/.emacs.d/init.el")
        (princ "Init-file reloaded."))
 
      (global-set-key (kbd "C-x C-l") 'reload-init-file)
-   #+END_SRC
+   #+end_src
 
 ** Package management
 *** straight.el
 
     Bootstrap straight.el.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defvar bootstrap-version)
       (let ((bootstrap-file
              (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -35,19 +35,19 @@
             (goto-char (point-max))
             (eval-print-last-sexp)))
         (load bootstrap-file nil 'nomessage))
-    #+END_SRC
+    #+end_src
 
 *** use-package
 
     Bootstrap use-package and activate `chords' extension.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (straight-use-package 'use-package)
       (setq straight-use-package-by-default t
          use-package-always-demand t)
       (use-package use-package-chords
         :config (key-chord-mode 1))
-    #+END_SRC
+    #+end_src
 
 ** Profiling
 *** Esup
@@ -64,7 +64,7 @@
 
     At startup.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (toggle-scroll-bar -1)
       (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
       (add-to-list 'default-frame-alist '(height . 44))
@@ -103,7 +103,7 @@
        recentf-max-menu-items 100
        recentf-max-saved-items 100
        )
-     #+END_SRC
+     #+end_src
 
      After startup.
 
@@ -123,11 +123,6 @@
        (use-package recentf
          :defer 1
          :config (recentf-mode 1))
-
-       (add-hook 'prog-mode-hook 'my-prog-mode-hook)
-       (defun my-prog-mode-hook ()
-         "Prog mode hook consisting of built-in functions and packages."
-         (setq show-trailing-whitespace t))
      #+end_src
 
 ** Font
@@ -161,88 +156,88 @@
 ** Org-mode
 *** Shortcuts
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-hook 'org-mode-hook (lambda () (require 'org-tempo)))
-    #+END_SRC
+    #+end_src
 
 *** Org-bullets
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package org-bullets
         :defer t
         :hook (org-mode . org-bullets-mode))
-    #+END_SRC
+    #+end_src
 
 ** Theme
 *** Cyberpunk
     Cool cyberpunk theme.
 
-    # #+BEGIN_SRC emacs-lisp
+    # #+begin_src emacs-lisp
     #   (use-package cyberpunk-theme
     #     :config (load-theme 'cyberpunk t)
     # 	:custom-face
     #     (ivy-virtual ((t (:inherit font-lock-constant-face)))))
-    # #+END_SRC
+    # #+end_src
 
 *** My cyberpunk
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (straight-use-package
        '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
                       :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "add-diredfl-support")))
       (load-theme 'cyberpunk t)
       (global-set-key (kbd "C-h z") 'face-at-point)
-    #+END_SRC
+    #+end_src
 
 ** Keybindings
 *** Saner defaults
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (global-set-key (kbd "C-x C-b") 'ibuffer)
       (global-set-key (kbd "M-/") 'hippie-expand)
       (global-set-key (kbd "C-z") nil)
       (global-set-key (kbd "C-x k") 'kill-current-buffer)
       (global-set-key (kbd "C-x K") 'kill-buffer)
-    #+END_SRC
+    #+end_src
 
 *** Keychords
 
     Use fast key presses in the same way as sequential combinations.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package key-chord)
-    #+END_SRC
+    #+end_src
 
 ** Window management
 *** Winner
 
     Restore previous window configuration e.g. after `C-x 1'.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package winner
         :config (winner-mode 1))
-    #+END_SRC
+    #+end_src
 
 *** Ace-window
 
     Jump to windows you choose.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ace-window
         :defer t
         :bind (("C-x o" . ace-window)))
-    #+END_SRC
+    #+end_src
 
 *** Windmove
 
     Choose direction to move between buffers.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (global-set-key (kbd "C-M-h") 'windmove-left)
       (global-set-key (kbd "C-M-j") 'windmove-down)
       (global-set-key (kbd "C-M-k") 'windmove-up)
       (global-set-key (kbd "C-M-l") 'windmove-right)
-    #+END_SRC
+    #+end_src
 
 ** UI
 *** Diminish
@@ -250,43 +245,43 @@
     Diminish hides modes in modeline. Make sure it is loaded before any other mode
     uses `:diminish' option.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package diminish
         :config (progn
                (diminish 'eldoc-mode)
                (diminish 'subword-mode)))
-    #+END_SRC
+    #+end_src
 
 *** Ibuffer
 
     Group by projectile projects.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ibuffer-projectile
         :defer t
         :hook (ibuffer . ibuffer-projectile-set-filter-groups)
         :config
         (setq ibuffer-projectile-prefix "Project: "))
-    #+END_SRC
+    #+end_src
 
 *** Dired
 
     Add fancy highlighting to dired.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package diredfl
         :defer t
         :hook (dired-mode . diredfl-mode))
-    #+END_SRC
+    #+end_src
 
     Display git info by pressing right paren in dired.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package dired-git-info
         :defer t
         :bind (:map dired-mode-map
                  (")" . dired-git-info-mode)))
-    #+END_SRC
+    #+end_src
 
 *** fill-column-indicator
 
@@ -299,46 +294,46 @@
 
     Colored parens depending of their nest level.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package rainbow-delimiters
         :defer t
         :hook (prog-mode . rainbow-delimiters-mode))
-    #+END_SRC
+    #+end_src
 
 *** Ido-yes-or-no
 
     Quickly answer annoying questions with a single letter.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ido-yes-or-no
         :config (ido-yes-or-no-mode 1))
-    #+END_SRC
+    #+end_src
 
 *** Which-key
 
     Show possible key shortcuts after pressing e.g. `C-x'.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package which-key
         :diminish
         :config (which-key-mode t))
-    #+END_SRC
+    #+end_src
 
 ** Source control
 *** Magit
 
     Porcelain wrapper around git.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package magit
         :defer t)
-    #+END_SRC
+    #+end_src
 
 *** diff-hl
 
     Show git status in fringes.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package diff-hl
         :defer 2
         :config (global-diff-hl-mode)
@@ -349,7 +344,7 @@
       (setq window-divider-default-places 'right-only) ;Default 'right-only
       (setq window-divider-default-right-width 1) ;Default 6
       (window-divider-mode 1)
-    #+END_SRC
+    #+end_src
 
 ** Completion
 *** Company
@@ -357,7 +352,7 @@
     Completion of text as you type.
     Complete selected item with `C-f', `Enter' should produce newline.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package company
         :diminish
         :defer 1
@@ -376,13 +371,13 @@
                (define-key company-active-map (kbd "C-n") 'company-select-next)
                (define-key company-active-map (kbd "C-p") 'company-select-previous)
                (define-key company-active-map (kbd "C-f") 'company-complete-selection)))
-    #+END_SRC
+    #+end_src
 
 *** Ivy
 
     General completion framework for all sorts of commands.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package counsel
         :diminish
         :defer 0.3
@@ -410,61 +405,61 @@
         (ivy-rich-mode 1)
         (setq ivy-rich-parse-remote-buffer nil
            ivy-rich-path-style 'abbrev))
-    #+END_SRC
+    #+end_src
 
 *** Amx
 
     Better completion of `M-x'. Also adds `M-X' for major mode specific commands.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package amx
         :defer 2
         :config (amx-mode)
         :bind (("M-X" . amx-major-mode-commands)))
-    #+END_SRC
+    #+end_src
 
 ** Source discovery
 *** Helpful
 
     Show more info in help views.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package helpful
         :defer t
         :bind (("C-h f" . helpful-callable)
                ("C-h v" . helpful-variable)
                ("C-h k" . helpful-key)
                ("C-c C-d" . helpful-at-point)))
-    #+END_SRC
+    #+end_src
 
 ** Source navigation
 *** Avy
 
     Quickly type `jj' and several consequtive characters of the place you want to jump to.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package avy
         :defer t
         :chords (("jj" . avy-goto-char-timer)))
-    #+END_SRC
+    #+end_src
 
 ** Project management
 *** Projectile
 
     Magical `C-c p' to access all commands related to a current directory project.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package projectile
-        :defer t
+        :defer 0.3
         :bind (("C-c p" . projectile-command-map))
-        :config
-        (projectile-mode +1)
+        :config (projectile-mode +1)
         (setq projectile-completion-system 'ivy))
 
       (use-package counsel-projectile
         :after projectile
+        :requires (counsel projectile)
         :config (counsel-projectile-mode))
-    #+END_SRC
+    #+end_src
 
 ** Checkers
 *** Flycheck
@@ -473,7 +468,7 @@
     positives because the line is incomplete and it freezes the system when
     linter is slow.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package flycheck
         :defer 2
         :config
@@ -481,14 +476,14 @@
         (setq flycheck-check-syntax-automatically '(save mode-enabled idle-buffer-switch)
            flycheck-buffer-switch-check-intermediate-buffers t
            flycheck-display-errors-delay 0.25))
-    #+END_SRC
+    #+end_src
 
 ** Editing
 *** Crux
 
     Different utility commands.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package crux
         :defer t
         :bind (("M-o" . crux-smart-open-line)
@@ -502,13 +497,13 @@
                (crux-with-region-or-line kill-region)
                (crux-with-region-or-line kill-ring-save))
         :chords ("JJ" . crux-switch-to-previous-buffer))
-    #+END_SRC
+    #+end_src
 
 *** Undo
 
     Type `uu' to look at and navigate undo tree.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package undo-tree
         :chords ("uu" . undo-tree-visualize)
         :config
@@ -530,34 +525,34 @@
          (and (consp item)
               (stringp (car item))
               (setcar item (substring-no-properties (car item)))))))
-    #+END_SRC
+    #+end_src
 
 *** Expand-region
 
     Consequtively expand the current region by pressing `C-='.
     Shrink it by preceding this command with `C--' (minus).
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package expand-region
         :defer t
         :bind ("C-=" . er/expand-region))
-    #+END_SRC
+    #+end_src
 
 *** Wgrep
 
     Type `C-p' in a grep buffer to make it editable.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package wgrep
         :defer t
         :config (setq wgrep-auto-save-buffer t))
-    #+END_SRC
+    #+end_src
 
 *** Smartparens
 
     Probably smarter than electric-mode.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package smartparens-config
         :straight smartparens
         :hook
@@ -573,7 +568,20 @@
                ("C-<left>" . sp-backward-barf-sexp)
                ("C-M-a" . sp-beginning-of-sexp)
                ("C-M-e" . sp-end-of-sexp)))
-    #+END_SRC
+    #+end_src
+
+*** ws-butler
+
+    Trim whitespace of the edited area of a buffer.
+
+    #+begin_src emacs-lisp
+      (use-package ws-butler
+        :straight
+        (ws-butler :type git :flavor melpa :host github :repo "lewang/ws-butler"
+                   :fork (:repo "hlissner/ws-butler" :host github))
+        :defer t
+        :hook (prog-mode . ws-butler-mode))
+    #+end_src
 
 ** Languages
 *** Ruby
@@ -586,33 +594,33 @@
 
     Nothing too fancy, just standard Ruby stuff.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ruby-mode
         :defer t
         :config
         (setq ruby-insert-encoding-magic-comment nil))
-    #+END_SRC
+    #+end_src
 
     Mode for templating enginge "slim".
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package slim-mode
         :defer t)
-    #+END_SRC
+    #+end_src
 
     Mode for linter, mostly for autocorrect feature, because everything
     else is done via Flycheck. Accessible with `M-x'.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package rubocop
         :defer t
         :diminish
         :hook (ruby-mode . rubocop-mode))
-    #+END_SRC
+    #+end_src
 
     Interface for "minitest" testing framework, accessible via `C-c ,'.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package minitest
         :after projectile-rails
         :diminish
@@ -624,28 +632,28 @@
                            (not (projectile-rails--ignore-buffer-p))
                            (projectile-project-p)
                            (projectile-rails-root))
-                      (setq minitest-use-spring t))
+                      (setq minitest-use-rails t))
 
                     (minitest-mode))))
-    #+END_SRC
+    #+end_src
 
     Access rails-specific commands with `C-c r'.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package projectile-rails
         :diminish
         :after ruby-mode
         :config (projectile-rails-global-mode)
         :bind (:map projectile-rails-mode-map
                  ("C-c r" . projectile-rails-command-map)))
-    #+END_SRC
+    #+end_src
 
 *** JavaScript
 
     Options are mostly copied from Doom Emacs.
     Install =eslint= for full experience.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package js2-mode
         :defer t
         :mode "\\.m?js\\'"
@@ -663,59 +671,59 @@
               js2-highlight-external-variables t
               js2-idle-timer-delay 0.2
               js2-basic-offset 2))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package eslint-fix
         :defer t
         :hook (js2-mode . (lambda () (add-hook 'after-save-hook 'eslint-fix nil t))))
-    #+END_SRC
+    #+end_src
 
 *** Yaml
 
     Just yaml, no fancy stuff here.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package yaml-mode
         :defer t
         :hook (yaml-mode . (lambda () (setq tab-width yaml-indent-offset))))
-    #+END_SRC
+    #+end_src
 
 ** REPLs
 *** eshell
 
     Better defaults.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq eshell-scroll-to-bottom-on-input 'all
             eshell-scroll-to-bottom-on-output 'all
             eshell-kill-processes-on-exit t
             eshell-hist-ignoredups t)
-    #+END_SRC
+    #+end_src
 
     Eldoc support.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package esh-help
         :defer t
         :commands eshell
         :config (setup-esh-help-eldoc))
-    #+END_SRC
+    #+end_src
 
     Eshell-up.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package eshell-up
         :defer t
         :commands (eshell-up eshell-up-peek))
-    #+END_SRC
+    #+end_src
 
     Eshell-z.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (straight-use-package 'eshell-z)
       (add-hook 'eshell-mode-hook (lambda () (require 'eshell-z)))
-    #+END_SRC
+    #+end_src
 
 ** Set gc threshold less
 
