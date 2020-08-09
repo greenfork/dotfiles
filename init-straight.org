@@ -49,6 +49,15 @@
         :config (key-chord-mode 1))
     #+end_src
 
+    Diminish hides modes in modeline. Make sure it is loaded before any other mode
+    uses `:diminish' option.
+
+    #+begin_src emacs-lisp
+      (use-package diminish
+        :config (progn
+               (diminish 'eldoc-mode)))
+    #+end_src
+
 ** Profiling
 *** Esup
 
@@ -118,6 +127,7 @@
 
        (use-package subword
          :defer 2
+         :diminish
          :config (global-subword-mode 1))
 
        (use-package recentf
@@ -242,18 +252,6 @@
     #+end_src
 
 ** UI
-*** Diminish
-
-    Diminish hides modes in modeline. Make sure it is loaded before any other mode
-    uses `:diminish' option.
-
-    #+begin_src emacs-lisp
-      (use-package diminish
-        :config (progn
-               (diminish 'eldoc-mode)
-               (diminish 'subword-mode)))
-    #+end_src
-
 *** Ibuffer
 
     Group by projectile projects.
@@ -386,12 +384,11 @@
         :config
         (ivy-mode 1)
         (counsel-mode 1)
+        (diminish 'ivy-mode)
         (setq ivy-use-virtual-buffers t
-           ivy-count-format "(%d/%d) "
-           ivy-height 17
-           ivy-on-del-error-function #'ignore))
-
-      (diminish 'ivy-mode)
+              ivy-count-format "(%d/%d) "
+              ivy-height 17
+              ivy-on-del-error-function #'ignore))
 
       ;; Standard keybindings
       (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -582,6 +579,7 @@
         (ws-butler :type git :flavor melpa :host github :repo "lewang/ws-butler"
                    :fork (:repo "hlissner/ws-butler" :host github))
         :defer t
+        :diminish
         :hook (prog-mode . ws-butler-mode))
     #+end_src
 
@@ -626,6 +624,7 @@
       (use-package minitest
         :after projectile-rails
         :diminish
+        :init (setq compilation-scroll-output t)
         :hook
         (ruby-mode . (lambda ()
                     ;; Enable rails support.
