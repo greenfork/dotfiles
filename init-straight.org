@@ -82,6 +82,11 @@
       (tool-bar-mode -1)  ; Disable top submenu
       (blink-cursor-mode -1)  ; Please don't blink cursor
 
+      ;; UTF-8
+      (prefer-coding-system 'utf-8)
+      (when (display-graphic-p)
+        (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+
       (setq-default
        indicate-empty-lines 1  ; No idea how this works
        tab-width 4
@@ -108,8 +113,8 @@
        delete-old-versions t  ; Automatically delete excess backups
        kept-new-versions 20  ; how many of the newest versions to keep
        kept-old-versions 5   ; and how many of the old
-       auto-save-list-file-prefix "~/.emacs.d/autosave"
-       auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t))
+       auto-save-list-file-prefix "~/.emacs.d/auto-save-list"
+       auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list" t))
        auto-save-timeout 60
        dired-dwim-target t  ; Dired is smarter about location for copying, etc.
                             ; e.g. when another dired buffer is open side by side
@@ -119,7 +124,6 @@
        initial-major-mode 'emacs-lisp-mode  ; *sratch* uses its own major mode, pls no
        find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
        custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
-       recenter-positions '(top middle bottom)  ; Order for "C-l" recentering command
        bookmark-default-file "~/.emacs.d/etc/bookmarks"
        tramp-backup-directory-alist backup-directory-alist  ; Don't keep backup remotely
        )
@@ -176,6 +180,9 @@
          :config
          (setq save-place-file "~/.emacs.d/etc/saveplace")
          (save-place-mode 1))
+
+       (electric-pair-mode)
+       (show-paren-mode)
      #+end_src
 
 ** Font
@@ -371,7 +378,10 @@
 
     #+begin_src emacs-lisp
       (use-package magit
-        :defer t)
+        :defer t
+        :config
+        ;; Initial expansion of unpushed commits
+        (setf (alist-get 'unpushed magit-section-initial-visibility-alist) 'show))
     #+end_src
 
 *** diff-hl
@@ -500,8 +510,7 @@
         (setq projectile-completion-system 'ivy))
 
       (use-package counsel-projectile
-        :after projectile
-        :requires (counsel projectile)
+        :defer 1
         :config (counsel-projectile-mode))
     #+end_src
 
@@ -549,6 +558,8 @@
 
     #+begin_src emacs-lisp
       (use-package undo-tree
+        :defer 1
+        :diminish
         :chords ("uu" . undo-tree-visualize)
         :config
         (setq undo-tree-visualizer-diff t
@@ -559,7 +570,9 @@
            ;; https://github.com/syl20bnr/spacemacs/issues/12110
            undo-limit 800000
            undo-strong-limit 12000000
-           undo-outer-limit 120000000)
+           undo-outer-limit 120000000
+           undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
+        (global-undo-tree-mode)
 
         ;; Strip text properties from undo-tree data to stave off bloat. File size
         ;; isn't the concern here; undo cache files bloat easily, which can cause
@@ -590,28 +603,6 @@
       (use-package wgrep
         :defer t
         :config (setq wgrep-auto-save-buffer t))
-    #+end_src
-
-*** Smartparens
-
-    Probably smarter than electric-mode.
-
-    #+begin_src emacs-lisp
-      (use-package smartparens-config
-        :straight smartparens
-        :hook
-        ((clojure-mode emacs-lisp-mode) . turn-on-smartparens-strict-mode)
-        :config
-        (show-smartparens-global-mode t)
-        (smartparens-global-mode)
-        :bind (("M-]" . sp-unwrap-sexp)
-               ("M-[" . sp-backward-unwrap-sexp)
-               ("C-<right>" . sp-forward-slurp-sexp)
-               ("M-<right>" . sp-forward-barf-sexp)
-               ("C-<left>" . sp-backward-slurp-sexp)
-               ("C-<left>" . sp-backward-barf-sexp)
-               ("C-M-a" . sp-beginning-of-sexp)
-               ("C-M-e" . sp-end-of-sexp)))
     #+end_src
 
 *** ws-butler
