@@ -183,6 +183,7 @@
 
        (electric-pair-mode)
        (show-paren-mode)
+       (global-so-long-mode 1)
      #+end_src
 
 ** Font
