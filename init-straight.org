@@ -195,7 +195,7 @@
       ;; On MacOS due to retina display font should be bigger.
       (if (eq system-type 'darwin)
       (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
-        (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 90))
+        (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 110))
 
       (let ((alist `((?& . ,(regexp-opt '("&&")))
                      (?* . ,(regexp-opt '("*/")))
@@ -452,7 +452,7 @@
       (global-set-key (kbd "C-.") 'counsel-semantic-or-imenu)
 
       ;; Resume commands
-      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "C-M-s") 'ivy-resume)
 
       (use-package ivy-rich
         :after ivy
@@ -650,9 +650,7 @@
 
     #+begin_src emacs-lisp
       (use-package rubocop
-        :defer t
-        :diminish
-        :hook (ruby-mode . rubocop-mode))
+        :defer t)
     #+end_src
 
     Interface for "minitest" testing framework, accessible via `C-c ,'.
