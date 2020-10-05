@@ -154,9 +154,19 @@ map global normal R ': kakboard-with-pull-clipboard R<ret>'
 
 # fuzzy-finding kitty + fzf
 require-module kitty
-define-command n -params .. -command-completion \
-    -docstring '"new" command wrapper to work with kitty' %{
-    kitty-terminal kak -c %val{session} -e "%arg{@}"
+# define-command n -params .. -command-completion \
+#     -docstring '"new" command wrapper to work with kitty' %{
+#     kitty-terminal kak -c %val{session} -e "%arg{@}"
+# }
+define-command nh -command-completion -docstring '"new" horizontal split for kitty' %{
+    nop %sh{
+        kitty @ launch --location=hsplit --no-response --cwd "$PWD" kak -c $kak_session
+    }
+}
+define-command n -command-completion -docstring '"new" vertical split for kitty' %{
+    nop %sh{
+        kitty @ launch --location=vsplit --no-response --cwd "$PWD" kak -c $kak_session
+    }
 }
 
 define-command fzf %{ evaluate-commands %{
