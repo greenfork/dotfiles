@@ -232,4 +232,7 @@ bar {
 
 default_border pixel
 
+# Automated testing with Selenium and ChromeDriver
+for_window [instance=".*com\.google\.Chrome.*"] floating enable
+
 include /etc/sway/config.d/*
