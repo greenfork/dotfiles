@@ -170,7 +170,7 @@ define-command n -command-completion -docstring '"new" vertical split for kitty'
 }
 
 define-command fzf %{ evaluate-commands %{
-    kitty-terminal sh -c "
+    kitty-terminal-tab sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         fd -H --exclude .git --type f --type l | \
@@ -179,7 +179,7 @@ define-command fzf %{ evaluate-commands %{
     "
 } }
 define-command fzf-current-directory %{ evaluate-commands %{
-    kitty-terminal sh -c "
+    kitty-terminal-tab sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         BUFFER_DIRNAME=$(dirname %val{bufname})
