@@ -235,4 +235,9 @@ default_border pixel
 # Automated testing with Selenium and ChromeDriver
 for_window [instance=".*com\.google\.Chrome.*"] floating enable
 
+# swayshot - tool to take screenshots
+bindsym Print exec swayshot
+bindsym $mod+Print exec swayshot window
+bindsym $mod+Shift+Print exec swayshot region
+
 include /etc/sway/config.d/*
