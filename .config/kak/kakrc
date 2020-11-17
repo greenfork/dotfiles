@@ -10,6 +10,7 @@
 # 7. Profit
 
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# plug 'alexherbo2/prelude.kak'
 # plug 'alexherbo2/auto-pairs.kak'
 # plug 'alexherbo2/search-highlighter.kak'
 # plug 'andreyorst/smarttab.kak'
@@ -25,6 +26,7 @@
 # plug 'eraserhd/parinfer-rust'
 # plug 'ul/kak-lsp'
 
+source "%val{config}/plugins/prelude.kak/rc/prelude.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
 source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
 source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
@@ -84,6 +86,9 @@ add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
 # plug 'https://gitlab.com/fsub/kakoune-mark'
 map global user -docstring 'mark word with color' m ': mark-word<ret>'
 map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
+
+require-module search-highlighter
+search-highlighter-enable
 
 
 
@@ -227,6 +232,8 @@ define-command no-tabs -params 0..1 -docstring 'Indent with spaces' %{
 define-command split-arguments-multiline -docstring "Split arguments into multiple lines" %{
     execute-keys -with-hooks <a-i>bS, <ret><a-semicolon>i<ret><space><space><esc><space>gli<ret><backspace><esc>
 }
+require-module auto-pairs
+auto-pairs-enable
 
 
 
@@ -251,6 +258,8 @@ hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
 hook global WinSetOption filetype=lua %{ no-tabs 2 }
+hook global BufCreate .*\.vy %{ set-option buffer filetype python }
+hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=html %{
@@ -290,9 +299,11 @@ hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
 hook global WinSetOption filetype=ruby %{
     set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile"; } && run '
-    # set-option window formatcmd '/usr/local/bin/rubocop -a "$kak_buffile"'
     set-option window formatcmd 'rubocop --stdin . -a'
+    no-tabs 2
     lint-on-write
+}
+hook global WinSetOption filetype=slim %{
     no-tabs 2
 }
 hook global WinSetOption filetype=zig %{
