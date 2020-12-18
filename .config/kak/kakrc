@@ -3,9 +3,10 @@
 # 2. Install bat, fd, ripgrep, fzf, git packages
 # 2.1. Optional: tmux/kitty (uncomment appropriate fzf functionality)
 # 2.2. Optional: dos2unix, wl-clipboard for Wayland (configure kakboard accordingly)
-# 3. Uncomment all plug-related stuff
+# 3. Comment all "source" commands and uncomment all "plug" commands
+#    (including "source" command for "plug" plugin itself)
 # 4. Run ':plug-install' inside kakoune
-# 5. Comment it back
+# 5. Revert commenting and uncommenting
 # 6. Reload kakoune
 # 7. Profit
 
@@ -22,10 +23,6 @@
 # plug 'lePerdu/kakboard'
 # plug 'occivink/kakoune-find'
 
-# Following plugins require Rust compilation prior to use.
-# plug 'eraserhd/parinfer-rust'
-# plug 'ul/kak-lsp'
-
 source "%val{config}/plugins/prelude.kak/rc/prelude.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
 source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
@@ -37,8 +34,12 @@ source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
-source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
-eval %sh{kak-lsp --kakoune -s $kak_session}
+
+# Following plugins require Rust compilation prior to use.
+# plug 'eraserhd/parinfer-rust'
+# plug 'ul/kak-lsp'
+# source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
+# eval %sh{kak-lsp --kakoune -s $kak_session}
 
 # source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 

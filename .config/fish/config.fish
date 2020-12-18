@@ -35,4 +35,7 @@ if status --is-interactive
 
     # Dev-specific settings
     rbenv init - | source
+
+    # Color support
+    alias ip    "ip -color=auto"
 end
