@@ -121,11 +121,9 @@ map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 # This is much faster.
 set global kakboard_copy_cmd 'wl-copy'
 set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
-
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'
 map global normal d ': kakboard-with-push-clipboard d<ret>'
-
 map global normal p ': kakboard-with-pull-clipboard p<ret>'
 map global normal P ': kakboard-with-pull-clipboard P<ret>'
 map global normal R ': kakboard-with-pull-clipboard R<ret>'
@@ -160,10 +158,6 @@ map global normal R ': kakboard-with-pull-clipboard R<ret>'
 
 # fuzzy-finding kitty + fzf
 require-module kitty
-# define-command n -params .. -command-completion \
-#     -docstring '"new" command wrapper to work with kitty' %{
-#     kitty-terminal kak -c %val{session} -e "%arg{@}"
-# }
 define-command nh -command-completion -docstring '"new" horizontal split for kitty' %{
     nop %sh{
         kitty @ launch --location=hsplit --no-response --cwd "$PWD" kak -c $kak_session
@@ -405,6 +399,29 @@ map global insert <c-d> <esc>di
 
 # Misc
 ######
+
+define-command doc-key %{
+    # Read a single key.
+    evaluate-commands -verbatim on-key %{
+        # Switch to the documentation of keys, or open it.
+        try %{
+            buffer *doc-keys*
+        } catch %{
+            doc keys
+        }
+        # Jump to the line where this key is documented.
+        evaluate-commands execute-keys %sh{
+            kakquote() { printf "%s" "$*" | sed "s/'/''/g; 1s/^/'/; \$s/\$/'/"; }
+            key=$(printf %s "$kak_key" |
+            sed '
+                s/<semicolon>/;/;
+                s/-semicolon/-;/;
+                s/</<lt>/;
+            ')
+            kakquote "$(printf "/^\Q%s<ret>vv" "$key")"
+        }
+    }
+} -docstring "show the documentation of a key in normal mode"
 
 # Load local project config
 try %{ source '.local.kak' }
