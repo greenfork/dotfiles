@@ -39,7 +39,7 @@ source "%val{config}/plugins/kakoune-find/find.kak"
 # plug 'eraserhd/parinfer-rust'
 # plug 'ul/kak-lsp'
 # source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
-# eval %sh{kak-lsp --kakoune -s $kak_session}
+eval %sh{kak-lsp --kakoune -s $kak_session}
 
 # source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 
