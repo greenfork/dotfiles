@@ -38,4 +38,6 @@ if status --is-interactive
 
     # Color support
     alias ip    "ip -color=auto"
+    alias ll    "exa -lFg"
+    alias la    "exa -lFga"
 end
