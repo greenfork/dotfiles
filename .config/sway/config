@@ -234,6 +234,7 @@ default_border pixel
 
 # Automated testing with Selenium and ChromeDriver
 for_window [instance=".*com\.google\.Chrome.*"] floating enable
+for_window [title=".*Stars - Everywhere.*"] floating enable
 
 # swayshot - tool to take screenshots
 bindsym Print exec swayshot
