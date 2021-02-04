@@ -1,0 +1,86 @@
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+separator_block_width=15
+markup=none
+
+[volume-pulseaudio]
+command=volume-pulseaudio/volume-pulseaudio
+interval=persist
+SUBSCRIBE=1
+USE_ALSA_NAME=1
+
+[wifi]
+command=wifi/wifi
+label= 
+INTERFACE=wlp1s0
+interval=60
+
+
+[memory]
+command=memory/memory
+label=🧠 
+interval=5
+
+[cpu_usage2]
+command=cpu_usage2/cpu_usage2
+markup=pango
+interval=persist
+min_width=🏭 100.00%
+REFRESH_TIME=5
+LABEL=🏭
+WARN_PERCENT=50
+CRIT_PERCENT=80
+DECIMALS=2
+
+[brightness]
+command=brightnessctl g
+label=🔅
+interval=2
+
+[temperature]
+command=temperature/temperature
+interval=10
+T_WARN=70
+T_CRIT=90
+
+[battery-poly]
+command=battery-poly/battery-poly
+label=⚡
+interval=5
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1
+
+[monitors]
+command=monitor_manager/monitor_manager
+interval=once
+#SHOW_ON_OFF=1
+#SHOW_NAMES=1
+#SHOW_PRIMARY=1
+#SHOW_MODE=1
+#SHOW_BLANKED=1
+#SHOW_DUPLICATE=1
+#SHOW_ROTATION=1
+#SHOW_REFLECTION=1
+#SHOW_BRIGHTNESS=1
+#SHOW_BRIGHTNESS_VALUE=0
+#SHOW_UP_DOWN=1
+#FONT_FAMILY=DejaVu Sans Mono
+#FONT_SIZE=11
+#CLOSE_TO_BOUNDARY_BUFFER=20

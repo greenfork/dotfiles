@@ -8,3 +8,7 @@ tags
 /.config/mpd/sticker.sql
 /.config/mpd/pid
 /.config/mpd/state
+
+/.config/i3blocks/*
+/.config/i3blocks/.*
+!/.config/i3blocks/config

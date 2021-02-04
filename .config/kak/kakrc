@@ -3,6 +3,7 @@
 # 2. Install bat, fd, ripgrep, fzf, git packages
 # 2.1. Optional: tmux/kitty (uncomment appropriate fzf functionality)
 # 2.2. Optional: dos2unix, wl-clipboard for Wayland (configure kakboard accordingly)
+# 2.3. Optional: xclip for Xorg (configure kakboard accordingly)
 # 3. Comment all "source" commands and uncomment all "plug" commands
 #    (including "source" command for "plug" plugin itself)
 # 4. Run ':plug-install' inside kakoune
@@ -117,10 +118,11 @@ map global user q -docstring 'save and quit' ': write-quit<ret>'
 map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 
 # plug "lePerdu/kakboard"
-# hook global WinCreate .* %{ kakboard-enable }
-# This is much faster.
-set global kakboard_copy_cmd 'wl-copy'
-set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
+# This is much faster than using library hook.
+# set global kakboard_copy_cmd 'wl-copy'
+# set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
+set global kakboard_copy_cmd 'xclip -in -selection clipboard'
+set global kakboard_paste_cmd 'xclip -out -selection clipboard'
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'
 map global normal d ': kakboard-with-push-clipboard d<ret>'
