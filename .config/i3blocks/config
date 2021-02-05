@@ -48,7 +48,7 @@ CRIT_PERCENT=80
 DECIMALS=2
 
 [brightness]
-command=brightnessctl g
+command=ruby -e "puts ((`brightnessctl g`.to_f / 255.0) * 100).to_i"
 label=🔅
 interval=2
 
