@@ -29,7 +29,12 @@ command=wifi/wifi
 label= 
 INTERFACE=wlp1s0
 interval=60
+separator=false
 
+[ssid]
+command=ssid/ssid
+INTERFACE=wlp1s0
+interval=60
 
 [memory]
 command=memory/memory
@@ -64,8 +69,12 @@ label=⚡
 interval=5
 
 [time]
-command=date '+%Y-%m-%d %H:%M:%S'
+command=time/time
 interval=1
+#TZ_FILE=~/.tz
+STRFTIME_FORMAT=%Y-%m-%d %H:%M:%S
+TZONES=$DEFAULT_TZ,Europe/Moscow
+TZ_LABELS=,Moscow
 
 [monitors]
 command=monitor_manager/monitor_manager

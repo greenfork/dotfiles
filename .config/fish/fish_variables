@@ -1,10 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export EDITOR:kak
-SETUVAR --export MOZ_ENABLE_WAYLAND:1
 SETUVAR --export PAGER:less
 SETUVAR --export RUBYOPT:\x2dW\x3ano\x2dexperimental
-SETUVAR --export SDL_VIDEODRIVER:wayland
 SETUVAR __done_sway_ignore_visible:1
 SETUVAR __fish_initialized:3100
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
