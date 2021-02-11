@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# https://wiki.archlinux.org/index.php/Wine#Running_Wine_under_a_separate_user_account
+
+xhost +SI:localuser:wineuser
+sudo -u wineuser env HOME=/home/wineuser USER=wineuser USERNAME=wineuser LOGNAME=wineuser wine "$@"
