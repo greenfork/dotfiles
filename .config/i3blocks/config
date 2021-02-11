@@ -20,9 +20,31 @@ markup=none
 
 [volume-pulseaudio]
 command=volume-pulseaudio/volume-pulseaudio
-interval=persist
-SUBSCRIBE=1
+interval=once
+signal=1
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+##exposed format variables: ${SYMB}, ${VOL}, ${INDEX}, ${NAME}
+LONG_FORMAT="${SYMB} ${VOL}% [${INDEX}: ${NAME}]"
+SHORT_FORMAT="${SYMB} ${VOL}%"
+AUDIO_HIGH_SYMBOL=🔊
+AUDIO_MED_THRESH=50
+AUDIO_MED_SYMBOL=🔉
+AUDIO_LOW_THRESH=0
+AUDIO_LOW_SYMBOL=🔇
+AUDIO_MUTED_SYMBOL=🔇
+AUDIO_DELTA=5
+DEFAULT_COLOR="#ffffff"
+MUTED_COLOR="#a0a0a0"
 USE_ALSA_NAME=1
+USE_DESCRIPTION=0
+separator=false
+
+[miccontrol]
+command=miccontrol/miccontrol
+SOURCE=alsa_input.pci-0000_03_00.6.HiFi__hw_acp__source
+interval=once
+signal=10
 
 [wifi]
 command=wifi/wifi
@@ -55,7 +77,8 @@ DECIMALS=2
 [brightness]
 command=ruby -e "puts ((`brightnessctl g`.to_f / 255.0) * 100).to_i"
 label=🔅
-interval=2
+interval=once
+signal=2
 
 [temperature]
 command=temperature/temperature
@@ -71,7 +94,6 @@ interval=5
 [time]
 command=time/time
 interval=1
-#TZ_FILE=~/.tz
 STRFTIME_FORMAT=%Y-%m-%d %H:%M:%S
 TZONES=$DEFAULT_TZ,Europe/Moscow
 TZ_LABELS=,Moscow
