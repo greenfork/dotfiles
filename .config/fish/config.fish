@@ -21,9 +21,9 @@ if status --is-interactive
     alias fcoc  fzf_git_checkout_commit
 
     # Rails stuff
-    abbr --add --global fullrdrs "bin/rake db:drop db:create db:migrate db:fixtures:load"
-    abbr --add --global proddb "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rake db:drop db:create && pg_restore -Od hub2_development ../latest.dump && bin/rake jobs:clear"
-    abbr --add --global rt spring rails test
+    abbr --add --global fullrdrs "bin/rails db:environment:set RAILS_ENV=development && bin/rake db:drop db:create db:migrate db:fixtures:load"
+    abbr --add --global proddb "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rake db:drop db:create && pg_restore -Od hub2_development ../latest.dump && bin/rake jobs:clear && bin/rails runner \"Member.find(9).user.update!(password: 'password')\""
+    abbr --add --global rt PARALLEL_WORKERS=16 spring rails test
     abbr --add --global rc spring rails console
     abbr --add --global rdm rails db:migrate
     abbr --add --global rgm rails generate migration
