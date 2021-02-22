@@ -38,9 +38,10 @@ source "%val{config}/plugins/kakoune-find/find.kak"
 
 # Following plugins require Rust compilation prior to use.
 # plug 'eraserhd/parinfer-rust'
+source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
 # plug 'ul/kak-lsp'
-# source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
 eval %sh{kak-lsp --kakoune -s $kak_session}
+# set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
 
@@ -53,8 +54,8 @@ hook global KakEnd .* lsp-exit
 map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
 map global user -docstring 'Lock lsp user mode' L ': enter-user-mode -lock lsp<ret>'
 def lsp-engage -docstring 'Enable language server' %{
-   lsp-enable-window
-   lsp-auto-hover-enable
+    lsp-enable-window
+    lsp-auto-hover-enable
 }
 
 
@@ -287,10 +288,30 @@ hook global WinSetOption filetype=elixir %{
 hook global WinSetOption filetype=eex %{
     no-tabs 2
 }
+hook global BufCreate .*\.rkt %{ set-option buffer filetype racket }
 hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
     parinfer-enable-window -smart
     no-tabs 2
-    set window disabled_hooks '' # reenable trim-indent hooks
+    set-option window disabled_hooks '' # reenable trim-indent hooks
+    set-option window auto_pairs ( ) { } [ ] '"' '"' “ ” ‘ ’ « » ‹ › # exclude ` and '
+    set-option window comment_line ';;'
+}
+hook global WinSetOption filetype=racket %{
+    lsp-enable-window
+    set buffer lsp_completion_trigger %{ fail }
+    map window insert <c-a-y> 'λ'
+
+    # Copy some options from scheme.kak
+    require-module scheme
+    set-option window static_words %opt{scheme_static_words}
+    set-option buffer extra_word_chars '!' '$' '%' '&' '*' '+' '-' '.' '/' ':' '<' '=' '>' '?' '@' '^' '_' '~'
+    hook window ModeChange pop:insert:.* -group scheme-trim-indent  lisp-trim-indent
+    hook window InsertChar \n -group scheme-indent lisp-indent-on-new-line
+    hook -once -always window WinSetOption filetype=.* %{ remove-hooks window scheme-.+ }
+}
+hook -group racket-highlight global WinSetOption filetype=racket %{
+    add-highlighter window/scheme ref scheme
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/scheme }
 }
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
@@ -302,6 +323,7 @@ hook global WinSetOption filetype=ruby %{
 }
 hook global WinSetOption filetype=slim %{
     no-tabs 2
+    set-option window comment_line '//'
 }
 hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
