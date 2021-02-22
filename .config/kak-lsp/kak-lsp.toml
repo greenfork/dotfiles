@@ -150,3 +150,9 @@ command = "texlab"
 filetypes = ["zig"]
 roots = ["build.zig"]
 command = "/home/grfork/reps/zls/zig-cache/bin/zls"
+
+[language.racket]
+filetypes = ["racket"]
+roots = ["info.rkt", "main.rkt", ".git", ".hg"]
+command = "racket"
+args = ["-l", "racket-langserver"]
