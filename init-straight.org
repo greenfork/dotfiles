@@ -311,6 +311,9 @@
       (global-set-key (kbd "C-M-j") 'windmove-down)
       (global-set-key (kbd "C-M-k") 'windmove-up)
       (global-set-key (kbd "C-M-l") 'windmove-right)
+      (add-hook 'comint-mode-hook
+                (lambda ()
+                  (local-unset-key (kbd "C-M-l"))))
     #+end_src
 
 ** UI
@@ -620,6 +623,25 @@
         :hook (prog-mode . ws-butler-mode))
     #+end_src
 
+*** lispy
+    
+    #+begin_src emacs-lisp
+      (use-package lispy
+        :config
+        (setq lispy-parens-preceding-syntax-alist
+              (cons '(racket-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
+        (setq lispy-parens-preceding-syntax-alist
+              (cons '(racket-repl-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
+        :hook
+        (racket-mode . lispy-mode)
+        (racket-repl-mode . lispy-mode)
+        (emacs-lisp-mode . lispy-mode)
+        (lispy-mode . (lambda ()
+                        (key-chord-unset-global "jj")
+                        (electric-pair-mode -1)))
+        :bind (([remap lispy-move-beginning-of-line] . crux-move-beginning-of-line)))
+    #+end_src
+
 ** Languages
 *** Ruby
 
@@ -729,6 +751,14 @@
 
     #+begin_src emacs-lisp
       (setq css-indent-offset 2)
+    #+end_src
+
+*** Racket
+    
+    #+begin_src emacs-lisp
+      (use-package racket-mode
+        :hook
+        (racket-mode . racket-xp-mode))
     #+end_src
 
 ** REPLs
