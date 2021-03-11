@@ -636,9 +636,11 @@
         (racket-mode . lispy-mode)
         (racket-repl-mode . lispy-mode)
         (emacs-lisp-mode . lispy-mode)
+        (gerbil-mode . lispy-mode)
         (lispy-mode . (lambda ()
                         (key-chord-unset-global "jj")
-                        (electric-pair-mode -1)))
+                        (electric-pair-mode -1)
+                        (electric-indent-mode -1)))
         :bind (([remap lispy-move-beginning-of-line] . crux-move-beginning-of-line)))
     #+end_src
 
@@ -758,7 +760,47 @@
     #+begin_src emacs-lisp
       (use-package racket-mode
         :hook
-        (racket-mode . racket-xp-mode))
+        (racket-mode . (lambda ()
+                         (racket-xp-mode)
+                         (flycheck-mode -1)
+                         ;; auto-composition leaves XP mode hanging, see
+                         ;; https://github.com/greghendershott/racket-mode/issues/523
+                         (setq racket-show-functions '(racket-show-echo-area)))))
+    #+end_src
+
+*** Gerbil
+
+    #+begin_src emacs-lisp
+      (use-package gerbil-mode
+        :straight nil
+        :when (getenv "GERBIL_HOME")
+        :ensure nil
+        :defer t
+        :mode (("\\.ss\\'"  . gerbil-mode)
+               ("\\.pkg\\'" . gerbil-mode))
+        :bind (:map comint-mode-map
+                    (("C-S-d" . comint-send-eof)))
+        :init
+        (setf gerbil (getenv "GERBIL_HOME"))
+        (autoload 'gerbil-mode
+          (concat gerbil "/etc/gerbil-mode.el") "Gerbil editing mode." t)
+        :config
+        (let ((tags (locate-dominating-file default-directory "TAGS")))
+          (when tags (visit-tags-table tags)))
+        (visit-tags-table (concat gerbil "/src/TAGS")))
+
+      (use-package geiser-gerbil
+        :straight (geiser-gerbil :type git :host gitlab :repo "nymacro/geiser-gerbil")
+        :load-path "straight/repos/geiser-gerbil/elisp"
+        :after geiser
+        :commands (run-gerbil switch-to-gerbil))
+    #+end_src
+
+*** Geiser for Scheme
+
+    #+begin_src emacs-lisp
+      (use-package geiser
+        :hook ((gerbil-mode . geiser-mode)))
     #+end_src
 
 ** REPLs
