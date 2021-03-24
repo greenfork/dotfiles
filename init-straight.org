@@ -88,7 +88,7 @@
         (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
       (setq-default
-       indicate-empty-lines 1  ; No idea how this works
+       indicate-empty-lines 1
        tab-width 4
        fill-column 80  ; Maximum recommended number of characters per line
        indent-tabs-mode nil  ; Don't use tab
@@ -164,7 +164,9 @@
          (recentf-mode 1))
 
        ;; Mark trailing whitespace with color
-       (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+       (add-hook 'prog-mode-hook (lambda ()
+                                   (setq show-trailing-whitespace t)
+                                   (electric-pair-local-mode)))
 
        ;; Save history for things like M-x
        (use-package savehist
@@ -181,7 +183,6 @@
          (setq save-place-file "~/.emacs.d/etc/saveplace")
          (save-place-mode 1))
 
-       (electric-pair-mode)
        (show-paren-mode)
        (global-so-long-mode 1)
      #+end_src
@@ -194,24 +195,39 @@
     #+begin_src emacs-lisp
       ;; On MacOS due to retina display font should be bigger.
       (if (eq system-type 'darwin)
-      (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
+          (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
         (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 110))
 
-      (let ((alist `((?& . ,(regexp-opt '("&&")))
-                     (?* . ,(regexp-opt '("*/")))
-                     (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
-                     (?: . ,(regexp-opt '("::")))
-                     (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
-                     (?! . ,(regexp-opt '("!==" "!=")))
-                     (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
-                     (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
-                     (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
-                                          "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
-                     (?/ . ,(regexp-opt '("/**/" "/*" "//")))
-                     (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
-        (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                    `([,(cdr char-regexp) 0 font-shape-gstring]))))
+      ;; (let ((alist `((?& . ,(regexp-opt '("&&")))
+      ;;                (?* . ,(regexp-opt '("*/")))
+      ;;                (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
+      ;;                (?: . ,(regexp-opt '("::")))
+      ;;                (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
+      ;;                (?! . ,(regexp-opt '("!==" "!=")))
+      ;;                (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
+      ;;                (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
+      ;;                (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+      ;;                                     "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
+      ;;                (?/ . ,(regexp-opt '("/**/" "/*" "//")))
+      ;;                (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
+      ;;   (dolist (char-regexp alist)
+      ;;     (set-char-table-range composition-function-table (car char-regexp)
+      ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
+
+      ;; (apply 'append (mapcar (lambda (x) (cadr (cadr (caddr x)))) alist))
+
+      (use-package ligature
+        :straight (ligature :type git :host github :repo "mickeynp/ligature.el")
+        :config
+        (ligature-set-ligatures 'prog-mode
+                                '("&&" "*/" "|||>" "||>" "||" "|>" "::" "===" "==>" "=="
+                                  "=>>" "=>" "=<<" "=/=" "!==" "!=" ">=>" ">=" ">>=" ">>-"
+                                  ">>" ">->" ">-" "->>" "->" "-->" "-<<" "-<" "<|||" "<||"
+                                  "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+                                  "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~"
+                                  "/**/" "/*" "//" "~>" "~~>" "~~"))
+        (global-ligature-mode))
+
     #+end_src
 
 *** Emojis
@@ -244,16 +260,6 @@
     #+end_src
 
 ** Theme
-*** Cyberpunk
-    Cool cyberpunk theme.
-
-    # #+begin_src emacs-lisp
-    #   (use-package cyberpunk-theme
-    #     :config (load-theme 'cyberpunk t)
-    # 	:custom-face
-    #     (ivy-virtual ((t (:inherit font-lock-constant-face)))))
-    # #+end_src
-
 *** My cyberpunk
 
     #+begin_src emacs-lisp
@@ -373,6 +379,59 @@
       (use-package which-key
         :diminish
         :config (which-key-mode t))
+    #+end_src
+
+** Emails
+*** Mu4e
+
+    #+begin_src emacs-lisp
+      (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+
+      (use-package mu4e
+        :ensure nil
+        :straight nil
+        :custom
+        (mail-user-agent 'mu4e-user-agent)
+        ;; (mu4e-change-filenames-when-moving t) ; for mbsync
+        (mu4e-confirm-quit nil)
+        (mu4e-get-mail-command "offlineimap -o")
+        (mu4e-update-interval 300)
+        ;; (mu4e-html2text-command "iconv -c -t utf-8 | pandoc -f html -t plain")
+        (mu4e-maildir "~/mail/lists")
+        (mu4e-maildir-shortcuts
+         '(("/lists/INBOX" . ?i)
+           ("/lists/Drafts" . ?D)
+           ("/lists/Sent" . ?S)
+           ("/lists/Trash" . ?T)
+           ("/lists/Archive" . ?A)))
+        (mu4e-sent-folder "/lists/Sent")
+        (mu4e-drafts-folder "/lists/Drafts")
+        (mu4e-trash-folder "/lists/Trash")
+        (mu4e-refile-folder "/lists/Archive")
+        (mu4e-use-fancy-chars t)
+        (mu4e-view-show-addresses t)
+        (mu4e-view-show-images t)
+        (mu4e-view-scroll-to-next nil)
+        (mu4e-attachment-dir "~/Downloads/attachments")
+        (mu4e-compose-dont-reply-to-self t)
+        (mu4e-compose-signature-auto-include nil)
+        (mu4e-compose-reply-to-address "greenfork.lists@yandex.com")
+        (user-mail-address "greenfork.lists@yandex.com")
+        (user-full-name "Dmitry Matveyev")
+        (message-send-mail-function 'smtpmail-send-it)
+        (smtpmail-default-smtp-server "smtp.yandex.com")
+        (smtpmail-smtp-server "smtp.yandex.com")
+        (smtpmail-smtp-service 465)
+        (smtpmail-smtp-user "greenfork.lists")
+        (smtpmail-stream-type 'ssl)
+        :config
+        ;; (add-to-list 'mu4e-headers-actions '("org-contact-add" . mu4e-action-add-org-contact) t)
+        ;; (add-to-list 'mu4e-view-actions '("org-contact-add" . mu4e-action-add-org-contact) t)
+        :hook
+        ((message-send . (lambda ()
+                           (unless (yes-or-no-p "Send message?")
+                             (signal 'quit nil)))))
+        )
     #+end_src
 
 ** Source control
@@ -544,15 +603,15 @@
       (use-package crux
         :defer t
         :bind (("M-o" . crux-smart-open-line)
-            ("M-O" . crux-smart-open-line-above)
-            ("C-c D" . crux-delete-file-and-buffer)
-            ("C-c R" . crux-rename-file-and-buffer)
-            ("C-^" . crux-top-join-line)
-            ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-            ("C-c f" . crux-recentf-find-file))
+               ("M-O" . crux-smart-open-line-above)
+               ("C-c D" . crux-delete-file-and-buffer)
+               ("C-c R" . crux-rename-file-and-buffer)
+               ("C-^" . crux-top-join-line)
+               ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+               ("C-c f" . crux-recentf-find-file))
         :config (progn
-               (crux-with-region-or-line kill-region)
-               (crux-with-region-or-line kill-ring-save))
+                  (crux-with-region-or-line kill-region)
+                  (crux-with-region-or-line kill-ring-save))
         :chords ("JJ" . crux-switch-to-previous-buffer))
     #+end_src
 
@@ -564,18 +623,18 @@
       (use-package undo-tree
         :defer 1
         :diminish
-        :chords ("uu" . undo-tree-visualize)
+        :chords ("UU" . undo-tree-visualize)
         :config
         (setq undo-tree-visualizer-diff t
-           undo-tree-auto-save-history t
-           undo-tree-enable-undo-in-region t
-           ;; Increase undo-limits by a factor of ten to avoid emacs prematurely
-           ;; truncating the undo history and corrupting the tree. See
-           ;; https://github.com/syl20bnr/spacemacs/issues/12110
-           undo-limit 800000
-           undo-strong-limit 12000000
-           undo-outer-limit 120000000
-           undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
+              undo-tree-auto-save-history t
+              undo-tree-enable-undo-in-region t
+              ;; Increase undo-limits by a factor of ten to avoid emacs prematurely
+              ;; truncating the undo history and corrupting the tree. See
+              ;; https://github.com/syl20bnr/spacemacs/issues/12110
+              undo-limit 800000
+              undo-strong-limit 12000000
+              undo-outer-limit 120000000
+              undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
         (global-undo-tree-mode)
 
         ;; Strip text properties from undo-tree data to stave off bloat. File size
@@ -583,9 +642,9 @@
         ;; freezing, crashes, GC-induced stuttering or delays when opening files.
         (defadvice undo-list-transfer-to-tree (before strip-undo-tree-text-properties)
           (dolist (item buffer-undo-list)
-         (and (consp item)
-              (stringp (car item))
-              (setcar item (substring-no-properties (car item)))))))
+            (and (consp item)
+                 (stringp (car item))
+                 (setcar item (substring-no-properties (car item)))))))
     #+end_src
 
 *** Expand-region
@@ -626,22 +685,60 @@
 *** lispy
     
     #+begin_src emacs-lisp
-      (use-package lispy
-        :config
-        (setq lispy-parens-preceding-syntax-alist
-              (cons '(racket-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
-        (setq lispy-parens-preceding-syntax-alist
-              (cons '(racket-repl-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
+      ;; (use-package lispy
+      ;;   :config
+      ;;   (setq lispy-parens-preceding-syntax-alist
+      ;;         (cons '(racket-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
+      ;;   (setq lispy-parens-preceding-syntax-alist
+      ;;         (cons '(racket-repl-mode "[#`',@]+" "#hash") lispy-parens-preceding-syntax-alist))
+      ;;   :hook
+      ;;   (racket-mode . lispy-mode)
+      ;;   (racket-repl-mode . lispy-mode)
+      ;;   (emacs-lisp-mode . lispy-mode)
+      ;;   (gerbil-mode . lispy-mode)
+      ;;   (lispy-mode . (lambda ()
+      ;;                   (key-chord-unset-global "jj")
+      ;;                   (electric-pair-mode -1)
+      ;;                   (electric-indent-mode -1)))
+      ;;   :bind (([remap lispy-move-beginning-of-line] . crux-move-beginning-of-line)))
+    #+end_src
+
+*** smartpare
+ns
+
+    #+begin_src emacs-lisp
+      (use-package smartparens
         :hook
-        (racket-mode . lispy-mode)
-        (racket-repl-mode . lispy-mode)
-        (emacs-lisp-mode . lispy-mode)
-        (gerbil-mode . lispy-mode)
-        (lispy-mode . (lambda ()
-                        (key-chord-unset-global "jj")
-                        (electric-pair-mode -1)
-                        (electric-indent-mode -1)))
-        :bind (([remap lispy-move-beginning-of-line] . crux-move-beginning-of-line)))
+        (racket-mode . smartparens-strict-mode)
+        (racket-repl-mode . smartparens-strict-mode)
+        (emacs-lisp-mode . smartparens-strict-mode)
+        (gerbil-mode . smartparens-strict-mode)
+        :config
+        (electric-pair-local-mode -1)
+        (show-smartparens-mode)
+        (require 'smartparens-config)
+        :bind (:map smartparens-mode-map
+                    ("C-M-f" . sp-forward-sexp)
+                    ("C-M-b" . sp-backward-sexp)
+
+                    ("C-M-n" . sp-down-sexp)
+                    ("C-M-p" . sp-backward-up-sexp)
+
+                    ("C-M-a" . sp-beginning-of-sexp)
+                    ("C-M-e" . sp-end-of-sexp)
+
+                    ("C-<right>" . sp-forward-slurp-sexp)
+                    ("C-<left>" . sp-forward-barf-sexp)
+                    ("C-M-<left>" . sp-backward-slurp-sexp)
+                    ("C-M-<right>" . sp-backward-barf-sexp)
+
+                    ("M-D" . sp-unwrap-sexp)
+                    ("M-R" . sp-splice-sexp-killing-around)
+                    ("M-C" . sp-clone-sexp)
+                    ("M-d" . sp-kill-sexp)
+                    ("M-<backspace>" . sp-backward-kill-sexp)
+
+                    (";" . sp-comment)))
     #+end_src
 
 ** Languages
@@ -778,6 +875,7 @@
         :defer t
         :mode (("\\.ss\\'"  . gerbil-mode)
                ("\\.pkg\\'" . gerbil-mode))
+        :hook ((gerbil-mode . rainbow-delimiters-mode))
         :bind (:map comint-mode-map
                     (("C-S-d" . comint-send-eof)))
         :init
@@ -790,17 +888,18 @@
         (visit-tags-table (concat gerbil "/src/TAGS")))
 
       (use-package geiser-gerbil
-        :straight (geiser-gerbil :type git :host gitlab :repo "nymacro/geiser-gerbil")
+        :straight (geiser-gerbil :type git :host gitlab :repo "nymacro/geiser-gerbil"
+                                 :fork (:host gitlab :repo "greenfork/geiser-gerbil"))
         :load-path "straight/repos/geiser-gerbil/elisp"
         :after geiser
-        :commands (run-gerbil switch-to-gerbil))
+        :commands (run-gerbil switch-to-gerbil)
+        :hook (gerbil-mode . geiser-mode))
     #+end_src
 
 *** Geiser for Scheme
 
     #+begin_src emacs-lisp
-      (use-package geiser
-        :hook ((gerbil-mode . geiser-mode)))
+      (use-package geiser)
     #+end_src
 
 ** REPLs
