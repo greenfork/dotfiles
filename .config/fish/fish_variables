@@ -2,6 +2,7 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:kak
 SETUVAR --export GAMBIT_HOME:/home/grfork/reps/gambit
+SETUVAR --export GERBIL_BUILD_CORES:16
 SETUVAR --export GERBIL_GSC:/usr/local/bin/gambitc
 SETUVAR --export GERBIL_HOME:/home/grfork/reps/gerbil
 SETUVAR --export PAGER:less
