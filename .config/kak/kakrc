@@ -13,7 +13,7 @@
 
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
 # plug 'alexherbo2/prelude.kak'
-# plug 'alexherbo2/auto-pairs.kak'
+# plug 'alexherbo2/auto-pairs.kak'  # don't update it, it uses cyrstal stuff
 # plug 'alexherbo2/search-highlighter.kak'
 # plug 'andreyorst/smarttab.kak'
 # plug 'Delapouite/kakoune-buffers'
@@ -23,6 +23,7 @@
 # plug 'lenormf/kakoune-extra'
 # plug 'lePerdu/kakboard'
 # plug 'occivink/kakoune-find'
+# plug 'occivink/kakoune-sudo-write'
 
 source "%val{config}/plugins/prelude.kak/rc/prelude.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
@@ -35,10 +36,11 @@ source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
+source "%val{config}/plugins/kakoune-sudo-write/sudo-write.kak"
 
 # Following plugins require Rust compilation prior to use.
 # plug 'eraserhd/parinfer-rust'
-source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
+# source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
 # plug 'ul/kak-lsp'
 eval %sh{kak-lsp --kakoune -s $kak_session}
 # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
