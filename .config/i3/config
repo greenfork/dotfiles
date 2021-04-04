@@ -212,3 +212,4 @@ bar {
 default_border pixel
 
 bindsym $mod+Shift+Print exec maim --select --hidecursor | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
