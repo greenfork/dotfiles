@@ -559,6 +559,16 @@
         :defer t
         :chords (("jj" . avy-goto-char-timer)))
     #+end_src
+*** dumb-jump
+
+    #+begin_src emacs-lisp
+      (use-package dumb-jump
+        :custom
+        (dumb-jump-selector 'ivy)
+        (dumb-jump-prefer-searcher 'rg)
+        :hook
+        (xref-backend-functions . dumb-jump-xref-activate))
+    #+end_src
 
 ** Project management
 *** Projectile
@@ -713,6 +723,7 @@ ns
         (racket-repl-mode . smartparens-strict-mode)
         (emacs-lisp-mode . smartparens-strict-mode)
         (gerbil-mode . smartparens-strict-mode)
+        (elixir-mode . smartparens-mode)
         :config
         (electric-pair-local-mode -1)
         (show-smartparens-mode)
@@ -736,9 +747,21 @@ ns
                     ("M-R" . sp-splice-sexp-killing-around)
                     ("M-C" . sp-clone-sexp)
                     ("M-d" . sp-kill-sexp)
-                    ("M-<backspace>" . sp-backward-kill-sexp)
+                    ("M-<backspace>" . sp-backward-kill-sexp)))
+    #+end_src
 
-                    (";" . sp-comment)))
+*** yasnippet
+
+    #+begin_src emacs-lisp
+      (use-package yasnippet
+        :hook
+        ((prog-mode . yas-minor-mode)
+         (conf-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode)
+         (snippet-mode . yas-minor-mode)))
+
+      (use-package yasnippet-snippets
+        :after (yasnippet))
     #+end_src
 
 ** Languages
@@ -900,6 +923,21 @@ ns
 
     #+begin_src emacs-lisp
       (use-package geiser)
+    #+end_src
+
+*** Elixir
+
+    #+begin_src emacs-lisp
+      (use-package elixir-mode
+        :bind (:map elixir-mode-map
+                ("C-c C-f" . elixir-format)))
+
+      ;; Abandoned in favor of elixir-ls LSP
+      ;; (use-package alchemist
+      ;;   :hook
+      ;;   (elixir-mode . alchemist-mode)
+      ;;   :custom
+      ;;   (alchemist-key-command-prefix (kbd "C-c ,")))
     #+end_src
 
 ** REPLs
