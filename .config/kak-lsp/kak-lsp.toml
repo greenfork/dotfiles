@@ -156,3 +156,8 @@ filetypes = ["racket"]
 roots = ["info.rkt", "main.rkt", ".git", ".hg"]
 command = "racket"
 args = ["-l", "racket-langserver"]
+
+[language.elixir]
+filetypes = ["elixir"]
+roots = ["mix.exs"]
+command = "elixir-ls"

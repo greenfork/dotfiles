@@ -286,6 +286,7 @@ hook global WinSetOption filetype=elixir %{
     add-highlighter global/column_highlighter column 98 default,rgb:303030
     set-option window formatcmd 'mix format -'
     no-tabs 2
+    lsp-enable-window
 }
 hook global WinSetOption filetype=eex %{
     no-tabs 2
