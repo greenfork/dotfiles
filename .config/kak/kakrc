@@ -81,7 +81,9 @@ define-command ror-test %{ evaluate-commands %sh{
 ##############
 
 add-highlighter global/ number-lines -relative -separator ' ' -hlcursor
-add-highlighter global/column_highlighter column 80 default,rgb:303030
+hook global WinCreate .* %{
+    add-highlighter -override window/column_highlighter column 80 default,rgb:303030
+}
 add-highlighter global/ wrap -word -indent
 add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
@@ -319,14 +321,16 @@ hook -group racket-highlight global WinSetOption filetype=racket %{
 # Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
 # to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
 hook global WinSetOption filetype=ruby %{
-    set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile"; } && run '
+    set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile" 2>/dev/null; } && run '
     set-option window formatcmd 'rubocop --stdin . -a'
     no-tabs 2
     lint-on-write
 }
 hook global WinSetOption filetype=slim %{
+    set-option window lintcmd 'run () { cat "$1" | /home/grfork/.rbenv/shims/slim-lint --reporter emacs --stdin-file-path "$kak_buffile" 2>/dev/null; } && run '
     no-tabs 2
     set-option window comment_line '//'
+    lint-on-write
 }
 hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
@@ -400,17 +404,6 @@ hook global WinCreate .* %{ evaluate-commands %sh{
         esac
     fi
 } }
-
-declare-option -docstring 'name of the git branch holding the current buffer' \
-    str modeline_git_branch
-hook global WinCreate .* %{
-    hook window NormalIdle .* %{ evaluate-commands %sh{
-        branch=$(cd "$(dirname '${kak_buffile}')" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
-        if [ -n "${branch}" ]; then
-            printf 'set window modeline_git_branch %%{%s}' "${branch}"
-        fi
-    } }
-}
 
 
 
