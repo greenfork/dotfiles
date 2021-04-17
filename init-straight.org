@@ -58,6 +58,19 @@
                (diminish 'eldoc-mode)))
     #+end_src
 
+*** guix
+
+    #+begin_src emacs-lisp
+      (use-package guix)
+
+      (when-let (_ (getenv "GUIX_CHECKOUT"))
+        (with-eval-after-load 'geiser-guile
+          (add-to-list 'geiser-guile-load-path (getenv "GUIX_CHECKOUT")))
+        (with-eval-after-load 'yasnippet
+          (add-to-list 'yas-snippet-dirs (concat (getenv "GUIX_CHECKOUT") "/etc/snippets")))
+        (load-file (concat (getenv "GUIX_CHECKOUT") "/etc/copyright.el")))
+    #+end_src
+
 ** Profiling
 *** Esup
 
@@ -317,6 +330,9 @@
       (global-set-key (kbd "C-M-j") 'windmove-down)
       (global-set-key (kbd "C-M-k") 'windmove-up)
       (global-set-key (kbd "C-M-l") 'windmove-right)
+      (add-hook 'comint-mode-hook
+                (lambda ()
+                  (local-unset-key (kbd "C-M-l"))))
       (add-hook 'comint-mode-hook
                 (lambda ()
                   (local-unset-key (kbd "C-M-l"))))
@@ -723,6 +739,7 @@ ns
         (racket-repl-mode . smartparens-strict-mode)
         (emacs-lisp-mode . smartparens-strict-mode)
         (gerbil-mode . smartparens-strict-mode)
+        (scheme-mode . smartparens-strict-mode)
         (elixir-mode . smartparens-mode)
         :config
         (electric-pair-local-mode -1)
@@ -923,6 +940,7 @@ ns
 
     #+begin_src emacs-lisp
       (use-package geiser)
+      (use-package geiser-guile)
     #+end_src
 
 *** Elixir

@@ -28,7 +28,6 @@ if status --is-interactive
     abbr --add --global rdm rails db:migrate
     abbr --add --global rgm rails generate migration
     abbr --add --global rdf rails db:fixtures:load
-    abbr --add --global yic yarn install --check-files
     abbr --add --global be "bundle exec"
 
     # Key bindings

@@ -20,19 +20,9 @@ Restart guix-daemon after that.
 
 https://www.reddit.com/r/GUIX/comments/jpq1uw/bashminimal507binbash_warning_setlocale_lc_all/
 
-Original configuration:
-
-- guix install glibc-locales as normal user
-
-- export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale in ~/.bashrc
-
-The steps I've taken according to u/forcefaction:
-
 - sudo guix install glibc-locales
-
 - Added line export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale into /root/.profile
   if it is not already present in `/etc/profile.d/guix.sh`
-
 - sudo -i guix pull
 
 ### Upgrade

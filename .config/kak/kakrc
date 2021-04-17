@@ -40,7 +40,7 @@ source "%val{config}/plugins/kakoune-sudo-write/sudo-write.kak"
 
 # Following plugins require Rust compilation prior to use.
 # plug 'eraserhd/parinfer-rust'
-# source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
+source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
 # plug 'ul/kak-lsp'
 eval %sh{kak-lsp --kakoune -s $kak_session}
 # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
@@ -243,7 +243,7 @@ auto-pairs-enable
 ###########
 
 # plug 'occivink/kakoune-find'
-set-option global grepcmd 'rg -iHL --column'
+set-option global grepcmd 'rg -iHLF --column'
 
 
 
@@ -295,7 +295,7 @@ hook global WinSetOption filetype=eex %{
 }
 hook global BufCreate .*\.rkt %{ set-option buffer filetype racket }
 hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
-    parinfer-enable-window -smart
+    # parinfer-enable-window -smart
     no-tabs 2
     set-option window disabled_hooks '' # reenable trim-indent hooks
     set-option window auto_pairs ( ) { } [ ] '"' '"' “ ” ‘ ’ « » ‹ › # exclude ` and '
