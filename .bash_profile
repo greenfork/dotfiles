@@ -12,3 +12,5 @@ export EDITOR=kak
 
 export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 [[ -d $HOME/reps/guix ]] && export GUIX_CHECKOUT=$HOME/reps/guix
+
+[[ -r "/home/grfork/reps/emsdk/emsdk_env.sh" ]] && source "/home/grfork/reps/emsdk/emsdk_env.sh"
