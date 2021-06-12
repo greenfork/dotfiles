@@ -1,11 +1,6 @@
 [user]
-	email = dm.matveyev@gmail.com
+	email = greenfork.lists@yandex.com
 	name = Dmitry Matveyev
-[merge]
-	tool = kakmerge
-[mergetool "kakmerge"]
-	cmd = env LOCAL=\"${LOCAL}\" BASE=\"${BASE}\" REMOTE=\"${REMOTE}\" MERGED=\"${MERGED}\" kakmerge
-	trustExitCode = true
 [color]
 	ui = true
 [color "diff-highlight"]
@@ -32,3 +27,11 @@
 	rebase = false
 [init]
 	defaultBranch = master
+[sendemail]
+	smtpEncryption = ssl
+	smtpServer = smtp.yandex.com
+	smtpUser = greenfork.lists
+	smtpServerPort = 465
+	annotate = true
+[credential "smtp://greenfork.lists@smtp.yandex.com:465"]
+	helper = store
