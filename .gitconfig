@@ -1,26 +1,9 @@
 [user]
 	email = greenfork.lists@yandex.com
 	name = Dmitry Matveyev
-[color]
-	ui = true
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-[core]
-	pager = diff-so-fancy | less --tabs=4 -RFX
-[diff-so-fancy]
-	first-run = false
 [diff]
 	algorithm = histogram
+	colorMoved = default
 [bash]
 	showInformativeStatus = true
 [pull]
@@ -35,3 +18,39 @@
 	annotate = true
 [credential "smtp://greenfork.lists@smtp.yandex.com:465"]
 	helper = store
+
+; delta
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	features = line-numbers decorations
+	navigate = true
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold yellow ul
+	file-decoration-style = none
+
+; diff-so-fancy
+; [color]
+; 	ui = true
+; [color "diff-highlight"]
+; 	oldNormal = red bold
+; 	oldHighlight = red bold 52
+; 	newNormal = green bold
+; 	newHighlight = green bold 22
+; [color "diff"]
+; 	meta = yellow
+; 	frag = magenta bold
+; 	commit = yellow bold
+; 	old = red bold
+; 	new = green bold
+; 	whitespace = red reverse
+; [core]
+; 	pager = diff-so-fancy | less --tabs=4 -RFX
+; [diff-so-fancy]
+; 	first-run = false
