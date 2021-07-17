@@ -40,4 +40,6 @@ if status --is-interactive
     alias ip    "ip -color=auto"
     alias ll    "exa -lFg"
     alias la    "exa -lFga"
+
+    zoxide init fish | source
 end
