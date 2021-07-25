@@ -32,7 +32,7 @@
 	navigate = true
 [delta "decorations"]
 	commit-decoration-style = bold yellow box ul
-	file-style = bold yellow ul
+	file-style = bold yellow box
 	file-decoration-style = none
 
 ; diff-so-fancy
