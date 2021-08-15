@@ -23,12 +23,22 @@ if status --is-interactive
     # Rails stuff
     abbr --add --global fullrdrs "bin/rails db:environment:set RAILS_ENV=development && bin/rake db:drop db:create db:migrate db:fixtures:load"
     abbr --add --global proddb "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rake db:drop db:create && pg_restore -Od hub2_development ../latest.dump && bin/rake jobs:clear && bin/rails runner \"Member.find(9).user.update!(password: 'password')\""
-    abbr --add --global rt PARALLEL_WORKERS=16 spring rails test
+    abbr --add --global rt PARALLEL_WORKERS=12 spring rails test
     abbr --add --global rc spring rails console
     abbr --add --global rdm rails db:migrate
     abbr --add --global rgm rails generate migration
     abbr --add --global rdf rails db:fixtures:load
     abbr --add --global be "bundle exec"
+
+    # Zig stuff
+    abbr --add --global zb zig build
+    abbr --add --global zbt zig build test
+    abbr --add --global zr zig run
+    abbr --add --global zt zig test
+
+    # Editors
+    abbr --add --global k kak
+    abbr --add --global e emacs --no-splash
 
     # Key bindings
     bind \cr fzf_search_history
@@ -38,6 +48,7 @@ if status --is-interactive
 
     # Color support
     alias ip    "ip -color=auto"
+    alias l    "exa -F"
     alias ll    "exa -lFg"
     alias la    "exa -lFga"
 

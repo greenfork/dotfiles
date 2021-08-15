@@ -111,7 +111,7 @@
       (fset 'yes-or-no-p 'y-or-n-p)  ; Instead of ido-y-or-n
 
       (setq
-       initial-buffer-choice t  ; Don't show splash screen
+       ;; initial-buffer-choice t  ; Don't show splash screen
        scroll-conservatively most-positive-fixnum  ; Scroll smoothly (somewhat)
        scroll-preserve-screen-position t  ; Try to preserve cursor position
        column-number-mode t  ; Show column number in mode line
