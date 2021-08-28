@@ -81,7 +81,7 @@ define-command ror-test %{ evaluate-commands %sh{
 # Highlighters
 ##############
 
-add-highlighter global/ number-lines -relative -separator ' ' -hlcursor
+add-highlighter global/ number-lines -separator ' ' -hlcursor
 hook global WinCreate .* %{
     add-highlighter -override window/column_highlighter column 80 default,rgb:303030
 }
@@ -89,6 +89,8 @@ add-highlighter global/ wrap -word -indent
 add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
 set-face global MatchingChar default,magenta
+set-face global LineNumbers rgb:404040
+set-face global LineNumbersWrapped rgb:404040
 add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
 
 # plug 'https://gitlab.com/fsub/kakoune-mark'
@@ -107,8 +109,8 @@ map global normal -docstring 'enter user mode' <space> ,
 map global normal -docstring 'remove all sels except main' <backspace> <space>
 map global normal -docstring 'remove main sel' <a-backspace> <a-space>
 set-option global autoreload yes
-map global normal ^ q
-map global normal & Q
+map global normal <F4> q  # execute macro
+map global normal <F3> Q  # record macro
 map global normal q b
 map global normal Q B
 map global normal <a-q> <a-b>
@@ -419,7 +421,14 @@ define-command gen-ctags %{
 }
 
 # Readline key bindings
-map global insert <c-d> <esc>di
+map global insert <c-d> <del>
+map global insert <c-f> <right> -docstring forward-char
+map global insert <c-b> <left> -docstring backward-char
+# map global insert <c-p> <up> -docstring backward-char
+# map global insert <c-n> <down> -docstring backward-char
+map global insert <c-y> '<c-r>"' -docstring yank
+map global prompt <c-y> '<c-r>"' -docstring yank
+map global prompt <c-g> <esc> -docstring abort
 
 # Misc
 ######
