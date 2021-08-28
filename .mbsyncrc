@@ -1,0 +1,25 @@
+IMAPAccount fastmail
+Host imap.fastmail.com
+Port 993
+UserCmd "cat ~/.mbsync-fastmail-user"
+PassCmd "cat ~/.mbsync-fastmail-pass"
+SSLType IMAPS
+SSLVersions TLSv1.2
+
+IMAPStore fastmail-remote
+Account fastmail
+
+MaildirStore fastmail-local
+Path ~/mail/fastmail/
+Inbox ~/mail/fastmail/INBOX
+SubFolders Verbatim
+
+Channel fastmail
+Far :fastmail-remote:
+Near :fastmail-local:
+Patterns *
+Expunge None
+CopyArrivalDate yes
+Sync All
+Create Slave
+SyncState *

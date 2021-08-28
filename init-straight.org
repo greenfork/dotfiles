@@ -410,22 +410,22 @@
         :straight nil
         :custom
         (mail-user-agent 'mu4e-user-agent)
-        ;; (mu4e-change-filenames-when-moving t) ; for mbsync
+        (mu4e-change-filenames-when-moving t) ; for mbsync
         (mu4e-confirm-quit nil)
-        (mu4e-get-mail-command "offlineimap -o")
+        (mu4e-get-mail-command "mbsync -a")
         (mu4e-update-interval 300)
         ;; (mu4e-html2text-command "iconv -c -t utf-8 | pandoc -f html -t plain")
-        (mu4e-maildir "~/mail/lists")
+        (mu4e-maildir "~/mail/fastmail")
         (mu4e-maildir-shortcuts
-         '(("/lists/INBOX" . ?i)
-           ("/lists/Drafts" . ?D)
-           ("/lists/Sent" . ?S)
-           ("/lists/Trash" . ?T)
-           ("/lists/Archive" . ?A)))
-        (mu4e-sent-folder "/lists/Sent")
-        (mu4e-drafts-folder "/lists/Drafts")
-        (mu4e-trash-folder "/lists/Trash")
-        (mu4e-refile-folder "/lists/Archive")
+         '(("/fastmail/INBOX" . ?i)
+           ("/fastmail/Drafts" . ?D)
+           ("/fastmail/Sent" . ?S)
+           ("/fastmail/Trash" . ?T)
+           ("/fastmail/Archive" . ?A)))
+        (mu4e-sent-folder "/fastmail/Sent")
+        (mu4e-drafts-folder "/fastmail/Drafts")
+        (mu4e-trash-folder "/fastmail/Trash")
+        (mu4e-refile-folder "/fastmail/Archive")
         (mu4e-use-fancy-chars t)
         (mu4e-view-show-addresses t)
         (mu4e-view-show-images t)
@@ -433,14 +433,13 @@
         (mu4e-attachment-dir "~/Downloads/attachments")
         (mu4e-compose-dont-reply-to-self t)
         (mu4e-compose-signature-auto-include nil)
-        (mu4e-compose-reply-to-address "greenfork.lists@yandex.com")
-        (user-mail-address "greenfork.lists@yandex.com")
+        (mu4e-compose-reply-to-address "dev@greenfork.me")
+        (user-mail-address "dev@greenfork.me")
         (user-full-name "Dmitry Matveyev")
         (message-send-mail-function 'smtpmail-send-it)
-        (smtpmail-default-smtp-server "smtp.yandex.com")
-        (smtpmail-smtp-server "smtp.yandex.com")
+        (smtpmail-default-smtp-server "smtp.fastmail.com")
+        (smtpmail-smtp-server "smtp.fastmail.com")
         (smtpmail-smtp-service 465)
-        (smtpmail-smtp-user "greenfork.lists")
         (smtpmail-stream-type 'ssl)
         :config
         ;; (add-to-list 'mu4e-headers-actions '("org-contact-add" . mu4e-action-add-org-contact) t)
@@ -448,8 +447,7 @@
         :hook
         ((message-send . (lambda ()
                            (unless (yes-or-no-p "Send message?")
-                             (signal 'quit nil)))))
-        )
+                             (signal 'quit nil))))))
     #+end_src
 
 ** Web
