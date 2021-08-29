@@ -61,23 +61,6 @@ def lsp-engage -docstring 'Enable language server' %{
     lsp-auto-hover-enable
 }
 
-
-
-# Ruby on rails
-###############
-
-define-command ror-test %{ evaluate-commands %sh{
-    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-grep.XXXXXXXX)/fifo
-    mkfifo ${output}
-    ( spring rails test ${kak_quoted_buffile}:${kak_cursor_line} > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
-    printf %s\\n "evaluate-commands %{
-              edit! -fifo ${output} -scroll *rails-test*
-              hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
-          }"
-} }
-
-
-
 # Highlighters
 ##############
 
@@ -268,6 +251,8 @@ hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=zzz %{ no-tabs 2 }
+# Remove markdown highlighting, it's broken
+hook global WinSetOption filetype=markdown %{ set buffer filetype md }
 hook global WinSetOption filetype=html %{
     no-tabs 2
     lsp-engage
