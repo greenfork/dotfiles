@@ -201,15 +201,10 @@
      #+end_src
 
 ** Font
-*** Fantasque Sans Mono
-
-    Use Fantasque Sans Mono font with ligatures.
+*** Setting font and ligatures
 
     #+begin_src emacs-lisp
-      ;; On MacOS due to retina display font should be bigger.
-      (if (eq system-type 'darwin)
-          (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 120)
-        (set-face-attribute 'default nil :font "Fantasque Sans Mono" :height 110))
+      (set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
 
       ;; (let ((alist `((?& . ,(regexp-opt '("&&")))
       ;;                (?* . ,(regexp-opt '("*/")))
@@ -229,16 +224,35 @@
 
       ;; (apply 'append (mapcar (lambda (x) (cadr (cadr (caddr x)))) alist))
 
+      ;; https://emacs.stackexchange.com/q/55059
+      (defconst ligatures--jetbrains-mono
+         '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
+           "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
+           "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
+           "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
+           "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
+           "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
+           "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
+           "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
+           ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
+           "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
+           "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
+           "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
+           "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
+           "&="))
+
+      (defconst ligatures--fantasque-sans-mono
+        '("&&" "*/" "|||>" "||>" "||" "|>" "::" "===" "==>" "=="
+          "=>>" "=>" "=<<" "=/=" "!==" "!=" ">=>" ">=" ">>=" ">>-"
+          ">>" ">->" ">-" "->>" "->" "-->" "-<<" "-<" "<|||" "<||"
+          "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+          "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~"
+          "/**/" "/*" "//" "~>" "~~>" "~~"))
+
       (use-package ligature
         :straight (ligature :type git :host github :repo "mickeynp/ligature.el")
         :config
-        (ligature-set-ligatures 'prog-mode
-                                '("&&" "*/" "|||>" "||>" "||" "|>" "::" "===" "==>" "=="
-                                  "=>>" "=>" "=<<" "=/=" "!==" "!=" ">=>" ">=" ">>=" ">>-"
-                                  ">>" ">->" ">-" "->>" "->" "-->" "-<<" "-<" "<|||" "<||"
-                                  "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
-                                  "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~"
-                                  "/**/" "/*" "//" "~>" "~~>" "~~"))
+        (ligature-set-ligatures 'prog-mode ligatures--jetbrains-mono)
         (global-ligature-mode))
 
     #+end_src
