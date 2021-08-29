@@ -206,24 +206,6 @@
     #+begin_src emacs-lisp
       (set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
 
-      ;; (let ((alist `((?& . ,(regexp-opt '("&&")))
-      ;;                (?* . ,(regexp-opt '("*/")))
-      ;;                (?| . ,(regexp-opt '("|||>" "||>" "||" "|>")))
-      ;;                (?: . ,(regexp-opt '("::")))
-      ;;                (?= . ,(regexp-opt '("===" "==>" "==" "=>>" "=>" "=<<" "=/=")))
-      ;;                (?! . ,(regexp-opt '("!==" "!=")))
-      ;;                (?> . ,(regexp-opt '(">=>" ">=" ">>=" ">>-" ">>" ">->" ">-")))
-      ;;                (?- . ,(regexp-opt '("->>" "->" "-->" "-<<" "-<")))
-      ;;                (?< . ,(regexp-opt '("<|||" "<||" "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
-      ;;                                     "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~")))
-      ;;                (?/ . ,(regexp-opt '("/**/" "/*" "//")))
-      ;;                (?~ . ,(regexp-opt '("~>" "~~>" "~~"))))))
-      ;;   (dolist (char-regexp alist)
-      ;;     (set-char-table-range composition-function-table (car char-regexp)
-      ;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
-      ;; (apply 'append (mapcar (lambda (x) (cadr (cadr (caddr x)))) alist))
-
       ;; https://emacs.stackexchange.com/q/55059
       (defconst ligatures--jetbrains-mono
          '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
