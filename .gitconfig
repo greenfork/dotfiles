@@ -12,14 +12,14 @@
 	defaultBranch = master
 [sendemail]
 	smtpEncryption = ssl
-	smtpServer = smtp.yandex.com
-	smtpUser = greenfork.lists
+	smtpServer = smtp.fastmail.com
+	smtpUser = greenfork@greenfork.me
 	smtpServerPort = 465
 	annotate = true
-[credential "smtp://greenfork.lists@smtp.yandex.com:465"]
+[credential]
 	helper = store
 
-; delta
+; delta diff viewer
 [pager]
 	diff = delta
 	log = delta

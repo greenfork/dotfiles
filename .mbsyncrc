@@ -1,7 +1,7 @@
 IMAPAccount fastmail
 Host imap.fastmail.com
 Port 993
-UserCmd "cat ~/.mbsync-fastmail-user"
+User greenfork@greenfork.me
 PassCmd "cat ~/.mbsync-fastmail-pass"
 SSLType IMAPS
 SSLVersions TLSv1.2
