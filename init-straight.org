@@ -885,8 +885,7 @@
       ;;   :bind (([remap lispy-move-beginning-of-line] . crux-move-beginning-of-line)))
     #+end_src
 
-*** smartpare
-ns
+*** smartparens
 
     #+begin_src emacs-lisp
       (use-package smartparens
