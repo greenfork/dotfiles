@@ -776,6 +776,15 @@
            flycheck-display-errors-delay 0.25))
     #+end_src
 
+*** Flyspell
+
+    #+begin_src emacs-lisp
+      (use-package flyspell
+        :hook
+        ((prog-mode . flyspell-prog-mode)
+         (text-mode . flyspell-mode)))
+    #+end_src
+
 ** Editing
 *** Crux
 
