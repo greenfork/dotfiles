@@ -584,6 +584,19 @@
         :requires erc)
     #+end_src
     
+*** Matrix ement.el
+
+    #+begin_src emacs-lisp
+      (use-package plz
+        :straight
+        (plz :type git :flavor quelpa :host github :repo "alphapapa/plz.el"))
+
+      (use-package ement
+        :straight
+        (ement :type git :flavor quelpa :host github :repo "alphapapa/ement.el")
+        :after plz)
+    #+end_src
+    
 ** Web
 *** Gopher/Gemini
 
