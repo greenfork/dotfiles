@@ -17,7 +17,7 @@
 	smtpServerPort = 465
 	annotate = true
 [credential]
-	helper = store
+	helper = "netrc -f ~/.authinfo.gpg"
 
 ; delta diff viewer
 [pager]

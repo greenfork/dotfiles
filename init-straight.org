@@ -1,11 +1,11 @@
-* Config
+* Configuration
 ** Set gc threshold more
 
    #+begin_src emacs-lisp
      (setq gc-cons-threshold (* 50 1000 1000))
    #+end_src
 
-** Config management
+** Configuration management
    `C-x C-l` reloads the init-file.
 
    #+begin_src emacs-lisp
@@ -17,6 +17,14 @@
      (global-set-key (kbd "C-x C-l") 'reload-init-file)
    #+end_src
 
+** Authentication
+
+   Always use only encrypted storage for passwords.
+   
+   #+begin_src emacs-lisp
+     (setq auth-sources '("~/.authinfo.gpg"))
+   #+end_src
+   
 ** Package management
 *** straight.el
 
