@@ -53,4 +53,7 @@ if status --is-interactive
     alias la    "exa -lFga"
 
     zoxide init fish | source
+
+    # Use gpg for ssh
+    gpg-connect-agent updatestartuptty /bye >/dev/null
 end

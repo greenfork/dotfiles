@@ -12,12 +12,12 @@ alias ip='ip -color=auto'
 alias ..='cd ..'
 alias grep='grep --color=auto'
 
-[[ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]] && \
-  . "$HOME/.config/guix/current/etc/bash_completion.d/guix"
-
 GREEN="\[\e[0;92m\]"
 RESET="\[\e[0m\]"
 BASE_PROMPT="\u@\h ${GREEN}\w${RESET}"
+
+[[ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]] && \
+  . "$HOME/.config/guix/current/etc/bash_completion.d/guix"
 
 if [ -n "$GUIX_ENVIRONMENT" ]
 then
@@ -25,3 +25,11 @@ then
 else
     export PS1="${BASE_PROMPT} \$ "
 fi
+
+# Use gpg-agent for ssh
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
