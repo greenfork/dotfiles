@@ -264,6 +264,8 @@
 ** Org-mode
 *** Shortcuts
 
+    For example, use `<s` followed by TAB to expand to source block in org.
+
     #+begin_src emacs-lisp
       (add-hook 'org-mode-hook (lambda () (require 'org-tempo)))
     #+end_src
@@ -603,7 +605,9 @@
       (use-package ement
         :straight
         (ement :type git :flavor quelpa :host github :repo "alphapapa/ement.el")
-        :after plz)
+        :after plz
+        :custom
+        (ement-save-sessions t))
     #+end_src
     
 ** Web
@@ -733,13 +737,14 @@
 ** Source navigation
 *** Avy
 
-    Quickly type `jj' and several consequtive characters of the place you want to jump to.
+    Quickly type `jj' and several consecutive characters of the place you want to jump to.
 
     #+begin_src emacs-lisp
       (use-package avy
         :defer t
         :chords (("jj" . avy-goto-char-timer)))
     #+end_src
+
 *** dumb-jump
 
     #+begin_src emacs-lisp
@@ -1122,13 +1127,6 @@
       (use-package elixir-mode
         :bind (:map elixir-mode-map
                 ("C-c C-f" . elixir-format)))
-
-      ;; Abandoned in favor of elixir-ls LSP
-      ;; (use-package alchemist
-      ;;   :hook
-      ;;   (elixir-mode . alchemist-mode)
-      ;;   :custom
-      ;;   (alchemist-key-command-prefix (kbd "C-c ,")))
     #+end_src
 
 ** REPLs
