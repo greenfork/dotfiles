@@ -109,7 +109,7 @@
         (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
       (setq-default
-       indicate-empty-lines 1
+       indicate-empty-lines nil
        tab-width 4
        fill-column 80  ; Maximum recommended number of characters per line
        indent-tabs-mode nil  ; Don't use tab
@@ -286,6 +286,12 @@
         :defer t
         :hook (org-mode . org-bullets-mode))
     #+end_src
+
+** Markdown-mode
+
+   #+begin_src emacs-lisp
+     (use-package markdown-mode)
+   #+end_src
 
 ** Theme
 *** Cyberpunk theme
