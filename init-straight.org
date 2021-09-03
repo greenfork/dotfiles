@@ -115,18 +115,16 @@
        indent-tabs-mode nil  ; Don't use tab
        display-fill-column-indicator-character ?░)  ; Fancy 80 column indicator
 
-      (fset 'display-startup-echo-area-message 'ignore)  ; Don't litter echo area on startup
       (fset 'yes-or-no-p 'y-or-n-p)  ; Instead of ido-y-or-n
 
       (setq
-       ;; initial-buffer-choice t  ; Don't show splash screen
        scroll-conservatively most-positive-fixnum  ; Scroll smoothly (somewhat)
        scroll-preserve-screen-position t  ; Try to preserve cursor position
        column-number-mode t  ; Show column number in mode line
        load-prefer-newer t  ; Load the "newest" version of a file
        read-file-name-completion-ignore-case t  ; Ignore case with completion
        require-final-newline t  ; All modern files require newline at end
-       uniquify-buffer-name-style 'forward  ; Buffer names for files with same name
+       ;; uniquify-buffer-name-style 'forward  ; Buffer names for files with same name
        create-lockfiles nil  ; Lockfiles don't play nice with source control
        backup-directory-alist '((".*" . "~/.emacs.d/backup"))
        backup-by-copying t  ; Don't delink hardlinks
@@ -141,7 +139,7 @@
                             ; e.g. when another dired buffer is open side by side
        vc-follow-symlinks t
        echo-keystrokes 0.5  ; Display just pressed button faster in minibuffer
-       initial-scratch-message ""  ; *scratch* message in minibuffer
+       initial-scratch-message nil  ; *scratch* message in minibuffer
        initial-major-mode 'emacs-lisp-mode  ; *sratch* uses its own major mode, pls no
        find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
        custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
@@ -154,6 +152,53 @@
 
       (with-eval-after-load 'tramp-cache
         (setq tramp-persistency-file-name "~/.emacs.d/etc/tramp"))
+
+      ;; Settings copied from Nano. Later should be incorporated into the main
+      ;; settings, for now they are here since they are new and we might want to
+      ;; change them for debugging.
+      (setq inhibit-startup-screen t)
+      (setq inhibit-startup-message t)
+      (setq inhibit-startup-echo-area-message t)
+      (setq initial-buffer-choice nil)
+      (setq frame-title-format nil)
+      (setq use-file-dialog nil)
+      (setq use-dialog-box nil)
+      (setq pop-up-windows nil)
+      (setq indicate-empty-lines nil)
+      (setq cursor-in-non-selected-windows nil)
+      (setq font-lock-maximum-decoration nil)
+      (setq font-lock-maximum-size nil)
+      (setq auto-fill-mode nil)
+      (setq confirm-nonexistent-file-or-buffer nil)
+      (setq completion-styles '(basic substring))
+      (setq org-return-follows-link t)
+      (temp-buffer-resize-mode)
+      (setq temp-buffer-max-height 8)
+      (setq window-min-height 1)
+      (set-default-coding-systems 'utf-8)
+      (set-terminal-coding-system 'utf-8)
+      (set-keyboard-coding-system 'utf-8)
+      (set-language-environment   'utf-8)
+      (require 'uniquify)
+      (setq uniquify-buffer-name-style 'reverse
+            uniquify-separator " • "
+            uniquify-after-kill-buffer-p t
+            uniquify-ignore-buffers-re "^\\*")
+
+      ;; Kill term buffer when exiting
+      (defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
+        (if (memq (process-status proc) '(signal exit))
+            (let ((buffer (process-buffer proc)))
+              ad-do-it
+              (kill-buffer buffer))
+          ad-do-it))
+      (ad-activate 'term-sentinel)
+
+      ;; Mouse active in terminal
+      (unless (display-graphic-p)
+        (xterm-mouse-mode 1)
+        (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+        (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
      #+end_src
 
      After startup.
@@ -208,59 +253,6 @@
        (global-so-long-mode 1)
      #+end_src
 
-** Font
-*** Setting font and ligatures
-
-    #+begin_src emacs-lisp
-      (set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
-
-      ;; https://emacs.stackexchange.com/q/55059
-      (defconst ligatures--jetbrains-mono
-         '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
-           "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
-           "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
-           "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
-           "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
-           "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
-           "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
-           "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
-           ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
-           "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
-           "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
-           "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
-           "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
-           "&="))
-
-      (defconst ligatures--fantasque-sans-mono
-        '("&&" "*/" "|||>" "||>" "||" "|>" "::" "===" "==>" "=="
-          "=>>" "=>" "=<<" "=/=" "!==" "!=" ">=>" ">=" ">>=" ">>-"
-          ">>" ">->" ">-" "->>" "->" "-->" "-<<" "-<" "<|||" "<||"
-          "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
-          "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~"
-          "/**/" "/*" "//" "~>" "~~>" "~~"))
-
-      (use-package ligature
-        :straight (ligature :type git :host github :repo "mickeynp/ligature.el")
-        :config
-        (ligature-set-ligatures 'prog-mode ligatures--jetbrains-mono)
-        (global-ligature-mode))
-
-    #+end_src
-
-*** Emojis
-
-    #+begin_src emacs-lisp
-      (set-fontset-font
-       t
-       '(#x1f300 . #x1fad0)
-       (cond
-        ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
-        ((member "Noto Emoji" (font-family-list)) "Noto Emoji")
-        ((member "Segoe UI Emoji" (font-family-list)) "Segoe UI Emoji")
-        ((member "Symbola" (font-family-list)) "Symbola")
-        ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji")))
-    #+end_src
-
 ** Org-mode
 *** Shortcuts
 
@@ -279,13 +271,141 @@
     #+end_src
 
 ** Theme
-*** My cyberpunk
+*** Cyberpunk theme
+
+    For org todo lists it looks too bright and too colorful. Could probably be
+    true for any high-contrast theme but for now since my use case also includes
+    managing todo lists with Emacs, I'd like to settle with a lower contrast
+    theme.
+    
+    #+begin_src emacs-lisp
+      ;; (straight-use-package
+      ;;  '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
+      ;;                 :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "my-master")))
+      ;; (load-theme 'cyberpunk t)
+    #+end_src
+
+*** Font
+**** Setting font and ligatures
+
+     #+begin_src emacs-lisp
+       ;; This setting is set in the Nano theme.
+       (set-face-attribute 'default nil :font "JetBrains Mono" :height 110)
+
+       ;; https://emacs.stackexchange.com/q/55059
+       (defconst ligatures--jetbrains-mono
+          '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
+            "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
+            "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
+            "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
+            "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
+            "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
+            "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
+            "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
+            ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
+            "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
+            "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
+            "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
+            "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
+            "&="))
+
+       (defconst ligatures--fantasque-sans-mono
+         '("&&" "*/" "|||>" "||>" "||" "|>" "::" "===" "==>" "=="
+           "=>>" "=>" "=<<" "=/=" "!==" "!=" ">=>" ">=" ">>=" ">>-"
+           ">>" ">->" ">-" "->>" "->" "-->" "-<<" "-<" "<|||" "<||"
+           "<|>" "<|" "<==" "<=>" "<=<" "<=" "<!--" "<>" "<->"
+           "<--" "<-<" "<-" "<<=" "<<-" "<<" "<~>" "<~" "<~~"
+           "/**/" "/*" "//" "~>" "~~>" "~~"))
+
+       (use-package ligature
+         :straight (ligature :type git :host github :repo "mickeynp/ligature.el")
+         :config
+         (ligature-set-ligatures 'prog-mode ligatures--jetbrains-mono)
+         (global-ligature-mode))
+
+     #+end_src
+
+**** Emojis
+
+     #+begin_src emacs-lisp
+       (set-fontset-font
+        t
+        '(#x1f300 . #x1fad0)
+        (cond
+         ((member "Noto Color Emoji" (font-family-list)) "Noto Color Emoji")
+         ((member "Noto Emoji" (font-family-list)) "Noto Emoji")
+         ((member "Segoe UI Emoji" (font-family-list)) "Segoe UI Emoji")
+         ((member "Symbola" (font-family-list)) "Symbola")
+         ((member "Apple Color Emoji" (font-family-list)) "Apple Color Emoji")))
+     #+end_src
+
+*** N Λ N O theme
+
+    This also sets quite a lot of default settings and even package
+    customizations, so other places will be amended as needed.
 
     #+begin_src emacs-lisp
-      (straight-use-package
-       '(cyberpunk-theme :type git :flavor melpa :host github :repo "n3mo/cyberpunk-theme.el"
-                      :fork (:repo "greenfork/cyberpunk-theme.el" :host github :branch "my-master")))
-      (load-theme 'cyberpunk t)
+      ;; For `nano-minibuffer'
+      (use-package mini-frame)
+
+      ;; For `nano-mu4e'
+      (use-package svg-tag-mode)
+      (use-package mu4e-dashboard
+        :straight (mu4e-dashboard :type git :host github :repo "rougier/mu4e-dashboard"))
+      (use-package mu4e-thread-folding
+        :straight (mu4e-thread-folding :type git :host github :repo "rougier/mu4e-thread-folding"))
+
+      ;; For `nano-agenda'
+      (use-package ts)
+
+      ;; Use standalone theme, the one packaged with `nano' does not work with latest
+      ;; mu4e.
+      (use-package nano-theme
+        :straight (nano-theme :type git :host github :repo "rougier/nano-theme")
+        :config
+        (nano-dark))
+
+      (use-package nano
+        :straight (nano-emacs :type git :host github :repo "rougier/nano-emacs")
+        :requires (mini-frame svg-tag-mode mu4e-dashboard mu4e-thread-folding nano-theme)
+        :no-require t
+        :custom
+        (nano-font-family-monospaced "JetBrains Mono")
+        (nano-font-size 11)
+        :config
+        (require 'nano-base-colors)
+        (require 'nano-faces)
+        (require 'nano-modeline)
+        ;; Only use certain parts of `nano-layout'.
+        (setq default-frame-alist
+              (append (list
+                       '(min-height . 1)
+                       '(height     . 45)
+                       '(min-width  . 1)
+                       '(width      . 81)
+                       '(vertical-scroll-bars . nil)
+                       '(left-fringe    . 1)
+                       '(right-fringe   . 1)
+                       '(tool-bar-lines . 0)
+                       '(menu-bar-lines . 0))))
+        (setq x-underline-at-descent-line t)
+        (setq window-divider-default-right-width 24)
+        (setq window-divider-default-places 'right-only)
+        (window-divider-mode 1)
+        (setq widget-image-enable nil)
+        (setq org-hide-emphasis-markers t)
+        (require 'nano-session)
+        (setq
+         savehist-file "~/.emacs.d/etc/savehist"
+         recentf-save-file "~/.emacs.d/etc/recentf"
+         bookmark-default-file "~/.emacs.d/etc/bookmarks"
+         backup-directory-alist '((".*" . "~/.emacs.d/backup")))
+        (require 'nano-colors)
+        (require 'nano-mu4e)
+        (require 'nano-agenda)
+
+        (nano-faces)
+        )
     #+end_src
 
 ** Keybindings
