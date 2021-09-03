@@ -164,7 +164,6 @@
      (setq frame-title-format nil)
      (setq use-file-dialog nil)
      (setq use-dialog-box nil)
-     (setq pop-up-windows nil)
      (setq indicate-empty-lines nil)
      (setq cursor-in-non-selected-windows nil)
      (setq font-lock-maximum-decoration nil)
@@ -266,8 +265,6 @@
        :config
        (defun org-summary-todo (n-done n-not-done)
        "Switch entry to DONE when all subentries are done, to TODO otherwise."
-       ;; (let (org-log-done org-log-states)   ; turn off logging
-       ;;   (org-todo (if (= n-not-done 0) "DONE" "TODO")))
        (org-todo (if (= n-not-done 0) "DONE" "TODO")))
        (add-hook 'org-after-todo-statistics-hook 'org-summary-todo))
    #+end_src
@@ -400,6 +397,7 @@
        (require 'nano-base-colors)
        (require 'nano-faces)
        (require 'nano-modeline)
+       (remove-hook 'window-configuration-change-hook 'nano-modeline-update-windows)
        ;; Only use certain parts of `nano-layout'.
        (setq default-frame-alist
              (append (list
