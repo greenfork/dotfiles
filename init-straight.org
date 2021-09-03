@@ -1,4 +1,5 @@
 #+title: Configuration
+#+STARTUP: overview
 
 * Set gc threshold more
 
@@ -90,168 +91,167 @@
       :commands (esup))
   #+end_src
 
-* Essentials
-** Sane defaults
+* Sane defaults
 
-   At startup.
+  At startup.
+
+  #+begin_src emacs-lisp
+    (toggle-scroll-bar -1)  ; Remove vertical scrollbars
+    (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))  ; Remove vertical scrollbars
+    (add-to-list 'default-frame-alist '(height . 44))  ; When not in tiling wm
+    (add-to-list 'default-frame-alist '(width . 184))  ; When not in tiling wm
+    (menu-bar-mode -1)  ; Disable top menu
+    (tool-bar-mode -1)  ; Disable top submenu
+    (blink-cursor-mode -1)  ; Please don't blink cursor
+
+    ;; UTF-8
+    (prefer-coding-system 'utf-8)
+    (when (display-graphic-p)
+      (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+
+    (setq-default
+     indicate-empty-lines nil
+     tab-width 4
+     fill-column 80  ; Maximum recommended number of characters per line
+     indent-tabs-mode nil  ; Don't use tab
+     display-fill-column-indicator-character ?░)  ; Fancy 80 column indicator
+
+    (fset 'yes-or-no-p 'y-or-n-p)  ; Instead of ido-y-or-n
+
+    (setq
+     scroll-conservatively most-positive-fixnum  ; Scroll smoothly (somewhat)
+     scroll-preserve-screen-position t  ; Try to preserve cursor position
+     column-number-mode t  ; Show column number in mode line
+     load-prefer-newer t  ; Load the "newest" version of a file
+     read-file-name-completion-ignore-case t  ; Ignore case with completion
+     require-final-newline t  ; All modern files require newline at end
+     ;; uniquify-buffer-name-style 'forward  ; Buffer names for files with same name
+     create-lockfiles nil  ; Lockfiles don't play nice with source control
+     backup-directory-alist '((".*" . "~/.emacs.d/backup"))
+     backup-by-copying t  ; Don't delink hardlinks
+     version-control t  ; Use version numbers on backups
+     delete-old-versions t  ; Automatically delete excess backups
+     kept-new-versions 20  ; how many of the newest versions to keep
+     kept-old-versions 5   ; and how many of the old
+     auto-save-list-file-prefix "~/.emacs.d/auto-save-list"
+     auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list" t))
+     auto-save-timeout 60
+     dired-dwim-target t  ; Dired is smarter about location for copying, etc.
+                          ; e.g. when another dired buffer is open side by side
+     vc-follow-symlinks t
+     echo-keystrokes 0.5  ; Display just pressed button faster in minibuffer
+     initial-scratch-message nil  ; *scratch* message in minibuffer
+     initial-major-mode 'emacs-lisp-mode  ; *sratch* uses its own major mode, pls no
+     find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
+     custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
+     bookmark-default-file "~/.emacs.d/etc/bookmarks"
+     tramp-backup-directory-alist backup-directory-alist  ; Don't keep backup remotely
+     )
+
+    (when (file-exists-p custom-file)
+      (load custom-file))
+
+    (with-eval-after-load 'tramp-cache
+      (setq tramp-persistency-file-name "~/.emacs.d/etc/tramp"))
+
+    ;; Settings copied from Nano. Later should be incorporated into the main
+    ;; settings, for now they are here since they are new and we might want to
+    ;; change them for debugging.
+    (setq inhibit-startup-screen t)
+    (setq inhibit-startup-message t)
+    (setq inhibit-startup-echo-area-message t)
+    (setq initial-buffer-choice nil)
+    (setq frame-title-format nil)
+    (setq use-file-dialog nil)
+    (setq use-dialog-box nil)
+    (setq indicate-empty-lines nil)
+    (setq cursor-in-non-selected-windows nil)
+    (setq font-lock-maximum-decoration nil)
+    (setq font-lock-maximum-size nil)
+    (setq auto-fill-mode nil)
+    (setq confirm-nonexistent-file-or-buffer nil)
+    (setq completion-styles '(basic substring))
+    (setq org-return-follows-link t)
+    (temp-buffer-resize-mode)
+    (setq temp-buffer-max-height 8)
+    (setq window-min-height 1)
+    (set-default-coding-systems 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-language-environment   'utf-8)
+    (require 'uniquify)
+    (setq uniquify-buffer-name-style 'reverse
+          uniquify-separator " • "
+          uniquify-after-kill-buffer-p t
+          uniquify-ignore-buffers-re "^\\*")
+
+    ;; Kill term buffer when exiting
+    (defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
+      (if (memq (process-status proc) '(signal exit))
+          (let ((buffer (process-buffer proc)))
+            ad-do-it
+            (kill-buffer buffer))
+        ad-do-it))
+    (ad-activate 'term-sentinel)
+
+    ;; Mouse active in terminal
+    (unless (display-graphic-p)
+      (xterm-mouse-mode 1)
+      (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+      (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+   #+end_src
+
+   After startup.
 
    #+begin_src emacs-lisp
-     (toggle-scroll-bar -1)  ; Remove vertical scrollbars
-     (add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))  ; Remove vertical scrollbars
-     (add-to-list 'default-frame-alist '(height . 44))  ; When not in tiling wm
-     (add-to-list 'default-frame-alist '(width . 184))  ; When not in tiling wm
-     (menu-bar-mode -1)  ; Disable top menu
-     (tool-bar-mode -1)  ; Disable top submenu
-     (blink-cursor-mode -1)  ; Please don't blink cursor
+     ;; Read files from disk when they change
+     (use-package autorevert
+       :defer 2
+       :config (global-auto-revert-mode 1))
 
-     ;; UTF-8
-     (prefer-coding-system 'utf-8)
-     (when (display-graphic-p)
-       (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+     ;; Replace active region when typing instead of inserting characters just before it
+     (use-package delsel
+       :defer 2
+       :config (delete-selection-mode 1))
 
-     (setq-default
-      indicate-empty-lines nil
-      tab-width 4
-      fill-column 80  ; Maximum recommended number of characters per line
-      indent-tabs-mode nil  ; Don't use tab
-      display-fill-column-indicator-character ?░)  ; Fancy 80 column indicator
+     ;; Treat PascalCase and camelCase words separately
+     (use-package subword
+       :defer 2
+       :diminish
+       :config (global-subword-mode 1))
 
-     (fset 'yes-or-no-p 'y-or-n-p)  ; Instead of ido-y-or-n
+     ;; Access recently opened files
+     (use-package recentf
+       :defer 0.3
+       :config
+       (setq recentf-save-file "~/.emacs.d/etc/recentf"
+             recentf-max-menu-items 100
+             recentf-max-saved-items 100)
+       (recentf-mode 1))
 
-     (setq
-      scroll-conservatively most-positive-fixnum  ; Scroll smoothly (somewhat)
-      scroll-preserve-screen-position t  ; Try to preserve cursor position
-      column-number-mode t  ; Show column number in mode line
-      load-prefer-newer t  ; Load the "newest" version of a file
-      read-file-name-completion-ignore-case t  ; Ignore case with completion
-      require-final-newline t  ; All modern files require newline at end
-      ;; uniquify-buffer-name-style 'forward  ; Buffer names for files with same name
-      create-lockfiles nil  ; Lockfiles don't play nice with source control
-      backup-directory-alist '((".*" . "~/.emacs.d/backup"))
-      backup-by-copying t  ; Don't delink hardlinks
-      version-control t  ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20  ; how many of the newest versions to keep
-      kept-old-versions 5   ; and how many of the old
-      auto-save-list-file-prefix "~/.emacs.d/auto-save-list"
-      auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list" t))
-      auto-save-timeout 60
-      dired-dwim-target t  ; Dired is smarter about location for copying, etc.
-                           ; e.g. when another dired buffer is open side by side
-      vc-follow-symlinks t
-      echo-keystrokes 0.5  ; Display just pressed button faster in minibuffer
-      initial-scratch-message nil  ; *scratch* message in minibuffer
-      initial-major-mode 'emacs-lisp-mode  ; *sratch* uses its own major mode, pls no
-      find-function-C-source-directory "~/.emacs.d/src/"  ; Copy source code there
-      custom-file "~/.emacs.d/etc/custom.el"  ; Don't litter init.el
-      bookmark-default-file "~/.emacs.d/etc/bookmarks"
-      tramp-backup-directory-alist backup-directory-alist  ; Don't keep backup remotely
-      )
+     ;; Mark trailing whitespace with color
+     (add-hook 'prog-mode-hook (lambda ()
+                                 (setq show-trailing-whitespace t)
+                                 (electric-pair-local-mode)))
 
-     (when (file-exists-p custom-file)
-       (load custom-file))
+     ;; Save history for things like M-x
+     (use-package savehist
+       :defer 2
+       :config
+       (setq savehist-file "~/.emacs.d/etc/savehist"
+             history-length 150)
+       (savehist-mode 1))
 
-     (with-eval-after-load 'tramp-cache
-       (setq tramp-persistency-file-name "~/.emacs.d/etc/tramp"))
+     ;; Save cursor places when visiting same file
+     (use-package saveplace
+       :defer 2
+       :config
+       (setq save-place-file "~/.emacs.d/etc/saveplace")
+       (save-place-mode 1))
 
-     ;; Settings copied from Nano. Later should be incorporated into the main
-     ;; settings, for now they are here since they are new and we might want to
-     ;; change them for debugging.
-     (setq inhibit-startup-screen t)
-     (setq inhibit-startup-message t)
-     (setq inhibit-startup-echo-area-message t)
-     (setq initial-buffer-choice nil)
-     (setq frame-title-format nil)
-     (setq use-file-dialog nil)
-     (setq use-dialog-box nil)
-     (setq indicate-empty-lines nil)
-     (setq cursor-in-non-selected-windows nil)
-     (setq font-lock-maximum-decoration nil)
-     (setq font-lock-maximum-size nil)
-     (setq auto-fill-mode nil)
-     (setq confirm-nonexistent-file-or-buffer nil)
-     (setq completion-styles '(basic substring))
-     (setq org-return-follows-link t)
-     (temp-buffer-resize-mode)
-     (setq temp-buffer-max-height 8)
-     (setq window-min-height 1)
-     (set-default-coding-systems 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-     (set-language-environment   'utf-8)
-     (require 'uniquify)
-     (setq uniquify-buffer-name-style 'reverse
-           uniquify-separator " • "
-           uniquify-after-kill-buffer-p t
-           uniquify-ignore-buffers-re "^\\*")
-
-     ;; Kill term buffer when exiting
-     (defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
-       (if (memq (process-status proc) '(signal exit))
-           (let ((buffer (process-buffer proc)))
-             ad-do-it
-             (kill-buffer buffer))
-         ad-do-it))
-     (ad-activate 'term-sentinel)
-
-     ;; Mouse active in terminal
-     (unless (display-graphic-p)
-       (xterm-mouse-mode 1)
-       (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
-       (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-    #+end_src
-
-    After startup.
-
-    #+begin_src emacs-lisp
-      ;; Read files from disk when they change
-      (use-package autorevert
-        :defer 2
-        :config (global-auto-revert-mode 1))
-
-      ;; Replace active region when typing instead of inserting characters just before it
-      (use-package delsel
-        :defer 2
-        :config (delete-selection-mode 1))
-
-      ;; Treat PascalCase and camelCase words separately
-      (use-package subword
-        :defer 2
-        :diminish
-        :config (global-subword-mode 1))
-
-      ;; Access recently opened files
-      (use-package recentf
-        :defer 0.3
-        :config
-        (setq recentf-save-file "~/.emacs.d/etc/recentf"
-              recentf-max-menu-items 100
-              recentf-max-saved-items 100)
-        (recentf-mode 1))
-
-      ;; Mark trailing whitespace with color
-      (add-hook 'prog-mode-hook (lambda ()
-                                  (setq show-trailing-whitespace t)
-                                  (electric-pair-local-mode)))
-
-      ;; Save history for things like M-x
-      (use-package savehist
-        :defer 2
-        :config
-        (setq savehist-file "~/.emacs.d/etc/savehist"
-              history-length 150)
-        (savehist-mode 1))
-
-      ;; Save cursor places when visiting same file
-      (use-package saveplace
-        :defer 2
-        :config
-        (setq save-place-file "~/.emacs.d/etc/saveplace")
-        (save-place-mode 1))
-
-      (show-paren-mode)
-      (global-so-long-mode 1)
-    #+end_src
+     (show-paren-mode)
+     (global-so-long-mode 1)
+   #+end_src
 
 * Org-mode
 ** General
@@ -753,12 +753,22 @@
    #+end_src
     
 * Web
-** Gopher/Gemini
+** Gopher/Gemini elpher
 
    #+begin_src emacs-lisp
      (use-package elpher
        :hook
        (elpher-mode . (lambda () (text-scale-set 1))))
+   #+end_src
+** Atom/RSS elfeed
+
+   #+begin_src emacs-lisp
+     (use-package elfeed
+       :init
+       (setq elfeed-feeds
+             '("https://dataswamp.org/~solene/rss.xml"))
+       :hook
+       (elfeed-show-mode . visual-line-mode))
    #+end_src
 
 * Source control
