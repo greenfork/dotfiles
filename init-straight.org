@@ -1071,6 +1071,7 @@
        (gerbil-mode . smartparens-strict-mode)
        (scheme-mode . smartparens-strict-mode)
        (elixir-mode . smartparens-mode)
+       (janet-mode . smartparens-strict-mode)
        :config
        (electric-pair-local-mode -1)
        (show-smartparens-mode)
@@ -1246,8 +1247,9 @@
        :mode (("\\.ss\\'"  . gerbil-mode)
               ("\\.pkg\\'" . gerbil-mode))
        :hook ((gerbil-mode . rainbow-delimiters-mode))
-       :bind (:map comint-mode-map
-                   (("C-S-d" . comint-send-eof)))
+       :bind
+       (:map comint-mode-map
+             (("C-S-d" . comint-send-eof)))
        :init
        (setf gerbil (getenv "GERBIL_HOME"))
        (autoload 'gerbil-mode
@@ -1281,7 +1283,29 @@
                ("C-c C-f" . elixir-format)))
    #+end_src
 
-* REPLs
+** Janet
+
+   #+begin_src emacs-lisp
+     (use-package janet-mode)
+
+     ;; (use-package ijanet
+     ;;   :straight (ijanet :type git :host github :repo "serialdev/ijanet-mode")
+     ;;   :bind
+     ;;   (:map janet-mode-map
+     ;;         (("C-c C-z" . ijanet)
+     ;;          ("C-c C-b" . ijanet-eval-buffer)
+     ;;          ("C-c C-r" . ijanet-eval-region)
+     ;;          ("C-c C-l" . ijanet-eval-line))))
+
+     (use-package inf-janet
+       :straight (inf-janet :type git :host github :repo "velkyel/inf-janet")
+       :init
+       (setq inf-janet-program "/usr/bin/janet")
+       :hook
+       (janet-mode . inf-janet-minor-mode))
+   #+end_src
+
+* Shells
 ** eshell
 
    Better defaults.
