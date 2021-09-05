@@ -251,6 +251,7 @@ hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=zzz %{ no-tabs 2 }
+hook global WinSetOption filetype=makefile %{ noexpandtab }
 # Remove markdown highlighting, it's broken
 hook global WinSetOption filetype=markdown %{ set buffer filetype md }
 hook global WinSetOption filetype=html %{
