@@ -370,11 +370,11 @@
      (use-package mini-frame)
 
      ;; For `nano-mu4e'
-     (use-package svg-tag-mode)
-     (use-package mu4e-dashboard
-       :straight (mu4e-dashboard :type git :host github :repo "rougier/mu4e-dashboard"))
-     (use-package mu4e-thread-folding
-       :straight (mu4e-thread-folding :type git :host github :repo "rougier/mu4e-thread-folding"))
+     ;; (use-package svg-tag-mode)
+     ;; (use-package mu4e-dashboard
+     ;;   :straight (mu4e-dashboard :type git :host github :repo "rougier/mu4e-dashboard"))
+     ;; (use-package mu4e-thread-folding
+     ;;   :straight (mu4e-thread-folding :type git :host github :repo "rougier/mu4e-thread-folding"))
 
      ;; For `nano-agenda'
      (use-package ts)
@@ -423,7 +423,7 @@
         bookmark-default-file "~/.emacs.d/etc/bookmarks"
         backup-directory-alist '((".*" . "~/.emacs.d/backup")))
        (require 'nano-colors)
-       (require 'nano-mu4e)
+       ;; (require 'nano-mu4e)
        (require 'nano-agenda)
 
        (nano-faces)
