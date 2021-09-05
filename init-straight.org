@@ -396,7 +396,7 @@
        :config
        (require 'nano-base-colors)
        (require 'nano-faces)
-       (require 'nano-modeline)
+       ;; (require 'nano-modeline)
        (remove-hook 'window-configuration-change-hook 'nano-modeline-update-windows)
        ;; Only use certain parts of `nano-layout'.
        (setq default-frame-alist
@@ -766,7 +766,8 @@
      (use-package elfeed
        :init
        (setq elfeed-feeds
-             '("https://dataswamp.org/~solene/rss.xml"))
+             '("https://dataswamp.org/~solene/rss.xml"
+               "https://blog.einval.eu/index.xml"))
        :hook
        (elfeed-show-mode . visual-line-mode))
    #+end_src
