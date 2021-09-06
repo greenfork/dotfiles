@@ -1,0 +1,127 @@
+#+title: My emacs configuration
+#+author: greenfork
+#+STARTUP: content
+
+* Managing configuration
+** Reload configuration
+   #+begin_src emacs-lisp
+     (defun reload-config ()
+       (interactive)
+       (load-file "~/.emacs.d/init.el")
+       (message "Config file reloaded"))
+
+     (global-set-key (kbd "<f5>") 'reload-config)
+   #+end_src
+** Open configuration
+   #+begin_src emacs-lisp
+     (defun open-org-init-file ()
+       (interactive)
+       (find-file "~/.emacs.d/org-init.org"))
+
+     (global-set-key (kbd "<f6>") 'open-org-init-file)
+   #+end_src
+
+* Tweaking defaults
+** Keybindings
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-x k") 'kill-current-buffer)
+     (global-set-key (kbd "s-o") 'other-window)
+     (global-set-key (kbd "C-x C-b") 'ibuffer)
+     (global-set-key (kbd "C-x v d") 'vc-dir-root)
+     (global-set-key (kbd "s-e") 'eval-last-sexp)
+   #+end_src
+** General settings
+   #+begin_src emacs-lisp
+     (setq-default fill-column 80)
+
+     ;;; y-or-n instead of yes-or-no
+     (setq use-short-answers t)
+
+     ;;; Do not ask when following a symlink
+     (require 'vc)
+     (setq vc-follow-symlinks t)
+
+     ;;; Scrolling behaviour
+     (setq-default scroll-preserve-screen-position t)
+     (setq-default scroll-conservatively 101) ; affects `scroll-step'
+     (setq-default scroll-margin 0)
+     (setq-default next-screen-context-lines 0)
+
+     ;;; Mouse active in terminal
+     (unless (display-graphic-p)
+       (xterm-mouse-mode 1)
+       (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+       (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+
+
+     ;;; Encoding to UTF-8
+     (prefer-coding-system 'utf-8)
+     (when (display-graphic-p)
+       (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+     (set-default-coding-systems 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
+     (set-language-environment   'utf-8)
+
+     (setq require-final-newline t)
+
+     ;;; All the files and cached data
+     (setq emacs-share-directory "~/.local/share/emacs")
+     (make-directory emacs-share-directory t)
+     (setq create-lockfiles nil)
+     (setq backup-directory-alist `((".*" . ,(concat emacs-share-directory "/backup"))))
+     (setq version-control t)
+     (setq delete-old-versions t)
+     (setq kept-new-versions 20)
+     (setq kept-old-versions 10)
+     (setq auto-save-list-file-prefix (concat emacs-share-directory "/auto-save-list"))
+     (setq auto-save-file-name-transforms `((".*" ,(concat emacs-share-directory "/auto-save-list") t)))
+     (setq auto-save-timeout 300)
+     (setq bookmark-default-file (concat emacs-share-directory "/bookmarks"))
+     (setq tramp-backup-directory-alist backup-directory-alist)
+     (setq tramp-persistency-file-name (concat emacs-share-directory "/tramp"))
+     (setq recentf-save-file (concat emacs-share-directory "/recentf"))
+     (setq recentf-max-menu-items 100)
+     (setq recentf-mex-saved-items 100)
+     (setq savehist-file (concat emacs-share-directory "/savehist"))
+     (setq history-length 300)
+     (setq save-place-file (concat emacs-share-directory "/saveplace"))
+     (setq eshell-aliases-file (concat emacs-share-directory "/eshell-aliases"))
+     (setq eshell-history-file-name (concat emacs-share-directory "/eshell-history"))
+     (setq eshell-history-size 500)
+     (setq eshell-last-dir-file-name (concat emacs-share-directory "/eshell-lastdir"))
+     (setq eshell-last-dir-ring-size 200)
+     (setq project-list-file (concat emacs-share-directory "/projects"))
+
+     ;;; *scratch* buffer
+     (setq initial-scratch-message nil)
+     (setq initial-major-mode 'emacs-lisp-mode)
+
+     (setq echo-keystrokes 0.5)
+     (setq column-number-mode t)
+   #+end_src
+* Appearance
+** Font
+   #+begin_src emacs-lisp
+     (set-face-attribute 'default nil :font "JetBrains Mono" :height 110)
+   #+end_src
+** Theme
+   #+begin_src emacs-lisp
+     (load-theme 'modus-operandi t t)
+     (load-theme 'modus-vivendi t t)
+
+     (defun light-theme ()
+       (interactive)
+       (disable-theme 'modus-vivendi)
+       (enable-theme 'modus-operandi))
+
+     (defun dark-theme ()
+       (interactive)
+       (disable-theme 'modus-operandi)
+       (enable-theme 'modus-vivendi))
+
+     ;; Use the dark theme after 7pm and before 5am.
+     (if (< 4 (string-to-number (format-time-string "%H")) 18)
+	 (light-theme)
+       (dark-theme))
+   #+end_src
