@@ -5,20 +5,20 @@
 * Managing configuration
 ** Reload configuration
    #+begin_src emacs-lisp
-     (defun reload-config ()
+     (defun gf/reload-config ()
        (interactive)
        (load-file "~/.emacs.d/init.el")
        (message "Config file reloaded"))
 
-     (global-set-key (kbd "<f5>") 'reload-config)
+     (global-set-key (kbd "<f5>") 'gf/reload-config)
    #+end_src
 ** Open configuration
    #+begin_src emacs-lisp
-     (defun open-org-init-file ()
+     (defun gf/open-org-init-file ()
        (interactive)
        (find-file "~/.emacs.d/org-init.org"))
 
-     (global-set-key (kbd "<f6>") 'open-org-init-file)
+     (global-set-key (kbd "<f6>") 'gf/open-org-init-file)
    #+end_src
 
 * Tweaking defaults
@@ -124,4 +124,14 @@
      (if (< 4 (string-to-number (format-time-string "%H")) 18)
 	 (light-theme)
        (dark-theme))
+   #+end_src
+* Version control
+** Auto-revert
+   #+begin_src emacs-lisp
+     (global-auto-revert-mode 1)
+     (setq auto-revert-check-vc-info t)
+   #+end_src
+** VC
+   #+begin_src emacs-lisp
+
    #+end_src
