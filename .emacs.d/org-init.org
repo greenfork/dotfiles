@@ -8,9 +8,9 @@
      (defun gf/reload-config ()
        (interactive)
        (load-file "~/.emacs.d/init.el")
-       (message "Config file reloaded"))
+       (message "Configuration file reloaded"))
 
-     (global-set-key (kbd "<f5>") 'gf/reload-config)
+     (global-set-key (kbd "<f5>") #'gf/reload-config)
    #+end_src
 ** Open configuration
    #+begin_src emacs-lisp
@@ -18,41 +18,109 @@
        (interactive)
        (find-file "~/.emacs.d/org-init.org"))
 
-     (global-set-key (kbd "<f6>") 'gf/open-org-init-file)
+     (global-set-key (kbd "<f6>") #'gf/open-org-init-file)
    #+end_src
 
 * Tweaking defaults
+** Simple commands
+   Just like defaults but better.
+   
+   #+begin_src emacs-lisp
+     ;;;###autoload
+     (defun gf/kill-region-or-line ()
+       "Kill region if region is active or kill the whole line otherwise."
+       (interactive)
+       (if (region-active-p)
+	   (kill-region (region-beginning) (region-end))
+	 (kill-whole-line)))
+
+     ;;;###autoload
+     (defun gf/copy-region-or-line ()
+       "Copy region if region is active or copy the whole line otherwise."
+       (interactive)
+       (if (region-active-p)
+	   (kill-ring-save (region-beginning) (region-end))
+	 (kill-ring-save (line-beginning-position) (1+ (line-end-position)))))
+
+     ;;;###autoload
+     (defun gf/yank ()
+       "Yank text directly or as a whole line if the last character is a newline."
+       (interactive)
+       (let ((last-kill-item (car kill-ring)))
+	 (when (and (stringp last-kill-item)
+		    (= (aref last-kill-item (1- (length last-kill-item))) ?\n))
+	   (move-beginning-of-line 1)))
+       (yank))
+
+     ;;;###autoload
+     (defun gf/move-first-char-or-beginning-of-line ()
+       "Move to the first non-blank character of the line or to the beginning of
+     the line."
+       (interactive)
+       (let ((beginning-of-line (bolp))
+	     (current-point (point)))
+	 (move-beginning-of-line 1)
+	 (unless (looking-at-p "[[:graph:]]")
+	   (re-search-forward "[[:blank:]]+" (point-at-eol) t)
+	   (when (and (not beginning-of-line) (= (point) current-point))
+	     (move-beginning-of-line 1)))))
+   #+end_src
 ** Keybindings
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-x k") 'kill-current-buffer)
-     (global-set-key (kbd "s-o") 'other-window)
-     (global-set-key (kbd "C-x C-b") 'ibuffer)
-     (global-set-key (kbd "C-x v d") 'vc-dir-root)
-     (global-set-key (kbd "s-e") 'eval-last-sexp)
+     (global-set-key (kbd "C-x k") #'kill-current-buffer) ; initially `kill-buffer'
+     ;; (global-set-key (kbd "C-x C-b") 'ibuffer)
+     (global-set-key (kbd "C-x v d") #'vc-dir-root) ; initially `vc-dir'
+     (global-set-key [remap undo] #'undo-only)  ; "C-/", "C-x u", "C-_"
+     (global-set-key (kbd "C-?") #'undo-redo)	  ; accompanied to "C-/" for undo
+     (global-set-key (kbd "M-=") #'count-words) ; initially `count-words-region'
+     (global-set-key (kbd "C-w") #'gf/kill-region-or-line) ; initially just `kill-region'
+     (global-set-key (kbd "M-w") #'gf/copy-region-or-line) ; initially just `kill-ring-save'
+     (global-set-key (kbd "<f8>") #'global-display-line-numbers-mode)
+     ;; initially just `move-beginning-of-line'
+     (global-set-key (kbd "C-a") #'gf/move-first-char-or-beginning-of-line)
+
+     ;;; Originally these keys are used for `digit-argument' but this function
+     ;;; is already available with "C-" commands.
+     (global-set-key (kbd "M-1") #'delete-other-windows)
+     (global-set-key (kbd "M-2") #'split-window-below)
+     (global-set-key (kbd "M-3") #'split-window-right)
+     (global-set-key (kbd "M-0") #'delete-window)
+     (global-set-key (kbd "M-4") (lookup-key global-map (kbd "C-x 4")))
+     (global-set-key (kbd "M-5") (lookup-key global-map (kbd "C-x 4")))
+
+     ;;; Don't suspend in graphical mode
+     (unless (display-graphic-p)
+       (global-set-key (kbd "C-z") nil)
+       (global-set-key (kbd "C-x z") nil))
+
+     ;;; Additional fast keybindings with "super" modifier
+     (global-set-key (kbd "s-e") #'eval-last-sexp)
+     (global-set-key (kbd "s-o") #'other-window)
+     (global-set-key (kbd "s-b") (lambda () (interactive) (switch-to-buffer nil)))
+     (global-set-key (kbd "s-s") #'save-buffer)
+     (add-hook 'org-src-mode-hook (lambda () (local-set-key (kbd "s-s") #'org-edit-src-save)))
+     (global-set-key (kbd "s-k") #'kill-current-buffer)
    #+end_src
 ** General settings
    #+begin_src emacs-lisp
+     ;;; Default line length to 80
      (setq-default fill-column 80)
 
      ;;; y-or-n instead of yes-or-no
      (setq use-short-answers t)
-
-     ;;; Do not ask when following a symlink
-     (require 'vc)
-     (setq vc-follow-symlinks t)
 
      ;;; Scrolling behaviour
      (setq-default scroll-preserve-screen-position t)
      (setq-default scroll-conservatively 101) ; affects `scroll-step'
      (setq-default scroll-margin 0)
      (setq-default next-screen-context-lines 0)
+     (add-hook 'prog-mode-hook (lambda () (setq-local scroll-margin 5)))
 
      ;;; Mouse active in terminal
      (unless (display-graphic-p)
        (xterm-mouse-mode 1)
        (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
        (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-
 
      ;;; Encoding to UTF-8
      (prefer-coding-system 'utf-8)
@@ -63,6 +131,8 @@
      (set-keyboard-coding-system 'utf-8)
      (set-language-environment   'utf-8)
 
+     ;;; Or would we rather highlight the end of buffer somehow when there's none?
+     ;;; Or maybe this should only be set for programming modes?
      (setq require-final-newline t)
 
      ;;; All the files and cached data
@@ -86,10 +156,11 @@
      (setq savehist-file (concat emacs-share-directory "/savehist"))
      (setq history-length 300)
      (setq save-place-file (concat emacs-share-directory "/saveplace"))
-     (setq eshell-aliases-file (concat emacs-share-directory "/eshell-aliases"))
-     (setq eshell-history-file-name (concat emacs-share-directory "/eshell-history"))
+     (setq eshell-directory-name (expand-file-name "eshell" emacs-share-directory))
+     ;; (setq eshell-aliases-file (concat emacs-share-directory "/eshell-aliases"))
+     ;; (setq eshell-history-file-name (concat emacs-share-directory "/eshell-history"))
      (setq eshell-history-size 500)
-     (setq eshell-last-dir-file-name (concat emacs-share-directory "/eshell-lastdir"))
+     ;; (setq eshell-last-dir-ring-file-name (concat emacs-share-directory "/eshell-lastdir"))
      (setq eshell-last-dir-ring-size 200)
      (setq project-list-file (concat emacs-share-directory "/projects"))
 
@@ -97,8 +168,21 @@
      (setq initial-scratch-message nil)
      (setq initial-major-mode 'emacs-lisp-mode)
 
+     ;;; Faster response in minibuffer on key presses
      (setq echo-keystrokes 0.5)
+
+     ;;; Also show column in the mode line
      (setq column-number-mode t)
+
+     ;;; Cursor settings
+     (setq blink-cursor-blinks 6)		; 10 by default
+     (setq x-stretch-cursor t)		; display stretched cursor on tabs
+
+     ;;; Typography
+     (setq underline-minimum-offset 1)
+     (setq overline-margin 2)
+
+     (setq display-raw-bytes-as-hex t)
    #+end_src
 * Appearance
 ** Font
@@ -133,5 +217,42 @@
    #+end_src
 ** VC
    #+begin_src emacs-lisp
+     ;;; Do not ask when following a symlink
+     (setq vc-follow-symlinks t)
 
+     ;;; Kill the diff buffers
+     (setq vc-revert-show-diff 'kill)
+
+     ;;; Show commands run by vc binaries
+     (setq vc-command-messages t)
+   #+end_src
+* Shells
+** Eshell
+   #+begin_src emacs-lisp
+     ;;; Some commands such as psql or git log will use a pager when the output
+     ;;; is larger than the screen, which breaks `eshell'.
+     (setenv "PAGER" "cat")
+   #+end_src
+* Minibuffer
+** Completion
+   #+begin_src emacs-lisp
+     (setq completions-format 'vertical)
+   #+end_src
+* Programming
+** General programming
+   #+begin_src emacs-lisp
+     (add-hook
+      'prog-mode-hook
+      (lambda ()
+	(setq-local show-trailing-whitespace t)
+	(setq-local indicate-empty-lines t)
+	(local-set-key (kbd "C-y") #'gf/yank) ; initially just `yank'
+	))
+   #+end_src
+** Emacs Lisp
+   #+begin_src emacs-lisp
+     (add-hook
+      'emacs-lisp-mode-hook
+      (lambda ()
+	(display-fill-column-indicator-mode 1)))
    #+end_src
