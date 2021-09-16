@@ -12,5 +12,3 @@ tags
 /.config/i3blocks/*
 /.config/i3blocks/.*
 !/.config/i3blocks/config
-
-/.emacs.d/org-init.el
