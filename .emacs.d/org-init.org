@@ -31,25 +31,25 @@
        "Kill region if region is active or kill the whole line otherwise."
        (interactive)
        (if (region-active-p)
-	   (kill-region (region-beginning) (region-end))
-	 (kill-whole-line)))
+           (kill-region (region-beginning) (region-end))
+         (kill-whole-line)))
 
      ;;;###autoload
      (defun gf/copy-region-or-line ()
        "Copy region if region is active or copy the whole line otherwise."
        (interactive)
        (if (region-active-p)
-	   (kill-ring-save (region-beginning) (region-end))
-	 (kill-ring-save (line-beginning-position) (1+ (line-end-position)))))
+           (kill-ring-save (region-beginning) (region-end))
+         (kill-ring-save (line-beginning-position) (1+ (line-end-position)))))
 
      ;;;###autoload
      (defun gf/yank ()
        "Yank text directly or as a whole line if the last character is a newline."
        (interactive)
        (let ((last-kill-item (car kill-ring)))
-	 (when (and (stringp last-kill-item)
-		    (= (aref last-kill-item (1- (length last-kill-item))) ?\n))
-	   (move-beginning-of-line 1)))
+         (when (and (stringp last-kill-item)
+                    (= (aref last-kill-item (1- (length last-kill-item))) ?\n))
+           (move-beginning-of-line 1)))
        (yank))
 
      ;;;###autoload
@@ -58,21 +58,21 @@
      the line."
        (interactive)
        (let ((beginning-of-line (bolp))
-	     (current-point (point)))
-	 (move-beginning-of-line 1)
-	 (unless (looking-at-p "[[:graph:]]")
-	   (re-search-forward "[[:blank:]]+" (point-at-eol) t)
-	   (when (and (not beginning-of-line) (= (point) current-point))
-	     (move-beginning-of-line 1)))))
+             (current-point (point)))
+         (move-beginning-of-line 1)
+         (unless (looking-at-p "[[:graph:]]")
+           (re-search-forward "[[:blank:]]+" (point-at-eol) t)
+           (when (and (not beginning-of-line) (= (point) current-point))
+             (move-beginning-of-line 1)))))
    #+end_src
 ** Keybindings
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-x k") #'kill-current-buffer) ; initially `kill-buffer'
      ;; (global-set-key (kbd "C-x C-b") 'ibuffer)
      (global-set-key (kbd "C-x v d") #'vc-dir-root) ; initially `vc-dir'
-     (global-set-key [remap undo] #'undo-only)  ; "C-/", "C-x u", "C-_"
-     (global-set-key (kbd "C-?") #'undo-redo)	  ; accompanied to "C-/" for undo
-     (global-set-key (kbd "M-=") #'count-words) ; initially `count-words-region'
+     (global-set-key [remap undo] #'undo-only)      ; "C-/", "C-x u", "C-_"
+     (global-set-key (kbd "C-?") #'undo-redo)       ; accompanied to "C-/" for undo
+     (global-set-key (kbd "M-=") #'count-words)     ; initially `count-words-region'
      (global-set-key (kbd "C-w") #'gf/kill-region-or-line) ; initially just `kill-region'
      (global-set-key (kbd "M-w") #'gf/copy-region-or-line) ; initially just `kill-ring-save'
      (global-set-key (kbd "<f8>") #'global-display-line-numbers-mode)
@@ -175,14 +175,17 @@
      (setq column-number-mode t)
 
      ;;; Cursor settings
-     (setq blink-cursor-blinks 6)		; 10 by default
-     (setq x-stretch-cursor t)		; display stretched cursor on tabs
+     (setq blink-cursor-blinks 6)            ; 10 by default
+     (setq x-stretch-cursor t)               ; display stretched cursor on tabs
 
      ;;; Typography
      (setq underline-minimum-offset 1)
      (setq overline-margin 2)
 
-     (setq display-raw-bytes-as-hex t)
+     (setq display-raw-bytes-as-hex t)       ; octal by default
+
+     ;;; Tabs vs spaces
+     (setq-default indent-tabs-mode nil)
    #+end_src
 * Appearance
 ** Font
@@ -206,7 +209,7 @@
 
      ;; Use the dark theme after 7pm and before 5am.
      (if (< 4 (string-to-number (format-time-string "%H")) 18)
-	 (light-theme)
+         (light-theme)
        (dark-theme))
    #+end_src
 * Version control
@@ -244,15 +247,15 @@
      (add-hook
       'prog-mode-hook
       (lambda ()
-	(setq-local show-trailing-whitespace t)
-	(setq-local indicate-empty-lines t)
-	(local-set-key (kbd "C-y") #'gf/yank) ; initially just `yank'
-	))
+        (setq-local show-trailing-whitespace t)
+        (setq-local indicate-empty-lines t)
+        (local-set-key (kbd "C-y") #'gf/yank) ; initially just `yank'
+        ))
    #+end_src
 ** Emacs Lisp
    #+begin_src emacs-lisp
      (add-hook
       'emacs-lisp-mode-hook
       (lambda ()
-	(display-fill-column-indicator-mode 1)))
+        (display-fill-column-indicator-mode 1)))
    #+end_src
