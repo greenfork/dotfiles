@@ -68,7 +68,7 @@
 ** Keybindings
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-x k") #'kill-current-buffer) ; initially `kill-buffer'
-     ;; (global-set-key (kbd "C-x C-b") 'ibuffer)
+     (global-set-key (kbd "C-x C-b") 'ibuffer)
      (global-set-key (kbd "C-x v d") #'vc-dir-root) ; initially `vc-dir'
      (global-set-key [remap undo] #'undo-only)      ; "C-/", "C-x u", "C-_"
      (global-set-key (kbd "C-?") #'undo-redo)       ; accompanied to "C-/" for undo
@@ -147,6 +147,7 @@
      (setq auto-save-list-file-prefix (concat emacs-share-directory "/auto-save-list"))
      (setq auto-save-file-name-transforms `((".*" ,(concat emacs-share-directory "/auto-save-list") t)))
      (setq auto-save-timeout 300)
+     (setq auto-save-no-message "")
      (setq bookmark-default-file (concat emacs-share-directory "/bookmarks"))
      (setq tramp-backup-directory-alist backup-directory-alist)
      (setq tramp-persistency-file-name (concat emacs-share-directory "/tramp"))
@@ -186,6 +187,25 @@
 
      ;;; Tabs vs spaces
      (setq-default indent-tabs-mode nil)
+
+     ;;; Searching
+     (setq isearch-lazy-count t)
+
+     ;;; Completion
+     (setq completion-styles '(basic partial-completion substring))
+   #+end_src
+** Be quiet
+   #+begin_src emacs-lisp
+     (defun message-off-advice (oldfun &rest args)
+       "Quiet down messages in adviced OLDFUN."
+       (let ((message-off (gensym)))
+         (unwind-protect
+         (progn
+           (advice-add #'message :around #'ignore (list 'name message-off))
+           (apply oldfun args))
+         (advice-remove #'message message-off))))
+
+     ;; (advice-add #'ispell-init-process :around #'message-off-advice)
    #+end_src
 * Appearance
 ** Font
@@ -212,11 +232,26 @@
          (light-theme)
        (dark-theme))
    #+end_src
+* Windows
+** Winner mode
+   #+begin_src emacs-lisp
+     (winner-mode)
+   #+end_src
+** Tab line
+   #+begin_src emacs-lisp
+     (global-tab-line-mode)
+   #+end_src
+* Minibuffer
+** Completion
+   #+begin_src emacs-lisp
+     (setq completions-format 'vertical)
+   #+end_src
 * Version control
 ** Auto-revert
    #+begin_src emacs-lisp
-     (global-auto-revert-mode 1)
      (setq auto-revert-check-vc-info t)
+     (setq global-auto-revert-non-file-buffers t)
+     (global-auto-revert-mode 1)
    #+end_src
 ** VC
    #+begin_src emacs-lisp
@@ -236,10 +271,14 @@
      ;;; is larger than the screen, which breaks `eshell'.
      (setenv "PAGER" "cat")
    #+end_src
-* Minibuffer
-** Completion
+* Texting and communication with society
+** General texting
    #+begin_src emacs-lisp
-     (setq completions-format 'vertical)
+     (add-hook
+      'text-mode-hook
+      (lambda ()
+        (flyspell-mode)
+        ))
    #+end_src
 * Programming
 ** General programming
@@ -250,12 +289,27 @@
         (setq-local show-trailing-whitespace t)
         (setq-local indicate-empty-lines t)
         (local-set-key (kbd "C-y") #'gf/yank) ; initially just `yank'
+        (flyspell-prog-mode)
         ))
    #+end_src
 ** Emacs Lisp
    #+begin_src emacs-lisp
      (add-hook
       'emacs-lisp-mode-hook
+      (lambda ()
+        (display-fill-column-indicator-mode 1)))
+   #+end_src
+** Ruby
+   #+begin_src emacs-lisp
+     (add-hook
+      'ruby-mode-hook
+      (lambda ()
+        (display-fill-column-indicator-mode 1)))
+   #+end_src
+** JavaScript
+   #+begin_src emacs-lisp
+     (add-hook
+      'js-mode-hook
       (lambda ()
         (display-fill-column-indicator-mode 1)))
    #+end_src
