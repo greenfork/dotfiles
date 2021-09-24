@@ -98,7 +98,7 @@ map global normal q b
 map global normal Q B
 map global normal <a-q> <a-b>
 map global normal <a-Q> <a-B>
-set global scrolloff 7,7
+set global scrolloff 5,5
 # press <esc> on jk chord
 hook global InsertChar k %{ try %{
     execute-keys -draft hH <a-k>jk<ret> d
