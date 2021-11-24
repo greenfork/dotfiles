@@ -2,7 +2,7 @@
     border: none;
     border-radius: 0;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: JetBrains Mono;
+    font-family: Fantasque Sans Mono;
     font-size: 14px;
     min-height: 0;
 }
@@ -37,7 +37,7 @@ window#waybar.chromium {
     border: none;
 }
 
-#tags button {
+#workspaces button {
     padding: 0 5px;
     background-color: transparent;
     color: #ffffff;
@@ -45,19 +45,24 @@ window#waybar.chromium {
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#tags button:hover {
+#workspaces button:hover {
     background: rgba(0, 0, 0, 0.2);
     box-shadow: inherit;
     border-bottom: 3px solid #ffffff;
 }
 
-#tags button.focused {
+#workspaces button.focused {
     background-color: #64727D;
     border-bottom: 3px solid #ffffff;
 }
 
-#tags button.urgent {
+#workspaces button.urgent {
     background-color: #eb4d4b;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
 }
 
 #clock,
