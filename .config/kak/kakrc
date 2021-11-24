@@ -64,7 +64,7 @@ def lsp-engage -docstring 'Enable language server' %{
 # Highlighters
 ##############
 
-add-highlighter global/ number-lines -separator ' ' -hlcursor
+add-highlighter global/ number-lines -separator ' ' -hlcursor -relative
 hook global WinCreate .* %{
     add-highlighter -override window/column_highlighter column 80 default,rgb:303030
 }
@@ -326,6 +326,19 @@ hook global WinSetOption filetype=zig %{
     add-highlighter -override window/column_highlighter column 100 default,rgb:303030
     set-option window formatcmd 'zig fmt --stdin'
     hook window BufWritePre .* format
+    no-tabs 4
+    lsp-enable-window
+    lsp-auto-signature-help-enable
+
+    # lsp semantic tokens
+    hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+    hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+    hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+    hook -once -always window WinSetOption filetype=.* %{
+        remove-hooks window semantic-tokens
+    }
+}
+hook global WinSetOption filetype=(c|cpp) %{
     no-tabs 4
     lsp-enable-window
     lsp-auto-signature-help-enable
