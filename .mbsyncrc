@@ -17,7 +17,7 @@ SubFolders Verbatim
 Channel fastmail
 Far :fastmail-remote:
 Near :fastmail-local:
-Patterns *
+Patterns * !Drafts
 Expunge None
 CopyArrivalDate yes
 Sync All
