@@ -211,5 +211,8 @@ bar {
 
 default_border pixel
 
-bindsym $mod+Shift+Print exec maim --select --hidecursor | xclip -selection clipboard -t image/png
-bindsym $mod+Print exec maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym $mod+Shift+Print exec maim --select --hidecursor | tee /tmp/screenshot.png | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec maim -i $(xdotool getactivewindow) | tee /tmp/screenshot.png | xclip -selection clipboard -t image/png
+
+for_window [class="grafx2"] floating enable
+for_window [class="Freja"] floating enable
