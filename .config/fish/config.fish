@@ -37,8 +37,8 @@ if status --is-interactive
     abbr --add --global zt zig test
 
     # Editors
-    abbr --add --global k kak
-    abbr --add --global e emacs --no-splash
+    alias k kak
+    alias e emacs
 
     # Key bindings
     bind \cr fzf_search_history
