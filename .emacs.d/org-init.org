@@ -576,6 +576,21 @@
 
      (add-hook 'elpher-mode-hook (lambda () (text-scale-set 1)))
    #+end_src
+** Markdown
+   #+begin_src emacs-lisp
+     (straight-use-package
+      '(markdown-mode :type git :flavor melpa :host github :repo "jrblevin/markdown-mode"))
+
+     (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+     (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+   #+end_src
+** Presentation
+*** Center the screen
+    #+begin_src emacs-lisp
+      (straight-use-package
+       '(olivetti :type git :flavor melpa :host github :repo "rnkn/olivetti"))
+    #+end_src
 * Programming
 ** General settings
    #+begin_src emacs-lisp
