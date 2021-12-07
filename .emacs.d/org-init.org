@@ -267,8 +267,8 @@
        (disable-theme 'modus-operandi)
        (enable-theme 'modus-vivendi))
 
-     ;; Use the dark theme after 7pm and before 5am.
-     (if (< 4 (string-to-number (format-time-string "%H")) 18)
+     ;; Use the dark theme after 5pm and before 7am.
+     (if (< 6 (string-to-number (format-time-string "%H")) 16)
          (light-theme)
        (dark-theme))
    #+end_src
@@ -299,16 +299,54 @@
    #+begin_src emacs-lisp
      (winner-mode)
    #+end_src
-* Minibuffer
-** Completion
+* Completion
    #+begin_src emacs-lisp
-     (setq completion-styles '(basic partial-completion substring))
-
+     ;;; Vertical minibuffer
      (straight-use-package
       '(vertico :type git :host github :repo "emacs-straight/vertico" :files ("*" (:exclude ".git"))))
 
      (vertico-mode)
      (setq vertico-count 12)
+
+
+     ;;; Completion style
+     (straight-use-package
+      '(orderless :type git :flavor melpa :host github :repo "oantolin/orderless"))
+
+     (setq completion-styles '(orderless)
+           completion-category-defaults nil
+           completion-category-overrides '((file (styles partial-completion))))
+
+     (defun literal-if-twiddle (pattern _index _total)
+       "Match word~ PATTERN style."
+       (when (string-suffix-p "~" pattern)
+         `(orderless-literal . ,(substring pattern 0 -1))))
+
+     (defun first-flex (pattern index _total)
+       "Match wrd PATTERN for first INDEX."
+       (if (= index 0) 'orderless-flex))
+
+     (defun without-if-bang (pattern _index _total)
+       "Match !word PATTERN style."
+       (cond
+        ((equal "!" pattern)
+         '(orderless-literal . ""))
+        ((string-prefix-p "!" pattern)
+         `(orderless-without-literal . ,(substring pattern 1)))))
+
+     (setq orderless-matching-styles '(orderless-regexp)
+           orderless-style-dispatchers '(literal-if-twiddle
+                                         without-if-bang
+                                         first-flex))
+
+
+     ;;; Annotating
+     (straight-use-package
+      '(marginalia :type git :flavor melpa :host github :repo "minad/marginalia"))
+
+     (marginalia-mode)
+
+     (define-key minibuffer-local-map (kbd "M-a") #'marginalia-cycle)
    #+end_src
 * Version control
 ** Auto-revert
