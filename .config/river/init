@@ -11,7 +11,14 @@
 # Use the "logo" key as the primary modifier
 mod="Mod4"
 
+# Keysym names: /usr/include/xkbcommon/xkbcommon-keysyms.h
+
 riverctl map normal $mod D spawn bemenu-run
+
+riverctl map normal $mod BracketLeft focus-output previous
+riverctl map normal $mod BracketRight focus-output next
+riverctl map normal $mod+Shift BracketLeft send-to-output previous
+riverctl map normal $mod+Shift BracketRight send-to-output next
 
 # Mod+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
 riverctl map normal $mod+Shift Return spawn "kitty fish"
@@ -156,6 +163,11 @@ riverctl float-filter-add title "popup title with spaces"
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"
+
+riverctl spawn waybar
+
+riverctl focus-follows-cursor normal
+riverctl set-cursor-warp on-output-change
 
 # Set and exec into the default layout generator, rivertile.
 # River will send the process group of the init executable SIGTERM on exit.
