@@ -180,9 +180,6 @@
      ;;; Searching
      (setq isearch-lazy-count t)
 
-     ;;; Completion
-     (setq completion-styles '(basic partial-completion substring))
-
      ;;; Typed text replaces selection
      (delete-selection-mode 1)
 
@@ -194,6 +191,9 @@
 
      ;;; Org opens links on pressing RET
      (setq org-return-follows-link t)
+
+     ;;; Save minibuffer history.
+     (savehist-mode)
    #+end_src
 
 * Package management
@@ -302,7 +302,13 @@
 * Minibuffer
 ** Completion
    #+begin_src emacs-lisp
-     (setq completions-format 'vertical)
+     (setq completion-styles '(basic partial-completion substring))
+
+     (straight-use-package
+      '(vertico :type git :host github :repo "emacs-straight/vertico" :files ("*" (:exclude ".git"))))
+
+     (vertico-mode)
+     (setq vertico-count 12)
    #+end_src
 * Version control
 ** Auto-revert
