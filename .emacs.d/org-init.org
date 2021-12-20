@@ -636,7 +636,7 @@
        '(olivetti :type git :flavor melpa :host github :repo "rnkn/olivetti"))
     #+end_src
 * Programming
-** General settings
+** Defaults
    #+begin_src emacs-lisp
      (add-hook
       'prog-mode-hook
@@ -648,6 +648,17 @@
         (electric-pair-local-mode)
         ))
    #+end_src
+** General editing
+*** Party parrot
+    #+begin_src emacs-lisp
+      (straight-use-package
+       '(parrot :type git :flavor melpa :files (:defaults "img" "parrot-pkg.el") :host github :repo "dp12/parrot"))
+
+      (parrot-mode)
+
+      (global-set-key (kbd "C-c p") 'parrot-rotate-prev-word-at-point)
+      (global-set-key (kbd "C-c n") 'parrot-rotate-next-word-at-point)
+    #+end_src
 ** nREPL
    #+begin_src emacs-lisp
      (straight-use-package
