@@ -75,7 +75,7 @@ CRIT_PERCENT=80
 DECIMALS=2
 
 [brightness]
-command=ruby -e "puts ((`brightnessctl g`.to_f / 255.0) * 100).to_i"
+command=echo $(($(brightnessctl g) * 100 / 255))
 label=🔅
 interval=once
 signal=2
