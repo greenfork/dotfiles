@@ -8,6 +8,7 @@
 # 7. dmenu
 # 8. i3blocks
 # 9. maim
+# 10. dunst
 
 # i3 config file (v4)
 #
@@ -38,6 +39,10 @@ font pango:Fantasque Sans Mono 13
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+
+exec --no-startup-id dunst
+bindsym Control+Shift+space exec dunstctl close
+bindsym Control+Shift+grave exec dunstctl history-pop
 
 # Use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 i3blocks
