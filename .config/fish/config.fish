@@ -13,6 +13,7 @@ if status --is-interactive
     abbr --add --global gl    git pull
     abbr --add --global gp    git push
     abbr --add --global gpf   git push --force-with-lease
+    abbr --add --global gpgm  git push github master
     abbr --add --global gpsup "git push -u origin (git rev-parse --abbrev-ref HEAD)"
     abbr --add --global glog  git log --oneline --decorate --graph
     abbr --add --global gloga git log --oneline --decorate --graph --all
