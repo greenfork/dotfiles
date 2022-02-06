@@ -64,7 +64,8 @@ def lsp-engage -docstring 'Enable language server' %{
 # Highlighters
 ##############
 
-add-highlighter global/ number-lines -separator ' ' -hlcursor -relative
+map global normal -docstring 'toggle line numbers' <F7> ': remove-highlighter global/line_numbers<ret>'
+map global normal -docstring 'toggle line numbers' <F8> ": add-highlighter -override global/line_numbers number-lines -separator ' ' -hlcursor -relative<ret>"
 hook global WinCreate .* %{
     add-highlighter -override window/column_highlighter column 80 default,rgb:303030
 }
