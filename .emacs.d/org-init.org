@@ -22,6 +22,10 @@
    #+end_src
 
 * Tweaking defaults
+** $PATH
+   #+begin_src emacs-lisp
+     (setenv "PATH" (concat "/home/grfork/.rbenv/shims:" (getenv "PATH")))
+   #+end_src
 ** Simple commands
    Just like defaults but better.
    
