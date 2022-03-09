@@ -221,3 +221,4 @@ bindsym $mod+Print exec maim -i $(xdotool getactivewindow) | tee /tmp/screenshot
 
 for_window [class="grafx2"] floating enable
 for_window [class="Freja"] floating enable
+for_window [class="zoom"] floating enable
