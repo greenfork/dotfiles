@@ -695,6 +695,9 @@
       'ruby-mode-hook
       (lambda ()
         (display-fill-column-indicator-mode 1)))
+
+     (straight-use-package
+      '(rubocop :type git :flavor melpa :host github :repo "rubocop/rubocop-emacs"))
    #+end_src
 ** JavaScript
    #+begin_src emacs-lisp
