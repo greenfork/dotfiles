@@ -93,8 +93,8 @@ map global normal -docstring 'enter user mode' <space> ,
 map global normal -docstring 'remove all sels except main' <backspace> <space>
 map global normal -docstring 'remove main sel' <a-backspace> <a-space>
 set-option global autoreload yes
-map global normal <F4> q  # execute macro
-map global normal <F3> Q  # record macro
+map global normal ^ q  # execute macro
+map global normal <a-^> Q  # record macro
 map global normal q b
 map global normal Q B
 map global normal <a-q> <a-b>
