@@ -18,6 +18,7 @@ if status --is-interactive
     abbr --add --global glog  git log --oneline --decorate --graph
     abbr --add --global gloga git log --oneline --decorate --graph --all
     abbr --add --global gsb   git status -sb
+    abbr --add --global gap   git add --all --patch
     alias fco   fzf_git_checkout_branch
     alias fcoc  fzf_git_checkout_commit
 
