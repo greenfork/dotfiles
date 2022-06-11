@@ -14,3 +14,4 @@ tags
 !/.config/i3blocks/config
 
 /.emacs.d/straight/
+/.emacs.d/custom.el

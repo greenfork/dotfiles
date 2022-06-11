@@ -327,8 +327,8 @@
          `(orderless-literal . ,(substring pattern 0 -1))))
 
      (defun first-flex (pattern index _total)
-       "Match wrd PATTERN for first INDEX."
-       (if (= index 0) 'orderless-flex))
+       "Match word PATTERN for first INDEX."
+       (if (= index 0) 'orderless-regexp))
 
      (defun without-if-bang (pattern _index _total)
        "Match !word PATTERN style."
@@ -740,3 +740,8 @@
                (lambda ()
                  (define-key yaml-mode-map (kbd "C-m") #'newline-and-indent)))
    #+end_src
+** Graphviz dot
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(graphviz-dot-mode :type git :flavor melpa :host github :repo "ppareit/graphviz-dot-mode"))
+#+end_src
