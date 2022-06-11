@@ -20,6 +20,7 @@ if status --is-interactive
     abbr --add --global gsb   git status -sb
     abbr --add --global gap   git add --all --patch
     abbr --add --global gri   git rebase --interactive --autosquash master
+    abbr --add --global gitprune "git fetch --prune && git branch -v | grep gone | cut -f3 -d' ' | xargs git branch -D"
     alias fco   fzf_git_checkout_branch
     alias fcoc  fzf_git_checkout_commit
 
