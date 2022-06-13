@@ -19,6 +19,6 @@ tweakdefaults = True
 # uncomment the lines below to enable some popular extensions
 # (see 'hg help extensions' for more info)
 #
-histedit =
-rebase =
-uncommit =
+# histedit =
+# rebase =
+# uncommit =
