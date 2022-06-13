@@ -183,7 +183,13 @@ define-command fzf-current-directory %{ evaluate-commands %{
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         BUFFER_DIRNAME=$(dirname %val{bufname})
-        fd -H --exclude .git --type f --type l . $BUFFER_DIRNAME | \
+        if [ -d .hg ]; then
+            hg files $BUFFER_DIRNAME
+        elif [ -d .git ]; then
+            git ls-files $BUFFER_DIRNAME
+        else
+            fd -H --type f --type l . $BUFFER_DIRNAME
+        fi | \
             fzf --preview 'bat --color=always --decorations=never {}' > $MYTMP
         [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
     "
