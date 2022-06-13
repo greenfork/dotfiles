@@ -167,7 +167,13 @@ define-command fzf %{ evaluate-commands %{
     kitty-terminal --location=hsplit sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
-        fd -H --exclude .git --type f --type l | \
+        if [ -d .hg ]; then
+            hg files
+        elif [ -d .git ]; then
+            git ls-files
+        else
+            fd -H --type f --type l
+        fi | \
             fzf --preview 'bat --color=always --decorations=never {}' > $MYTMP
         [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
     "
