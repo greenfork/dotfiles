@@ -24,6 +24,13 @@ if status --is-interactive
     alias fco   fzf_git_checkout_branch
     alias fcoc  fzf_git_checkout_commit
 
+    # Mercurial stuff
+    abbr --add --global hc   hg commit
+    abbr --add --global hca  hg commit --addremove
+    abbr --add --global hd   hg diff
+    abbr --add --global hs   "hg summary && hg status"
+    abbr --add --global hl   hg log
+
     # Rails stuff
     abbr --add --global fullrdrs "bin/rails db:environment:set RAILS_ENV=development && bin/rake db:drop db:create db:migrate db:fixtures:load"
     abbr --add --global proddb "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rake db:drop db:create && pg_restore -Od hub2_development ../latest.dump && bin/rake jobs:clear && bin/rails runner \"Member.includes(:user).all.map { _1.user.update!(password: 'password') }\""
