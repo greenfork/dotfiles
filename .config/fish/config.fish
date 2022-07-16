@@ -25,6 +25,7 @@ if status --is-interactive
     alias fcoc  fzf_git_checkout_commit
 
     # Mercurial stuff
+    abbr --add --global hp   hg push
     abbr --add --global hc   hg commit
     abbr --add --global hca  hg commit --addremove
     abbr --add --global hd   hg diff
