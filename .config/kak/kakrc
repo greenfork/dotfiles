@@ -167,10 +167,10 @@ define-command fzf %{ evaluate-commands %{
     kitty-terminal --location=hsplit sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
-        if [ -d .hg ]; then
-            hg files
-        elif [ -d .git ]; then
+        if git rev-parse --is-inside-work-tree &> /dev/null; then
             git ls-files
+        elif hg root &> /dev/null; then
+            hg files .
         else
             fd -H --type f --type l
         fi | \
@@ -183,10 +183,10 @@ define-command fzf-current-directory %{ evaluate-commands %{
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
         BUFFER_DIRNAME=$(dirname %val{bufname})
-        if [ -d .hg ]; then
-            hg files $BUFFER_DIRNAME
-        elif [ -d .git ]; then
+        if git rev-parse --is-inside-work-tree &> /dev/null; then
             git ls-files $BUFFER_DIRNAME
+        elif hg root &> /dev/null; then
+            hg files $BUFFER_DIRNAME
         else
             fd -H --type f --type l . $BUFFER_DIRNAME
         fi | \
@@ -282,7 +282,7 @@ hook global WinSetOption filetype=json %{
 hook global WinSetOption filetype=ledger %{ no-tabs 4 }
 hook global WinSetOption filetype=haskell %{ no-tabs 2 }
 
-hook global BufCreate .*\.erb %{ set-option buffer filetype html }
+hook global BufCreate .*\.(erb|eex|heex) %{ set-option buffer filetype html }
 hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
 hook global BufCreate .*\.avsc %{ set-option buffer filetype json }
 hook global BufCreate .*\.jbuilder %{ set-option buffer filetype ruby }
@@ -291,8 +291,10 @@ hook global WinSetOption filetype=elixir %{
     add-highlighter -override window/column_highlighter column 98 default,rgb:303030
     set-option window formatcmd 'mix format -'
     no-tabs 2
-    lsp-enable-window
-    lsp-auto-signature-help-enable
+    # lsp-enable-window
+    # lsp-auto-signature-help-enable
+    # Currently elixir-ls shows errors on half the screen when in mix.exs.
+    # lsp-auto-hover-disable
 }
 hook global WinSetOption filetype=eex %{
     no-tabs 2
