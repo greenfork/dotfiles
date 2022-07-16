@@ -15,10 +15,18 @@ tweakdefaults = True
 # (see 'hg help pager' for details)
 # paginate = never
 
+[diff]
+nobinary = True
+showfunc = True
+
 [extensions]
 # uncomment the lines below to enable some popular extensions
 # (see 'hg help extensions' for more info)
-#
-# histedit =
-# rebase =
+histedit =
+rebase =
 # uncommit =
+purge =
+
+# https://www.mercurial-scm.org/doc/evolution/index.html
+# To install: pip install --user hg-evolve
+evolve =
