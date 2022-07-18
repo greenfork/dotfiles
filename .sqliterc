@@ -1,0 +1,5 @@
+.mode table
+.changes on
+.dbconfig enable_fkey on
+.eqp on
+.timer on
