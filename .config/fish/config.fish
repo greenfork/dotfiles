@@ -25,12 +25,14 @@ if status --is-interactive
     alias fcoc  fzf_git_checkout_commit
 
     # Mercurial stuff
+    alias hg chg
     abbr --add --global hp   hg push
     abbr --add --global hc   hg commit
     abbr --add --global hca  hg commit --addremove
     abbr --add --global hd   hg diff
     abbr --add --global hs   "hg summary && hg status"
-    abbr --add --global hl   hg log
+    abbr --add --global hl   hg log --graph
+    abbr --add --global hw   hg wip
 
     # Rails stuff
     abbr --add --global fullrdrs "bin/rails db:environment:set RAILS_ENV=development && bin/rake db:drop db:create db:migrate db:fixtures:load"
