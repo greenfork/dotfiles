@@ -29,7 +29,8 @@ if status --is-interactive
     abbr --add --global hp   hg push
     abbr --add --global hc   hg commit
     abbr --add --global hca  hg commit --addremove
-    abbr --add --global hd   hg diff
+    abbr --add --global hdf  hg dft
+    abbr --add --global hd   hg delta
     abbr --add --global hs   "hg summary && hg status"
     abbr --add --global hl   hg log --graph
     abbr --add --global hw   hg wip

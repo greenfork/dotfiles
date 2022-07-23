@@ -7,10 +7,6 @@ username = Dmitry Matveyev <dev@greenfork.me>
 # writing scripts!
 tweakdefaults = True
 
-# uncomment to disable color in command output
-# (see 'hg help color' for details)
-# color = never
-
 # uncomment to disable command output pagination
 # (see 'hg help pager' for details)
 # paginate = never
@@ -18,6 +14,7 @@ tweakdefaults = True
 [diff]
 nobinary = True
 showfunc = True
+git = True
 
 # wip alias is according to
 # http://jordi.inversethought.com/blog/customising-mercurial-like-a-pro/
@@ -30,6 +27,7 @@ wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("change
 
 [alias]
 wip = log --graph --rev=wip --template=wip
+dft = !GIT_PAGER_IN_USE=1 "$HG" difft --change "$1" | less -RX
 
 [extensions]
 # uncomment the lines below to enable some popular extensions
@@ -39,11 +37,22 @@ rebase =
 # uncommit =
 purge =
 
+highlight =
+
 # https://www.mercurial-scm.org/doc/evolution/index.html
 # To install: pip install --user hg-evolve, also available in Arch AUR
 evolve =
 
-color =
+# https://github.com/wilfred/difftastic
+# Binary is available for installation on Arch
+extdiff =
+
+[extdiff]
+cmd.difft =
+opts.difft = --missing-as-empty --display inline
+
+cmd.delta =
+opts.delta = --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none"
 
 [color]
 mode=terminfo

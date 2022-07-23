@@ -11,6 +11,7 @@ alias ll='ls --color=auto -lF'
 alias ip='ip -color=auto'
 alias ..='cd ..'
 alias grep='grep --color=auto'
+alias hg=chg
 
 GREEN="\[\e[0;92m\]"
 RESET="\[\e[0m\]"
