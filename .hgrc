@@ -23,11 +23,11 @@ git = True
 wip = (parents(not public()) or not public() or . or head()) and (not obsolete() or unstable()^) and not closed()
 
 [templates]
-wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("changeset.{phase}", rev)} {label("grep.user", author|user)}{label("log.tag", if(tags," {tags}"))} {bookmarks % "{ifeq(bookmark, currentbookmark, label('log.activebookmark', bookmark), label('log.bookmark', bookmark))} "}\n{label(ifcontains(rev, revset('parents()'), 'desc.here'),desc|firstline)}'
+wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("changeset.{phase}", rev)} {label("grep.user", author|person)}{label("log.tag", if(tags," {tags}"))} {bookmarks % "{ifeq(bookmark, currentbookmark, label('log.activebookmark', bookmark), label('log.bookmark', bookmark))} "}\n{label(ifcontains(rev, revset('parents()'), 'desc.here'),desc|firstline)}'
 
 [alias]
 wip = log --graph --rev=wip --template=wip
-dft = !GIT_PAGER_IN_USE=1 "$HG" difft --change "$1" | less -RX
+dft = !GIT_PAGER_IN_USE=1 "$HG" dftastic --change "$1" | less -RX
 
 [extensions]
 # uncomment the lines below to enable some popular extensions
@@ -48,11 +48,11 @@ evolve =
 extdiff =
 
 [extdiff]
-cmd.difft =
-opts.difft = --missing-as-empty --display inline
+cmd.dftastic = difft
+opts.dftastic = --missing-as-empty --display inline
 
 cmd.delta =
-opts.delta = --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none"
+opts.delta = --no-gitconfig --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none" --pager "less -XR"
 
 [color]
 mode=terminfo
