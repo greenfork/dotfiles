@@ -37,6 +37,7 @@ rebase =
 # uncommit =
 purge =
 
+# For hgweb
 highlight =
 
 # https://www.mercurial-scm.org/doc/evolution/index.html
@@ -53,6 +54,15 @@ opts.dftastic = --missing-as-empty --display inline
 
 cmd.delta =
 opts.delta = --no-gitconfig --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none" --pager "less -XR"
+
+[extensions]
+absorb =
+
+[absorb]
+# only check 50 recent non-public changesets at most
+max-stack-size = 50
+# whether to add noise to new commits to avoid obsolescence cycle
+add-noise = 1
 
 [color]
 mode=terminfo
@@ -76,3 +86,7 @@ changeset.secret=blue bold
 changeset.draft=brightyellow bold
 
 desc.here=bold blue_background
+
+absorb.description = yellow
+absorb.node = blue bold
+absorb.path = bold
