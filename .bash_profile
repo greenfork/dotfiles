@@ -17,3 +17,5 @@ export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
 export XKB_DEFAULT_LAYOUT="us,ru"
 export XKB_DEFAULT_OPTIONS="ctrl:nocaps,shift:both_capslock,grp:rctrl_toggle"
+
+export PATH="~/bin${PATH:+:${PATH}}"
