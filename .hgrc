@@ -53,7 +53,7 @@ cmd.dftastic = difft
 opts.dftastic = --missing-as-empty --display inline
 
 cmd.delta =
-opts.delta = --no-gitconfig --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none" --pager "less -XR"
+opts.delta = --no-gitconfig --line-numbers --navigate --commit-decoration-style "bold yellow box ul" --file-style "bold yellow box" --file-decoration-style "none" --pager "less -XRF"
 
 [extensions]
 absorb =
