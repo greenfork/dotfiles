@@ -18,4 +18,9 @@ export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 export XKB_DEFAULT_LAYOUT="us,ru"
 export XKB_DEFAULT_OPTIONS="ctrl:nocaps,shift:both_capslock,grp:rctrl_toggle"
 
-export PATH="~/bin${PATH:+:${PATH}}"
+export TERMINAL="kitty fish"
+
+export PATH="/home/grfork/bin${PATH:+:${PATH}}"
+export PATH="/home/grfork/.local/bin${PATH:+:${PATH}}"
+
+export XDG_CURRENT_DESKTOP=river
