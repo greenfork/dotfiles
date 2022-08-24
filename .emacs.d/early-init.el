@@ -39,6 +39,8 @@
 (setq inhibit-splash-screen t)
 (setq use-dialog-box t)                 ; only for mouse events
 (setq use-file-dialog nil)
+(setq default-frame-alist '((undecorated . t))) ; hide top window title bar
+(set-frame-parameter nil 'alpha-background 80) ; in version 29 there will be opacity
 
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-buffer-menu t)
