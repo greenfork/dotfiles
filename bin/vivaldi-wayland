@@ -1,0 +1,3 @@
+#!/bin/sh
+
+vivaldi-stable --force-dark-mode --enable-features=UseOzonePlatform --ozone-platform=wayland

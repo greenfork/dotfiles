@@ -1,4 +1,23 @@
-layer=overlay
-font=Fantasque Sans Mono 10
+font=Liberation Sans 11
 default-timeout=10000
 sort=+time
+max-icon-size=32
+height=400
+padding=8
+
+border-color=#aaaaaa
+
+[urgency=low]
+background-color=#222222
+text-color=#888888
+
+[urgency=normal]
+background-color=#285577
+text-color=#ffffff
+
+[urgency=critical]
+background-color=#900000
+text-color=#ffffff
+border-color=#ff0000
+default-timeout=0
+ignore-timeout=1

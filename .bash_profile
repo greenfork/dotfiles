@@ -20,7 +20,7 @@ export XKB_DEFAULT_OPTIONS="ctrl:nocaps,shift:both_capslock,grp:rctrl_toggle"
 
 export TERMINAL="kitty fish"
 
-export PATH="/home/grfork/bin${PATH:+:${PATH}}"
-export PATH="/home/grfork/.local/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
 
-export XDG_CURRENT_DESKTOP=river
+export XDG_CURRENT_DESKTOP=Unity
