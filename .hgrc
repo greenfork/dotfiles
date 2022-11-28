@@ -90,3 +90,21 @@ desc.here=bold blue_background
 absorb.description = yellow
 absorb.node = blue bold
 absorb.path = bold
+
+[committemplate]
+changeset = {desc}\n
+    HG: Enter commit message.  Lines beginning with 'HG:' are removed.
+    HG: {extramsg}
+    HG: --
+    HG: user: {author}\n{ifeq(p2rev, "-1", "",
+   "HG: branch merge\n")
+   }HG: branch '{branch}'\n{if(activebookmark,
+   "HG: bookmark '{activebookmark}'\n")   }{subrepos %
+   "HG: subrepo {subrepo}\n"              }{file_adds %
+   "HG: added {file}\n"                   }{file_mods %
+   "HG: changed {file}\n"                 }{file_dels %
+   "HG: removed {file}\n"                 }{if(files, "",
+   "HG: no files changed\n")}HG: ------------------------ >8 ------------------------
+    HG: Do not touch the line above.
+    HG: Everything below will be removed.
+    {diff()}
