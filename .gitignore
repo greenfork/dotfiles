@@ -16,3 +16,4 @@ tags
 /.emacs.d/straight/
 /.emacs.d/eln-cache/
 /.emacs.d/custom.el
+/.emacs.d/.org-id-locations
