@@ -89,9 +89,8 @@ search-highlighter-enable
 # General options
 ################
 
-map global normal -docstring 'enter user mode' <space> ,
-map global normal -docstring 'remove all sels except main' <backspace> <space>
-map global normal -docstring 'remove main sel' <a-backspace> <a-space>
+map global normal -docstring 'remove all sels except main' <backspace> ,
+map global normal -docstring 'remove main sel' <a-backspace> <a-,>
 set-option global autoreload yes
 map global normal ^ q  # execute macro
 map global normal <a-^> Q  # record macro
