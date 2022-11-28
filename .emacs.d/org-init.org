@@ -94,7 +94,6 @@
      (global-set-key (kbd "s-o") #'other-window)
      (global-set-key (kbd "s-b") (lambda () (interactive) (switch-to-buffer nil)))
      (global-set-key (kbd "s-s") #'save-buffer)
-     (add-hook 'org-src-mode-hook (lambda () (local-set-key (kbd "s-s") #'org-edit-src-save)))
      (global-set-key (kbd "s-k") #'kill-current-buffer)
    #+end_src
 ** General settings
