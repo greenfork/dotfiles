@@ -18,6 +18,7 @@ riverctl map normal Control+Shift Space spawn "makoctl dismiss"
 riverctl map normal Control+Shift Grave spawn "makoctl restore"
 
 riverctl spawn waybar
+riverctl spawn "nm-applet --indicator"
 
 riverctl spawn "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
