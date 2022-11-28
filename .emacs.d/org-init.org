@@ -787,7 +787,12 @@
       '(janet-mode :type git :flavor melpa :host github :repo "ALSchwalm/janet-mode"))
 
      (straight-use-package
-      '(inj-janet :type git :host github :repo "velkyel/inf-janet"))
+      '(s :type git :flavor melpa :host github :repo "magnars/s.el"))
+     (straight-use-package
+      '(inf-janet :type git :host github :repo "velkyel/inf-janet"))
+
+     (load-file "~/ob-janet.el")
+     (add-to-list 'org-babel-load-languages '(janet . t))
 
      (add-hook
       'janet-mode-hook
