@@ -195,7 +195,7 @@ command = "texlab"
 [language.zig]
 filetypes = ["zig"]
 roots = ["build.zig"]
-command = "/home/grfork/reps/zls/zig-out/bin/zls"
+command = "zls"
 
 [language.racket]
 filetypes = ["racket"]
