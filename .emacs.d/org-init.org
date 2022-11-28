@@ -436,6 +436,15 @@
      ;;; is larger than the screen, which breaks `eshell'.
      (setenv "PAGER" "cat")
    #+end_src
+* ORG ARG
+** Babel
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((ruby . t)
+                               (shell . t)))
+#+end_src
 * Texting and communication with society
 ** General texting
    #+begin_src emacs-lisp
