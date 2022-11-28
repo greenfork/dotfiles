@@ -481,5 +481,24 @@ define-command doc-key %{
     }
 } -docstring "show the documentation of a key in normal mode"
 
+map global normal f '<a-:>F'
+map global normal F '<a-:><a-;><a-F>'
+map global normal t '<a-:>t'
+map global normal T '<a-:><a-;><a-T>'
+map global normal x ': select-or-extend-lines<ret>'
+map global normal X 'x<a-:><a-;>'
+map global normal { '<a-:><a-;>{p'
+map global normal } '<a-:>}p'
+
+define-command select-or-extend-lines %{
+  try %{
+    # At least one selection is not full, so select whole lines.
+    execute-keys -draft '<a-K>\A^.*\n\z<ret>'
+    execute-keys 'x'
+  } catch %{
+    execute-keys 'Jx'
+  }
+}
+
 # Load local project config
 try %{ source '.local.kak' }
