@@ -621,6 +621,8 @@
       ;;; Don't ask how to encrypt/sign messages
       (setq mm-encrypt-option nil)
       (setq mm-sign-option nil)
+
+      (setq message-elide-ellipsis "[... %l lines elided]\n")
     #+end_src
 *** Mu4e
     #+begin_src emacs-lisp
