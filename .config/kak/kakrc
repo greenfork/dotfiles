@@ -177,6 +177,15 @@ define-command fzf %{ evaluate-commands %{
         [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
     "
 } }
+define-command fzf-always-fd %{ evaluate-commands %{
+    kitty-terminal --location=hsplit sh -c "
+        MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
+        trap 'rm -f $MYTMP' EXIT
+        fd -H --type f --type l | \
+            fzf --preview 'bat --color=always --decorations=never {}' > $MYTMP
+        [ -s $MYTMP ] && echo eval -client %val{client} edit $(cat $MYTMP) | kak -p %val{session}
+    "
+} }
 define-command fzf-current-directory %{ evaluate-commands %{
     kitty-terminal --location=hsplit sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
@@ -196,6 +205,7 @@ define-command fzf-current-directory %{ evaluate-commands %{
 
 
 map global user f -docstring 'fzf' ': fzf<ret>'
+map global user F -docstring 'fzf' ': fzf-always-fd<ret>'
 map global user d -docstring 'fzf in current dir' ': fzf-current-directory<ret>'
 
 # plug 'delapouite/kakoune-cd'
