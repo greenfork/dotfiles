@@ -425,6 +425,9 @@
 
      ;;; Show commands run by vc binaries
      (setq vc-command-messages t)
+
+     ;;; Faster alternative using C and a running daemon
+     (setq vc-hg-program "chg")
    #+end_src
 * Shells
 ** Eshell
