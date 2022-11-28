@@ -306,7 +306,7 @@ hook global WinSetOption filetype=elixir %{
     # Currently elixir-ls shows errors on half the screen when in mix.exs.
     # lsp-auto-hover-disable
 }
-hook global WinSetOption filetype=eex %{
+hook global WinSetOption .*\.heex %{
     no-tabs 2
 }
 hook global BufCreate .*\.rkt %{ set-option buffer filetype racket }
