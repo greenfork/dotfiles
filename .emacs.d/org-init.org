@@ -310,8 +310,11 @@
   ;; Disable all other themes to avoid awkward blending:
   (mapc #'disable-theme custom-enabled-themes)
 
-  ;; Load the theme of choice:
-  (load-theme 'ef-summer :no-confirm)
+  ;; Use light and dark themes based on time of the day. `car' is light theme,
+  ;; `cadr' is dark.
+  (if (< 6 (string-to-number (format-time-string "%H")) 19)
+      (load-theme (car ef-themes-to-toggle) :no-confirm)
+    (load-theme (cadr ef-themes-to-toggle) :no-confirm))
 
   ;; The themes we provide:
   ;;
