@@ -445,6 +445,16 @@
    'org-babel-load-languages '((ruby . t)
                                (shell . t)))
 #+end_src
+** Export
+
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(ox-gfm :type git :flavor melpa :host github :repo "larstvei/ox-gfm"))
+
+  (eval-after-load "org"
+    '(require 'ox-gfm nil t))
+#+end_src
+
 * Texting and communication with society
 ** General texting
    #+begin_src emacs-lisp
