@@ -312,7 +312,7 @@
 
   ;; Use light and dark themes based on time of the day. `car' is light theme,
   ;; `cadr' is dark.
-  (if (< 6 (string-to-number (format-time-string "%H")) 19)
+  (if (< 6 (string-to-number (format-time-string "%H")) 16)
       (load-theme (car ef-themes-to-toggle) :no-confirm)
     (load-theme (cadr ef-themes-to-toggle) :no-confirm))
 
