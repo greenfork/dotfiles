@@ -306,6 +306,9 @@ hook global WinSetOption filetype=elixir %{
     # Currently elixir-ls shows errors on half the screen when in mix.exs.
     # lsp-auto-hover-disable
 }
+hook global WinSetOption filetype=erlang %{
+    no-tabs 4
+}
 hook global WinSetOption .*\.heex %{
     no-tabs 2
 }
