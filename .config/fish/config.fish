@@ -6,7 +6,7 @@ if status --is-interactive
     abbr --add --global gca   git commit -av
     abbr --add --global gco   git checkout
     abbr --add --global gcb   git checkout -b
-    abbr --add --global gcm   git checkout master
+    abbr --add --global gcm   "git checkout master || git checkout main"
     abbr --add --global gf    git fetch
     abbr --add --global gd    git diff
     abbr --add --global gdca  git diff --cached
@@ -53,6 +53,7 @@ if status --is-interactive
 
     # Editors
     alias k kak
+    alias h helix
     alias e emacs
 
     # Key bindings
