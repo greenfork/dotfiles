@@ -568,6 +568,8 @@
      ;; utf-8 always and forever
      (setq erc-server-coding-system '(utf-8 . utf-8))
 
+     (setq erc-pcomplete-nick-postfix ",")
+
 
      (defvar my-fav-irc '("irc.libera.chat")
        "Stores the list of IRC servers that you want to connect to with start-irc.")
