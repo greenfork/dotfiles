@@ -492,6 +492,7 @@ map global normal x ': select-or-extend-lines<ret>'
 map global normal X 'x<a-:><a-;>'
 map global normal { '<a-:><a-;>{p'
 map global normal } '<a-:>}p'
+map global goto s i
 
 define-command select-or-extend-lines %{
   try %{

@@ -35,6 +35,9 @@ if status --is-interactive
     abbr --add --global hl   hg log --graph
     abbr --add --global hw   hg wip
 
+    # Jujutsu stuff
+    abbr --add --global jd   jj diff --git
+
     # Rails stuff
     abbr --add --global fullrdrs "bin/rails db:environment:set RAILS_ENV=development && bin/rake db:drop db:create db:migrate db:fixtures:load"
     abbr --add --global proddb "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rake db:drop db:create && pg_restore -Od hub2_development ../latest.dump && bin/rake jobs:clear && bin/rails runner \"Member.includes(:user).all.map { _1.user.update!(password: 'password') }\""
@@ -53,7 +56,7 @@ if status --is-interactive
 
     # Editors
     alias k kak
-    alias h helix
+    alias h hx
     alias e emacs
 
     # Key bindings

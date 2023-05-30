@@ -44,6 +44,11 @@ highlight =
 # To install: pip install --user hg-evolve, also available in Arch AUR
 evolve =
 
+# https://hg-git.github.io/
+# To install: pip install --user hg-git
+hgext.bookmarks =
+hggit =
+
 # https://github.com/wilfred/difftastic
 # Binary is available for installation on Arch
 extdiff =

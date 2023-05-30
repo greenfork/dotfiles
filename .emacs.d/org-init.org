@@ -90,11 +90,11 @@
        (global-set-key (kbd "C-x z") nil))
 
      ;;; Additional fast keybindings with "super" modifier
-     (global-set-key (kbd "s-e") #'eval-last-sexp)
-     (global-set-key (kbd "s-o") #'other-window)
-     (global-set-key (kbd "s-b") (lambda () (interactive) (switch-to-buffer nil)))
-     (global-set-key (kbd "s-s") #'save-buffer)
-     (global-set-key (kbd "s-k") #'kill-current-buffer)
+     (global-set-key (kbd "H-s-e") #'eval-last-sexp)
+     (global-set-key (kbd "H-s-o") #'other-window)
+     (global-set-key (kbd "H-s-b") (lambda () (interactive) (switch-to-buffer nil)))
+     (global-set-key (kbd "H-s-s") #'save-buffer)
+     (global-set-key (kbd "H-s-k") #'kill-current-buffer)
    #+end_src
 ** General settings
    #+begin_src emacs-lisp
@@ -151,6 +151,8 @@
      (setq recentf-mex-saved-items 100)
      (setq savehist-file (concat emacs-share-directory "/savehist"))
      (setq history-length 300)
+     (setq history-delete-duplicates t)
+     (setq savehist-save-minibuffer-history t)
      (setq save-place-file (concat emacs-share-directory "/saveplace"))
      (setq eshell-directory-name (expand-file-name "eshell" emacs-share-directory))
      (setq eshell-history-size 500)
@@ -196,7 +198,18 @@
      (setq org-return-follows-link t)
 
      ;;; Save minibuffer history.
-     (savehist-mode)
+     (add-hook 'after-init-hook #'savehist-mode)
+
+     ;; Prefer ripgrep, then ugrep, and fail back to regular grep.
+     (setq xref-search-program
+           (cond
+            ((or (executable-find "ripgrep")
+                 (executable-find "rg"))
+             'ripgrep)
+            ((executable-find "ugrep")
+             'ugrep)
+            (t
+             'grep)))
    #+end_src
 
 * Package management
@@ -287,7 +300,7 @@
   ;; can specify them in `ef-themes-to-toggle' and then invoke the command
   ;; `ef-themes-toggle'.  All the themes are included in the variable
   ;; `ef-themes-collection'.
-  (setq ef-themes-to-toggle '(ef-summer ef-winter))
+  (setq ef-themes-to-toggle '(ef-spring ef-autumn))
 
   ;; Make customisations that affect Emacs faces BEFORE loading a theme
   ;; (any change needs a theme re-load to take effect).
@@ -315,22 +328,6 @@
   (if (< 6 (string-to-number (format-time-string "%H")) 16)
       (load-theme (car ef-themes-to-toggle) :no-confirm)
     (load-theme (cadr ef-themes-to-toggle) :no-confirm))
-
-  ;; The themes we provide:
-  ;;
-  ;; Light: `ef-day', `ef-light', `ef-spring', `ef-summer'.
-  ;; Dark:  `ef-autumn', `ef-dark', `ef-night', `ef-winter'.
-  ;;
-  ;; Also those which are optimized for deuteranopia (red-green color
-  ;; deficiency): `ef-deuteranopia-dark', `ef-deuteranopia-light'.
-
-  ;; We also provide these commands, but do not assign them to any key:
-  ;;
-  ;; - `ef-themes-toggle'
-  ;; - `ef-themes-select'
-  ;; - `ef-themes-load-random'
-  ;; - `ef-themes-preview-colors'
-  ;; - `ef-themes-preview-colors-current'
 #+end_src
 ** Rainbow parens
    #+begin_src emacs-lisp
@@ -437,6 +434,14 @@
      (setenv "PAGER" "cat")
    #+end_src
 * ORG ARG
+** General
+
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (auto-fill-mode 1)))
+#+end_src
+
 ** Babel
 #+begin_src emacs-lisp
   (setq org-confirm-babel-evaluate nil)
@@ -714,6 +719,12 @@
      (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
      (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+     (add-to-list 'auto-mode-alist '("\\.dj\\'" . markdown-mode))
+
+     (add-hook 'markdown-mode-hook
+               (lambda ()
+                 (auto-fill-mode 1)))
    #+end_src
 ** Presentation
 *** Center the screen
@@ -735,16 +746,6 @@
         ))
    #+end_src
 ** General editing
-*** Party parrot
-    #+begin_src emacs-lisp
-      (straight-use-package
-       '(parrot :type git :flavor melpa :files (:defaults "img" "parrot-pkg.el") :host github :repo "dp12/parrot"))
-
-      (parrot-mode)
-
-      (global-set-key (kbd "C-c p") 'parrot-rotate-prev-word-at-point)
-      (global-set-key (kbd "C-c n") 'parrot-rotate-next-word-at-point)
-    #+end_src
 ** nREPL
    #+begin_src emacs-lisp
      (straight-use-package
@@ -831,4 +832,36 @@
 #+begin_src emacs-lisp
   (straight-use-package
    '(graphviz-dot-mode :type git :flavor melpa :host github :repo "ppareit/graphviz-dot-mode"))
+#+end_src
+* Second brain
+** Note taking
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(denote :type git :host github :repo "emacs-straight/denote" :files ("*" (:exclude ".git"))))
+
+  (setq denote-directory (expand-file-name "~/zettelkasten"))
+  (setq denote-known-keywords '())
+  (setq denote-allow-multi-word-keywords nil)
+  (setq denote-file-type 'markdown-toml)
+  (add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+
+  (let ((map global-map))
+    (define-key map (kbd "C-c n n") #'denote)
+    (define-key map (kbd "C-c n N") #'denote-type)
+    (define-key map (kbd "C-c n d") #'denote-date)
+    (define-key map (kbd "C-c n s") #'denote-subdirectory)
+    (define-key map (kbd "C-c n t") #'denote-template)
+    ;; If you intend to use Denote with a variety of file types, it is
+    ;; easier to bind the link-related commands to the `global-map', as
+    ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+    ;; `markdown-mode-map', and/or `text-mode-map'.
+    (define-key map (kbd "C-c n i") #'denote-link) ; "insert" mnemonic
+    (define-key map (kbd "C-c n I") #'denote-link-add-links)
+    (define-key map (kbd "C-c n b") #'denote-link-backlinks)
+    (define-key map (kbd "C-c n f f") #'denote-link-find-file)
+    (define-key map (kbd "C-c n f b") #'denote-link-find-backlink)
+    ;; Note that `denote-rename-file' can work from any context, not just
+    ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+    (define-key map (kbd "C-c n r") #'denote-rename-file)
+    (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
 #+end_src

@@ -8,6 +8,8 @@
 	showInformativeStatus = true
 [pull]
 	rebase = false
+[merge]
+	conflictStyle = diff3
 [init]
 	defaultBranch = master
 [sendemail]
