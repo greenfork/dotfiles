@@ -12,49 +12,44 @@
 # 7. Profit
 
 # source "%val{config}/plugins/plug.kak/rc/plug.kak"
-# plug 'alexherbo2/prelude.kak'
-# plug 'alexherbo2/auto-pairs.kak'  # don't update it, it uses crystal stuff
-# plug 'alexherbo2/search-highlighter.kak'
+# plug 'alexherbo2/auto-pairs.kak'
 # plug 'andreyorst/smarttab.kak'
 # plug 'Delapouite/kakoune-buffers'
 # plug 'delapouite/kakoune-cd'
 # plug 'greenfork/active-window.kak'
 # plug 'https://gitlab.com/fsub/kakoune-mark'
-# plug 'lenormf/kakoune-extra'
 # plug 'lePerdu/kakboard'
 # plug 'occivink/kakoune-find'
 # plug 'occivink/kakoune-sudo-write'
-# plug 'katesuyu/zzz.kak'
 
-source "%val{config}/plugins/prelude.kak/rc/prelude.kak"
+# Requires 45c01c2109b1c6c1f7728c64f6800c6670425ea5 version of kakoune because
+# the commit right after that e49c0fb04095a2a1c546fd033ce2a1a6df3eb8d0 breaks
+# the "unmap" command: https://github.com/alexherbo2/auto-pairs.kak/issues/60
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
-source "%val{config}/plugins/search-highlighter.kak/rc/search-highlighter.kak"
 source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
 source "%val{config}/plugins/kakoune-buffers/buffers.kak"
 source "%val{config}/plugins/kakoune-cd/cd.kak"
 source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
 source "%val{config}/plugins/kakoune-mark/mark.kak"
-source "%val{config}/plugins/kakoune-extra/vcs.kak"
 source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
 source "%val{config}/plugins/kakoune-sudo-write/sudo-write.kak"
-source "%val{config}/plugins/zzz.kak/rc/zzz.kak"
 
 # Following plugins require Rust compilation prior to use.
 # plug 'eraserhd/parinfer-rust'
 # source "%val{config}/plugins/parinfer-rust/rc/parinfer.kak"
-# plug 'ul/kak-lsp'
-eval %sh{kak-lsp --kakoune -s $kak_session}
-# set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
+# Development of active-window.kak
 # source "/home/grfork/reps/active-window.kak/rc/active-window.kak"
+
 
 # Language Server Protocol
 ##########################
 
 # plug "ul/kak-lsp"
-hook global KakEnd .* lsp-exit
+eval %sh{kak-lsp --kakoune -s $kak_session}
 # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+hook global KakEnd .* lsp-exit
 map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
 def lsp-engage -docstring 'Enable language server' %{
     lsp-enable-window
@@ -81,16 +76,11 @@ add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
 map global user -docstring 'mark word with color' m ': mark-word<ret>'
 map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
 
-require-module search-highlighter
-search-highlighter-enable
-
 
 
 # General options
 ################
 
-map global normal -docstring 'remove all sels except main' <backspace> ,
-map global normal -docstring 'remove main sel' <a-backspace> <a-,>
 set-option global autoreload yes
 map global normal ^ q  # execute macro
 map global normal <a-^> Q  # record macro
@@ -114,6 +104,7 @@ set global kakboard_copy_cmd 'wl-copy'
 set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
 # set global kakboard_copy_cmd 'xclip -in -selection clipboard'
 # set global kakboard_paste_cmd 'xclip -out -selection clipboard'
+hook global WinCreate .* %{ kakboard-enable }
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'
 map global normal d ': kakboard-with-push-clipboard d<ret>'
@@ -222,7 +213,7 @@ map global normal / /(?i)
 #########
 
 map global normal -docstring 'comment line' '#' ': comment-line<ret>'
-map global normal -docstring 'comment line' '<a-#>' ': comment-block<ret>'
+map global normal -docstring 'comment block' '<a-#>' ': comment-block<ret>'
 define-command delete-trailing-whitespace -docstring 'Remove trailing whitespace' %{
     try %{ execute-keys -draft '%s\h+$<ret>d' }
     try %{ execute-keys -draft '%s\n+\z<ret>d' }
@@ -242,15 +233,14 @@ define-command no-tabs -params 0..1 -docstring 'Indent with spaces' %{
 define-command split-arguments-multiline -docstring "Split arguments into multiple lines" %{
     execute-keys -with-hooks <a-i>bS, <ret><a-semicolon>i<ret><space><space><esc><space>gli<ret><backspace><esc>
 }
-require-module auto-pairs
-auto-pairs-enable
+
+enable-auto-pairs
 
 
 
 # Searching
 ###########
 
-# plug 'occivink/kakoune-find'
 set-option global grepcmd 'rg -iHLF --column'
 
 
@@ -274,6 +264,7 @@ hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=zzz %{ no-tabs 2 }
 hook global WinSetOption filetype=makefile %{ noexpandtab }
+hook global WinSetOption filetype=hare %{ noexpandtab }
 # Remove markdown highlighting, it's broken
 hook global WinSetOption filetype=markdown %{ set buffer filetype md }
 hook global WinSetOption filetype=html %{
@@ -424,20 +415,18 @@ hook global WinSetOption filetype=elvish %{
 # Git
 #####
 
-# plug 'lenormf/kakoune-extra'
-hook global WinCreate .* %{ evaluate-commands %sh{
-    if [ -n "${kak_opt_vcs_root_path}" ]; then
-        case "${kak_opt_vcs_name}" in
-            git)
-                echo "
-                    git show-diff
-                    hook global BufWritePost %val{buffile} %{git update-diff}
-                    hook global BufReload %val{buffile} %{git update-diff}
-                    hook global WinDisplay %val{buffile} %{git update-diff}
-                ";;
-        esac
+# Disable for scratch buffers ending with *
+hook global WinCreate .*(?<!\*)$ %{ evaluate-commands %sh{
+    if git rev-parse --is-inside-work-tree &> /dev/null; then
+        echo "
+            git show-diff
+            hook global BufWritePost %val{buffile} %{git update-diff}
+            hook global BufReload %val{buffile} %{git update-diff}
+            hook global WinDisplay %val{buffile} %{git update-diff}
+        "
     fi
 } }
+
 
 
 
@@ -452,8 +441,6 @@ define-command gen-ctags %{
 map global insert <c-d> <del>
 map global insert <c-f> <right> -docstring forward-char
 map global insert <c-b> <left> -docstring backward-char
-# map global insert <c-p> <up> -docstring backward-char
-# map global insert <c-n> <down> -docstring backward-char
 map global insert <c-y> '<c-r>"' -docstring yank
 map global prompt <c-y> '<c-r>"' -docstring yank
 map global prompt <c-g> <esc> -docstring abort
