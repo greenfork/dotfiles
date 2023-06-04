@@ -112,6 +112,11 @@ map global normal p ': kakboard-with-pull-clipboard p<ret>'
 map global normal P ': kakboard-with-pull-clipboard P<ret>'
 map global normal R ': kakboard-with-pull-clipboard R<ret>'
 
+# Display visible column instead of the number of characters on the line,
+# this is important for a tabbed language Hare that uses hard tabs.
+# cursor_char_column -> cursor_display_column
+set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_display_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
+
 
 
 # Navigation
