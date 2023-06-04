@@ -1,6 +1,6 @@
 # example user config (see 'hg help config' for more info)
 [ui]
-username = Dmitry Matveyev <dev@greenfork.me>
+username = Dmitry Matveyev <public@greenfork.me>
 
 # We recommend enabling tweakdefaults to get slight improvements to
 # the UI over time. Make sure to set HGPLAIN in the environment when

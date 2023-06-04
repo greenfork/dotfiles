@@ -1,7 +1,7 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2020-2021  Protesilaos Stavrou <info@protesilaos.com>
-;; Copyright (c) 2021 Dmitry Matveyev <dev@greenfork.me>
+;; Copyright (c) 2021 Dmitry Matveyev <public@greenfork.me>
 
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://protesilaos.com/dotemacs
