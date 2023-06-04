@@ -15,9 +15,8 @@
 [sendemail]
 	smtpEncryption = ssl
 	smtpServer = smtp.fastmail.com
-	smtpUser = greenfork@greenfork.me
+	smtpUser = greenfork@fastmail.com
 	smtpServerPort = 465
-	annotate = true
 [credential]
 	helper = "netrc -f ~/.authinfo.gpg"
 
