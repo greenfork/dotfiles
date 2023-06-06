@@ -164,8 +164,8 @@ define-command fzf %{ evaluate-commands %{
         trap 'rm -f $MYTMP' EXIT
         if git rev-parse --is-inside-work-tree &> /dev/null; then
             git ls-files
-        elif hg root &> /dev/null; then
-            hg files .
+        elif chg root &> /dev/null; then
+            chg files .
         else
             fd -H --type f --type l
         fi | \
@@ -189,8 +189,8 @@ define-command fzf-current-directory %{ evaluate-commands %{
         BUFFER_DIRNAME=$(dirname %val{bufname})
         if git rev-parse --is-inside-work-tree &> /dev/null; then
             git ls-files $BUFFER_DIRNAME
-        elif hg root &> /dev/null; then
-            hg files $BUFFER_DIRNAME
+        elif chg root &> /dev/null; then
+            chg files $BUFFER_DIRNAME
         else
             fd -H --type f --type l . $BUFFER_DIRNAME
         fi | \

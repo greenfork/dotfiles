@@ -32,7 +32,7 @@ if status --is-interactive
     abbr --add --global hdf  hg dft
     abbr --add --global hd   hg delta
     abbr --add --global hs   "hg summary && hg status"
-    abbr --add --global hl   hg log --graph
+    abbr --add --global hl   'hg log --rev "reverse(ancestors(.))"'
     abbr --add --global hw   hg wip
 
     # Jujutsu stuff
