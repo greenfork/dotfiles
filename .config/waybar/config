@@ -28,7 +28,6 @@
         "spacing": 10
     },
     "clock": {
-        "timezones": ["", "Europe/Moscow"],
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format": "{:%Y-%m-%d %H:%M:%S}",
         "interval": 1,

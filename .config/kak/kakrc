@@ -246,7 +246,7 @@ enable-auto-pairs
 # Searching
 ###########
 
-set-option global grepcmd 'rg -iHLF --column'
+set-option global grepcmd 'rg --ignore-case --with-filename --column --follow'
 
 
 

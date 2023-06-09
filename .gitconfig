@@ -17,6 +17,7 @@
 	smtpServer = smtp.fastmail.com
 	smtpUser = greenfork@fastmail.com
 	smtpServerPort = 465
+	annotate = yes
 [credential]
 	helper = "netrc -f ~/.authinfo.gpg"
 
