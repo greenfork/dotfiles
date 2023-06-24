@@ -1,15 +1,5 @@
 #!/bin/sh
 
-# This is the example configuration file for river.
-#
-# If you wish to edit this, you will probably want to copy it to
-# $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-#
-# See the river(1), riverctl(1), and rivertile(1) man pages for complete
-# documentation.
-
-# Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
-
 riverctl map normal Super+Shift Return spawn "kitty fish"
 riverctl map -layout 0 normal Super D spawn bemenu-run
 
@@ -19,13 +9,14 @@ riverctl map normal Control+Shift Grave spawn "makoctl restore"
 
 riverctl spawn waybar
 riverctl spawn "nm-applet --indicator"
+riverctl spawn "wlsunset -l 52.2 -L 76.9"
 
 riverctl spawn "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
 riverctl map normal Super Print spawn "rivershot region"
 riverctl map normal Super+Shift Print spawn "rivershot"
 
-riverctl spawn 'swaybg -i ~/Downloads/cute-anime-girl2.jpg'
+riverctl spawn 'swaybg --image $(ls ~/wallpapers/*.{jpg,png} -1 | shuf | head -n1 | tee /tmp/current_wallpaper)'
 
 # Super+Q to close the focused view
 riverctl map -layout 0 normal Super Q close
@@ -177,11 +168,16 @@ riverctl border-width 2
 riverctl set-repeat 50 180
 
 # Make certain views start floating
-riverctl float-filter-add app-id float
-riverctl float-filter-add title "popup title with spaces"
+riverctl rule-add float -app-id float
+riverctl rule-add float -title popup
+riverctl rule-add float -app-id org.gnome.Meld
+# Use server-side decorations for all apps by default
+riverctl rule-add ssd -app-id "firefox"
+riverctl rule-add ssd -app-id "org.telegram.desktop"
+riverctl rule-add ssd -app-id "gimp"
 
 # Set app-ids and titles of views which should use client side decorations
-riverctl csd-filter-add app-id "gedit"
+riverctl rule-add csd -app-id "gedit"
 
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.
