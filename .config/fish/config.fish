@@ -67,9 +67,12 @@ if status --is-interactive
 
     # Color support
     alias ip    "ip -color=auto"
-    alias l    "exa -F"
+    alias l     "exa -F"
     alias ll    "exa -lFg"
     alias la    "exa -lFga"
+
+    # gdb
+    alias gdb   "gdb -q"
 
     zoxide init fish | source
 
