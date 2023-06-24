@@ -60,7 +60,7 @@ def lsp-engage -docstring 'Enable language server' %{
 ##############
 
 map global normal -docstring 'toggle line numbers' <F7> ': remove-highlighter global/line_numbers<ret>'
-map global normal -docstring 'toggle line numbers' <F8> ": add-highlighter -override global/line_numbers number-lines -separator ' ' -hlcursor -relative<ret>"
+map global normal -docstring 'toggle line numbers' <F8> ": add-highlighter -override global/line_numbers number-lines -separator ' ' -hlcursor<ret>"
 hook global WinCreate .* %{
     add-highlighter -override window/column_highlighter column 80 default,rgb:303030
 }
@@ -210,8 +210,6 @@ map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
 # plug 'Delapouite/kakoune-buffers'
 map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
 
-map global normal / /(?i)
-
 
 
 # Editing
@@ -248,6 +246,9 @@ enable-auto-pairs
 
 set-option global grepcmd 'rg --ignore-case --with-filename --column --follow'
 
+map global normal / /(?i)
+map global normal <a-/> <a-/>(?i)
+
 
 
 # Language options
@@ -268,8 +269,15 @@ hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
 hook global WinSetOption filetype=markdown %{ no-tabs 2 }
 hook global WinSetOption filetype=zzz %{ no-tabs 2 }
+hook global WinSetOption filetype=xml %{ no-tabs 2 }
 hook global WinSetOption filetype=makefile %{ noexpandtab }
 hook global WinSetOption filetype=hare %{ noexpandtab }
+hook global WinSetOption filetype=gas %{ noexpandtab }
+hook global WinSetOption filetype=c %{
+    expandtab
+    # hook -once buffer NormalIdle '' "set-option buffer tabstop 8"
+    set-option current tabstop 8
+}
 # Remove markdown highlighting, it's broken
 hook global WinSetOption filetype=markdown %{ set buffer filetype md }
 hook global WinSetOption filetype=html %{
@@ -364,7 +372,7 @@ hook global WinSetOption filetype=zig %{
     }
 }
 hook global WinSetOption filetype=(c|cpp) %{
-    no-tabs 4
+    noexpandtab
     lsp-enable-window
     lsp-auto-signature-help-enable
 
