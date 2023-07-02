@@ -18,10 +18,19 @@ export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 export XKB_DEFAULT_LAYOUT="us,ru"
 export XKB_DEFAULT_OPTIONS="ctrl:nocaps,shift:both_capslock,grp:rctrl_toggle"
 
-export TERMINAL="kitty fish"
+export TERMINAL="kitty elvish"
 
 export PATH="${HOME}/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.roswell/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/go/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.nimble/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.rbenv/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.cargo/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.yarn/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.fly/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.npm/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/.emacs.d/bin${PATH:+:${PATH}}"
 
 # For river
 export XDG_CURRENT_DESKTOP=Unity

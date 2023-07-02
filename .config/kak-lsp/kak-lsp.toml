@@ -207,3 +207,9 @@ args = ["-l", "racket-langserver"]
 filetypes = ["elixir"]
 roots = ["mix.exs"]
 command = "elixir-ls"
+
+[language.elvish]
+filetypes = ["elvish"]
+roots = []
+command = "elvish"
+args = ["-lsp"]

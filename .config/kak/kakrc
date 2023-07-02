@@ -421,6 +421,12 @@ hook global WinSetOption filetype=dart %{
 }
 hook global WinSetOption filetype=elvish %{
     no-tabs 2
+    lsp-engage
+}
+hook global WinSetOption filetype=janet %{
+    set-option window formatcmd 'janet-format'
+    hook window BufWritePre .* format
+    no-tabs 2
 }
 
 

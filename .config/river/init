@@ -1,6 +1,6 @@
 #!/bin/sh
 
-riverctl map normal Super+Shift Return spawn "kitty fish"
+riverctl map normal Super+Shift Return spawn "$TERMINAL"
 riverctl map -layout 0 normal Super D spawn bemenu-run
 
 riverctl spawn mako
@@ -175,6 +175,7 @@ riverctl rule-add float -app-id org.gnome.Meld
 riverctl rule-add ssd -app-id "firefox"
 riverctl rule-add ssd -app-id "org.telegram.desktop"
 riverctl rule-add ssd -app-id "gimp"
+riverctl rule-add ssd -app-id "emacs"
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl rule-add csd -app-id "gedit"
