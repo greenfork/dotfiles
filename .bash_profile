@@ -9,6 +9,7 @@ export LANG=en_US.UTF-8
 export XDG_CONFIG_HOME=$HOME/.config
 export PAGER=less-f
 export EDITOR=kak
+export TERMINAL=kitty
 
 export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 [[ -d $HOME/reps/guix ]] && export GUIX_CHECKOUT=$HOME/reps/guix
@@ -17,8 +18,6 @@ export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
 
 export XKB_DEFAULT_LAYOUT="us,ru"
 export XKB_DEFAULT_OPTIONS="ctrl:nocaps,shift:both_capslock,grp:rctrl_toggle"
-
-export TERMINAL="kitty elvish"
 
 export PATH="${HOME}/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
