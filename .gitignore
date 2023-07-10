@@ -17,3 +17,4 @@ tags
 /.emacs.d/eln-cache/
 /.emacs.d/custom.el
 /.emacs.d/.org-id-locations
+/.emacs.d/url/

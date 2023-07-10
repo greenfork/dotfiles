@@ -732,6 +732,15 @@
       (straight-use-package
        '(olivetti :type git :flavor melpa :host github :repo "rnkn/olivetti"))
     #+end_src
+** Feeds
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(elfeed :type git :flavor melpa :files (:defaults "README.md" "elfeed-pkg.el") :host github :repo "skeeto/elfeed"))
+
+  (setq elfeed-feeds
+        '("https://www.more-magic.net/feed.atom"
+          "https://dataswamp.org/~solene/rss.xml"))
+#+end_src
 * Programming
 ** Defaults
    #+begin_src emacs-lisp
