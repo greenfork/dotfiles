@@ -149,12 +149,12 @@ set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_displ
 require-module kitty
 define-command nh -command-completion -docstring '"new" horizontal split for kitty' %{
     nop %sh{
-        kitty @ launch --location=hsplit --no-response --cwd "$PWD" kak -c $kak_session
+        kitty @ launch --location=hsplit --no-response --cwd=current -- kak -c $kak_session
     }
 }
 define-command n -command-completion -docstring '"new" vertical split for kitty' %{
     nop %sh{
-        kitty @ launch --location=vsplit --no-response --cwd "$PWD" kak -c $kak_session
+        kitty @ launch --location=vsplit --no-response --cwd=current -- kak -c $kak_session
     }
 }
 
