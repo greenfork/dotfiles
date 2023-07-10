@@ -176,6 +176,7 @@ riverctl rule-add ssd -app-id "firefox"
 riverctl rule-add ssd -app-id "org.telegram.desktop"
 riverctl rule-add ssd -app-id "gimp"
 riverctl rule-add ssd -app-id "emacs"
+riverctl rule-add ssd -app-id "google-chrome"
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl rule-add csd -app-id "gedit"
