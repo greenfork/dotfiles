@@ -737,6 +737,11 @@
   (straight-use-package
    '(elfeed :type git :flavor melpa :files (:defaults "README.md" "elfeed-pkg.el") :host github :repo "skeeto/elfeed"))
 
+  (add-hook 'elfeed-show-mode-hook
+            (lambda ()
+              (text-scale-set 1)))
+
+
   (setq elfeed-feeds
         '("https://www.more-magic.net/feed.atom"
           "https://dataswamp.org/~solene/rss.xml"
@@ -754,7 +759,8 @@
           "https://guix.gnu.org/feeds/blog.atom"
           "https://ufried.com/blog/index.xml"
           "https://lexi-lambda.github.io/feeds/all.atom.xml"
-          "https://blog.orhun.dev/rss.xml"))
+          "https://blog.orhun.dev/rss.xml"
+          "https://writefreesoftware.org/blog/index.xml"))
 #+end_src
 * Programming
 ** Defaults
