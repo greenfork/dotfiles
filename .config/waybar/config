@@ -30,8 +30,13 @@
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format": "{:%Y-%m-%d %H:%M:%S}",
+        "format-alt": "{:%Y-%m-%d %H:%M:%S (%Z)}",
         "interval": 1,
-        "tooltip": true
+        "tooltip": true,
+	"timezones": ["Europe/Moscow", "Asia/Almaty"],
+	"actions": {
+        	"on-click": "tz_up"
+	}
     },
     "cpu": {
         "format": "{usage:2}% ",
