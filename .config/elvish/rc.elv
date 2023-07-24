@@ -13,7 +13,8 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 use github.com/zzamboni/elvish-modules/long-running-notifications
 set long-running-notifications:threshold = 40
 set long-running-notifications:never-notify = [vi vim emacs nano less more bat
-  kak hx delta difft k h hdf hd gd git hg chg]
+  kak hx delta difft k h hdf hd gd git hg chg psql sqlite3 bash zsh elvish ksh
+  bin/dev bin/front]
 
 use github.com/zzamboni/elvish-modules/dir
 set edit:insert:binding[Alt-i] = $dir:history-chooser~
