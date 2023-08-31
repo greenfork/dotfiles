@@ -168,9 +168,10 @@ riverctl border-width 2
 riverctl set-repeat 50 180
 
 # Make certain views start floating
-riverctl rule-add float -app-id float
 riverctl rule-add float -title popup
 riverctl rule-add float -app-id org.gnome.Meld
+riverctl rule-add float -app-id Factor -title Errors
+
 # Use server-side decorations for all apps by default
 riverctl rule-add ssd -app-id "firefox"
 riverctl rule-add ssd -app-id "org.telegram.desktop"
