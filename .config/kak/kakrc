@@ -22,9 +22,6 @@
 # plug 'occivink/kakoune-find'
 # plug 'occivink/kakoune-sudo-write'
 
-# Requires 45c01c2109b1c6c1f7728c64f6800c6670425ea5 version of kakoune because
-# the commit right after that e49c0fb04095a2a1c546fd033ce2a1a6df3eb8d0 breaks
-# the "unmap" command: https://github.com/alexherbo2/auto-pairs.kak/issues/60
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
 source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
 source "%val{config}/plugins/kakoune-buffers/buffers.kak"
