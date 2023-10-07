@@ -14,7 +14,7 @@ use github.com/zzamboni/elvish-modules/long-running-notifications
 set long-running-notifications:threshold = 40
 set long-running-notifications:never-notify = [vi vim emacs nano less more bat
   kak hx delta difft k h hdf hd gd git hg chg psql sqlite3 bash zsh elvish ksh
-  bin/dev bin/front man tail]
+  bin/dev bin/front man tail rc factor haredoc]
 
 use github.com/zzamboni/elvish-modules/dir
 set edit:insert:binding[Alt-i] = $dir:history-chooser~
@@ -68,9 +68,9 @@ fn h {|@a| hx $@a }
 
 # Misc
 fn ip  {|@a| e:ip -color=auto $@a }
-fn l   {|@a| exa -F $@a }
-fn ll  {|@a| exa -lFg $@a }
-fn la  {|@a| exa -lFga $@a }
+fn l   {|@a| eza -F $@a }
+fn ll  {|@a| eza -lFg $@a }
+fn la  {|@a| eza -lFga $@a }
 fn gdb {|@a| e:gdb -q $@a }
 
 use myprompt

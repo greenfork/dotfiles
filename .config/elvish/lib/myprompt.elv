@@ -153,7 +153,7 @@ fn git-prompt {
       put (styled $status[branch-name] green)
     }
     if (> $status[unmerged-count] 0) {
-      put '|'(styled merge red)
+      put '|'(styled conflict red)
     }
     put ')'
 
