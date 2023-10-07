@@ -23,6 +23,7 @@ git = True
 # wip alias is according to
 # http://jordi.inversethought.com/blog/customising-mercurial-like-a-pro/
 wip = (parents(not public()) or not public() or . or head()) and (not obsolete() or unstable()^) and not closed()
+curbm = ancestor(., default)::.
 
 [templates]
 wip = '{label("log.branch", ifeq(branch, "default", "", branch))} {label("changeset.{phase}", rev)} {label("grep.user", author|person)}{label("log.tag", if(tags," {tags}"))} {bookmarks % "{ifeq(bookmark, currentbookmark, label('log.activebookmark', bookmark), label('log.bookmark', bookmark))} "}\n{label(ifcontains(rev, revset('parents()'), 'desc.here'),desc|firstline)}'
