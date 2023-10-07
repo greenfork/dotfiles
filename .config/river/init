@@ -18,8 +18,8 @@ riverctl map normal Super+Shift Print spawn "rivershot"
 
 riverctl spawn 'swaybg --image $(ls ~/wallpapers/*.{jpg,png} -1 | shuf | head -n1 | tee /tmp/current_wallpaper)'
 
-# Super+Q to close the focused view
-riverctl map -layout 0 normal Super Q close
+# Super+Shift+Q to close the focused view
+riverctl map -layout 0 normal Super+Shift Q close
 
 # Super+Shift+E to exit river
 riverctl map -layout 0 normal Super+Shift E exit
