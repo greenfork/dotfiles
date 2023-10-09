@@ -32,7 +32,9 @@ source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
 source "%val{config}/plugins/kakoune-sudo-write/sudo-write.kak"
 
-source "%val{config}/plugins/kakoune-factor/autoload/filetype/factor.kak"
+source "%val{config}/factor.kak"
+
+# source "%val{config}/plugins/kakoune-factor/autoload/filetype/factor.kak"
 
 # Following plugins require Rust compilation prior to use.
 # plug 'eraserhd/parinfer-rust'
@@ -57,6 +59,8 @@ def lsp-engage -docstring 'Enable language server' %{
 
 # Highlighters
 ##############
+
+colorscheme desertex
 
 map global normal -docstring 'toggle line numbers' <F7> ': remove-highlighter global/line_numbers<ret>'
 map global normal -docstring 'toggle line numbers' <F8> ": add-highlighter -override global/line_numbers number-lines -separator ' ' -hlcursor<ret>"
@@ -259,7 +263,10 @@ define-command lint-on-write -docstring 'Activate linting on buffer write' %{
     lint
 }
 hook global WinSetOption filetype=kak %{ no-tabs 4 }
-hook global WinSetOption filetype=factor %{ no-tabs 4 }
+hook global WinSetOption filetype=factor %{
+    no-tabs 4
+    set-option window auto_pairs ( ) { } [ ] '"' '"'
+}
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
