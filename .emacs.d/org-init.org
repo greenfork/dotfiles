@@ -1,4 +1,4 @@
-#+title: My emacs configuration
+#+title: My Emacs configuration
 #+author: greenfork
 #+STARTUP: content
 
