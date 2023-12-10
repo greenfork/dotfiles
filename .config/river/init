@@ -44,6 +44,7 @@ riverctl map -layout 0 normal Super+Shift Comma send-to-output previous
 # Super+Return to bump the focused view to the top of the layout stack
 riverctl map normal Super Return zoom
 
+riverctl send-layout-cmd rivertile "main-ratio -0.05"
 # Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
 riverctl map -layout 0 normal Super H send-layout-cmd rivertile "main-ratio -0.05"
 riverctl map -layout 0 normal Super L send-layout-cmd rivertile "main-ratio +0.05"
@@ -168,19 +169,20 @@ riverctl border-width 2
 riverctl set-repeat 50 180
 
 # Make certain views start floating
-riverctl rule-add float -title popup
-riverctl rule-add float -app-id org.gnome.Meld
-riverctl rule-add float -app-id Factor -title Errors
+riverctl rule-add -title popup float
+riverctl rule-add -title "*float*" float
+riverctl rule-add -app-id org.gnome.Meld float
+riverctl rule-add -app-id Factor -title Errors float
 
 # Use server-side decorations for all apps by default
-riverctl rule-add ssd -app-id "firefox"
-riverctl rule-add ssd -app-id "org.telegram.desktop"
-riverctl rule-add ssd -app-id "gimp"
-riverctl rule-add ssd -app-id "emacs"
-riverctl rule-add ssd -app-id "google-chrome"
+riverctl rule-add -app-id "firefox" ssd
+riverctl rule-add -app-id "org.telegram.desktop" ssd
+riverctl rule-add -app-id "gimp" ssd
+riverctl rule-add -app-id "emacs" ssd
+# riverctl rule-add -app-id "google-chrome" ssd
 
 # Set app-ids and titles of views which should use client side decorations
-riverctl rule-add csd -app-id "gedit"
+riverctl rule-add -app-id "gedit" csd
 
 # Set the default layout generator to be rivertile and start it.
 # River will send the process group of the init executable SIGTERM on exit.

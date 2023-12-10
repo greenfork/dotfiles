@@ -33,7 +33,7 @@
         "format-alt": "{:%Y-%m-%d %H:%M:%S (%Z)}",
         "interval": 1,
         "tooltip": true,
-	"timezones": ["Asia/Baku", "Europe/Moscow"],
+	"timezones": ["Europe/Moscow", "Asia/Almaty"],
 	"actions": {
         	"on-click": "tz_up"
 	}
