@@ -1,3 +1,5 @@
+# Download i3blocks-contrib for Pipewire-powered sound display
+
 # List of valid properties:
 #
 # align
@@ -18,8 +20,8 @@
 separator_block_width=15
 markup=none
 
-[volume-pulseaudio]
-command=volume-pulseaudio/volume-pulseaudio
+[volume-pipewire]
+command=i3blocks-contrib/volume-pipewire/volume-pipewire
 interval=once
 signal=1
 #MIXER=[determined automatically]
@@ -40,11 +42,11 @@ USE_ALSA_NAME=1
 USE_DESCRIPTION=0
 separator=false
 
-[miccontrol]
-command=miccontrol/miccontrol
-SOURCE=alsa_input.pci-0000_03_00.6.HiFi__hw_acp__source
-interval=once
-signal=10
+# [miccontrol]
+# command=i3blocks-contrib/miccontrol/miccontrol
+# SOURCE=alsa_input.pci-0000_03_00.6.HiFi__hw_acp__source
+# interval=once
+# signal=10
 
 [wifi]
 command=wifi/wifi
@@ -95,8 +97,8 @@ interval=5
 command=time/time
 interval=1
 STRFTIME_FORMAT=%Y-%m-%d %H:%M:%S
-TZONES=$DEFAULT_TZ,Europe/Moscow
-TZ_LABELS=,Moscow
+TZONES=$DEFAULT_TZ,Asia/Almaty
+TZ_LABELS=,Pvl
 
 [monitors]
 command=monitor_manager/monitor_manager

@@ -103,10 +103,10 @@ map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 
 # plug "lePerdu/kakboard"
 # This is much faster than using library hook.
-set global kakboard_copy_cmd 'wl-copy'
-set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
-# set global kakboard_copy_cmd 'xclip -in -selection clipboard'
-# set global kakboard_paste_cmd 'xclip -out -selection clipboard'
+# set global kakboard_copy_cmd 'wl-copy'
+# set global kakboard_paste_cmd 'wl-paste -n | dos2unix'
+set global kakboard_copy_cmd 'xclip -in -selection clipboard'
+set global kakboard_paste_cmd 'xclip -out -selection clipboard'
 hook global WinCreate .* %{ kakboard-enable }
 map global normal y ': kakboard-with-push-clipboard y<ret>'
 map global normal c ': kakboard-with-push-clipboard c<ret>'
