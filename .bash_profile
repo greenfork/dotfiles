@@ -30,6 +30,7 @@ export PATH="${HOME}/.yarn/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.fly/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.npm/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.emacs.d/bin${PATH:+:${PATH}}"
+export PATH="${HOME}/reps/Odin${PATH:+:${PATH}}"
 
 # For river
 export XDG_CURRENT_DESKTOP=Unity
