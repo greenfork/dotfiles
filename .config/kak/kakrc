@@ -74,7 +74,7 @@ add-highlighter global/ show-matching
 set-face global MatchingChar default,magenta
 set-face global LineNumbers rgb:404040
 set-face global LineNumbersWrapped rgb:404040
-add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW)\b' 0:default+rb
+add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW|HACK|XXX)\b' 0:default+rb
 
 # plug 'https://gitlab.com/fsub/kakoune-mark'
 map global user -docstring 'mark word with color' m ': mark-word<ret>'
@@ -288,11 +288,6 @@ hook global WinSetOption filetype=xml %{ no-tabs 2 }
 hook global WinSetOption filetype=makefile %{ noexpandtab }
 hook global WinSetOption filetype=hare %{ noexpandtab }
 hook global WinSetOption filetype=gas %{ noexpandtab }
-hook global WinSetOption filetype=c %{
-    expandtab
-    # hook -once buffer NormalIdle '' "set-option buffer tabstop 8"
-    set-option current tabstop 8
-}
 # Remove markdown highlighting, it's broken
 hook global WinSetOption filetype=markdown %{ set buffer filetype md }
 hook global WinSetOption filetype=html %{
@@ -309,6 +304,7 @@ hook global WinSetOption filetype=json %{
 }
 hook global WinSetOption filetype=ledger %{ no-tabs 4 }
 hook global WinSetOption filetype=haskell %{ no-tabs 2 }
+hook global WinSetOption filetype=pony %{ no-tabs 2 }
 
 hook global BufCreate .*\.(erb|eex|heex) %{ set-option buffer filetype html }
 hook global BufCreate .*\.journal %{ set-option buffer filetype ledger }
@@ -386,10 +382,12 @@ hook global WinSetOption filetype=zig %{
         remove-hooks window semantic-tokens
     }
 }
+
 hook global WinSetOption filetype=(c|cpp) %{
     noexpandtab
     lsp-enable-window
     lsp-auto-signature-help-enable
+    lsp-auto-hover-disable
 
     # lsp semantic tokens
     hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
