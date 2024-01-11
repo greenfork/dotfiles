@@ -31,6 +31,12 @@ fn hs  {|@a| hg summary; hg status $@a }
 fn hl  {|@a| hg log --rev "reverse(ancestors(.))" --graph $@a }
 fn hw  {|@a| hg wip $@a }
 
+# Fossil
+fn f   {|@a| fossil $@a }
+# fn fa  {|@a| fossil addremove $@a }
+# fn fc  {|@a| fossil commit $@a }
+# fn fdi {|@a| fossil diff $@a }
+
 # Git
 fn ga       {|@a| git add $@a }
 fn gaa      {|@a| git add --all $@a }
@@ -72,6 +78,9 @@ fn l   {|@a| eza -F $@a }
 fn ll  {|@a| eza -lFg $@a }
 fn la  {|@a| eza -lFga $@a }
 fn gdb {|@a| e:gdb -q $@a }
+fn ...   { cd ../.. }
+fn ....  { cd ../../.. }
+fn ..... { cd ../../../.. }
 
 use myprompt
 set edit:prompt-stale-threshold = 0.5
