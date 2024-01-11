@@ -10,6 +10,7 @@
 # 9. maim
 # 10. dunst
 # 11. picom (compositor for transparent windows)
+# 12. libinput-gestures (touchpad gestures)
 
 # i3 config file (v4)
 #
@@ -41,9 +42,16 @@ font pango:JetBrains Mono 11
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-exec --no-startup-id picom
+# Compositor: enables opacity, smooth transitions.
+# https://github.com/yshui/picom/issues/16#issuecomment-792739119
+exec --no-startup-id "picom --backend glx --fading --fade-in-step=1 --fade-out-step=1 --fade-delta=50 --inactive-opacity 1.0 --shadow-exclude \"class_g = 'Firefox' && argb\""
+# exec --no-startup-id "xcompmgr -cnf"
 
+# Set a background image.
 exec --no-startup-id "feh --bg-fill --randomize ~/wallpapers/*"
+
+# Enable gestures for X
+exec --no-startup-id "libinput-gestures-setup start"
 
 exec --no-startup-id dunst
 bindsym Control+Shift+space exec dunstctl close
