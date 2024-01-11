@@ -59,9 +59,6 @@ if status --is-interactive
     alias h hx
     alias e emacs
 
-    # Key bindings
-    bind \cr fzf_search_history
-
     # Dev-specific settings
     rbenv init - | source
 
@@ -75,6 +72,10 @@ if status --is-interactive
     alias gdb   "gdb -q"
 
     zoxide init fish | source
+
+    # Key bindings
+    # bind \cr fzf_search_history
+    bind \en zi
 
     # Use gpg for ssh
     gpg-connect-agent updatestartuptty /bye >/dev/null

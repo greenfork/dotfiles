@@ -39,4 +39,4 @@ SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
 SETUVAR fish_prompt_hg_show_informative_status:\x1d
-SETUVAR fish_user_paths:/home/grfork/zig\x2dlinux\x2dx86_64\x2d0\x2e10\x2e0\x1e/home/grfork/go/bin\x1e/home/grfork/\x2elocal/share/racket/8\x2e0/bin/\x1e/home/grfork/\x2enimble/bin/\x1e/home/grfork/\x2erbenv/bin/\x1e/home/grfork/bin/\x1e/home/grfork/\x2ebin/\x1e/home/grfork/\x2ecargo/bin/\x1e/home/grfork/\x2eemacs\x2ed/bin/\x1e/home/grfork/\x2eyarn/bin/\x1e/home/grfork/\x2efly/bin\x1e/home/grfork/\x2enpm/bin
+SETUVAR fish_user_paths:\x1d
