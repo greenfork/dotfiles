@@ -90,11 +90,11 @@
        (global-set-key (kbd "C-x z") nil))
 
      ;;; Additional fast keybindings with "super" modifier
-     (global-set-key (kbd "H-s-e") #'eval-last-sexp)
-     (global-set-key (kbd "H-s-o") #'other-window)
-     (global-set-key (kbd "H-s-b") (lambda () (interactive) (switch-to-buffer nil)))
-     (global-set-key (kbd "H-s-s") #'save-buffer)
-     (global-set-key (kbd "H-s-k") #'kill-current-buffer)
+     (global-set-key (kbd "s-e") #'eval-last-sexp)
+     (global-set-key (kbd "s-o") #'other-window)
+     (global-set-key (kbd "s-b") (lambda () (interactive) (switch-to-buffer nil)))
+     (global-set-key (kbd "s-s") #'save-buffer)
+     (global-set-key (kbd "s-k") #'kill-current-buffer)
    #+end_src
 ** General settings
    #+begin_src emacs-lisp
@@ -833,9 +833,6 @@
       '(s :type git :flavor melpa :host github :repo "magnars/s.el"))
      (straight-use-package
       '(inf-janet :type git :host github :repo "velkyel/inf-janet"))
-
-     (load-file "~/ob-janet.el")
-     (add-to-list 'org-babel-load-languages '(janet . t))
 
      (add-hook
       'janet-mode-hook
