@@ -31,6 +31,11 @@ export PATH="${HOME}/.fly/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.npm/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/.emacs.d/bin${PATH:+:${PATH}}"
 export PATH="${HOME}/reps/Odin${PATH:+:${PATH}}"
+export PATH="${HOME}/reps/ols${PATH:+:${PATH}}"
 
 # For river
-export XDG_CURRENT_DESKTOP=Unity
+# export XDG_CURRENT_DESKTOP=Unity
+
+# For X
+export XDG_SESSION_TYPE=x11
+export GDK_BACKEND=x11
