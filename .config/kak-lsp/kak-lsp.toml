@@ -429,6 +429,11 @@ filetypes = ["zig"]
 roots = ["build.zig"]
 command = "zls"
 
+[language_server.ols]
+filetypes = ["odin"]
+roots = ["ols.json"]
+command = "ols"
+
 # Semantic tokens support
 # See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_semanticTokens
 # for the default list of tokens and modifiers.
