@@ -221,7 +221,7 @@ map global user d -docstring 'fzf in current dir' ': fzf-current-directory<ret>'
 map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
 
 # plug 'Delapouite/kakoune-buffers'
-map global normal -docstring 'buffers...' b ': enter-buffers-mode<ret>'
+map global user -docstring 'buffers...' b ': enter-buffers-mode<ret>'
 
 
 
