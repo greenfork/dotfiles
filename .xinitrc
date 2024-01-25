@@ -10,7 +10,12 @@ setxkbmap -layout us,ru -option grp:rctrl_toggle
 xset r rate 180 50
 # eval `ssh-agent`
 # dunst &
+
 # exec /usr/X11R6/bin/cwm
-# exec /usr/bin/awesome
+exec /usr/bin/awesome
 # exec /usr/local/bin/dwm
-exec /usr/bin/i3
+# exec /usr/bin/i3
+
+# export XDG_SESSION_TYPE=x11
+# export GDK_BACKEND=x11
+# exec gnome-session
