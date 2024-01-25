@@ -102,7 +102,6 @@ hook global InsertChar k %{ try %{
 }}
 map global user w -docstring 'save file' ': write<ret>'
 map global user q -docstring 'save and quit' ': write-quit<ret>'
-map global user r -docstring 'save and recompile' ': write<ret>: make<ret>'
 
 # plug "lePerdu/kakboard"
 # This is much faster than using library hook.
@@ -123,6 +122,14 @@ map global normal R ': kakboard-with-pull-clipboard R<ret>'
 # cursor_char_column -> cursor_display_column
 set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_display_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]'
 
+
+# Building a project
+####################
+
+declare-user-mode build
+map global normal b ': enter-user-mode build<ret>'
+map global build m -docstring 'save and run make' ': write<ret>: make<ret>'
+map global build r -docstring 'save and run' ': write<ret>: make<ret>'
 
 
 # Navigation
@@ -398,6 +405,45 @@ hook global WinSetOption filetype=(c|cpp) %{
     hook -once -always window WinSetOption filetype=.* %{
         remove-hooks window semantic-tokens
     }
+}
+
+declare-option -docstring "shell command run to build the project" \
+    str odincmd odin
+declare-option -docstring "shell command run to build the project" \
+    str odinargs "-error-pos-style:unix"
+define-command -params .. \
+    -docstring %{
+        odin [<arguments>]: odin compiler wrapper
+        All the optional arguments are forwarded to the odin compiler
+     } odin %{ evaluate-commands %sh{
+    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-make.XXXXXXXX)/fifo
+    mkfifo ${output}
+    ( eval "${kak_opt_odincmd}" "$@" "${kak_opt_odinargs}" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    printf %s\\n "evaluate-commands -try-client '$kak_opt_toolsclient' %{
+              edit! -fifo ${output} -scroll *odin*
+              set-option buffer filetype grep
+              hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
+          }"
+}}
+
+hook global WinSetOption filetype=(odin) %{
+    noexpandtab
+    lsp-enable-window
+    lsp-auto-signature-help-enable
+    lsp-auto-hover-disable
+
+    # set-option window formatcmd 'odinfmt -stdin --'
+    # hook window BufWritePre .* format
+
+    # HACK: odinfmt currently leaves two newlines at the end
+    add-highlighter -override window/trailing_space regex '(\h+$|\n\n\n+\z)' 0:default,red
+
+    map global build r -docstring 'save and build' \
+        ': write<ret>: odin build %sh{ echo $(dirname "$kak_buffile") }<ret>'
+    map global build f -docstring 'save and run' \
+        ': write<ret>: odin run %sh{ echo $(dirname "$kak_buffile") } %sh{ echo -out:"${TMPDIR:-/tmp}"/kak-odin-run }<ret>'
+    map global build f -docstring 'save and run a file' \
+        ': write<ret>: odin run %val{buffile} -file %sh{ echo -out:"${TMPDIR:-/tmp}"/kak-odin-file-run }<ret>'
 }
 hook global WinSetOption filetype=nim %{
     set-option buffer formatcmd "nimprettify"
