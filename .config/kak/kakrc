@@ -67,18 +67,20 @@ map global normal -docstring 'toggle line numbers' <F7> ': remove-highlighter gl
 map global normal -docstring 'toggle line numbers' <F8> ": add-highlighter -override global/line_numbers number-lines -separator ' ' -hlcursor<ret>"
 hook global WinCreate .* %{
     add-highlighter -override window/column_highlighter column 80 default,rgb:303030
+    add-highlighter -override window/trailing_space regex '(\h+$|\n\n+\z)' 0:default,red
 }
 add-highlighter global/ wrap -word -indent
-add-highlighter global/ regex '(\h+$|\n\n+\z)' 0:default,red
 add-highlighter global/ show-matching
+add-highlighter global/ dynregex '%reg{/}' 0:+u
 set-face global MatchingChar default,magenta
 set-face global LineNumbers rgb:404040
 set-face global LineNumbersWrapped rgb:404040
 add-highlighter global/ regex '\b(TODO|FIXME|NOTE|REVIEW|HACK|XXX)\b' 0:default+rb
 
 # plug 'https://gitlab.com/fsub/kakoune-mark'
-map global user -docstring 'mark word with color' m ': mark-word<ret>'
-map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
+# Use manual marking
+# map global user -docstring 'mark word with color' m ': mark-word<ret>'
+# map global user -docstring 'unmark all words with color' M ': mark-clear<ret>'
 
 
 
