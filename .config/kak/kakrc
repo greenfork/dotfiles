@@ -287,7 +287,7 @@ hook global WinSetOption filetype=factor %{
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
-hook global WinSetOption filetype=lua %{ no-tabs 2 }
+hook global WinSetOption filetype=lua %{ no-tabs 4 }
 hook global BufCreate .*\.vy %{ set-option buffer filetype python }
 hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
