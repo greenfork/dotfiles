@@ -221,9 +221,9 @@ local temperature = lain.widget.temp{
         widget:set_markup(" Temp " .. coretemp_now .. " ")
     end
 }
-local volume = awful.widget.watch( "pactl get-sink-volume @DEFAULT_SINK@", 5,
+local volume = awful.widget.watch("pactl get-sink-volume @DEFAULT_SINK@", 5,
     function(widget, stdout)
-        local volume = string.match(stdout, "(%d+%%)") or "N/A"
+        local volume = string.match(stdout, "%d+%%") or "N/A"
         widget:set_markup(" Volume " .. volume)
     end
 )
@@ -235,6 +235,12 @@ local muted = awful.widget.watch("pactl get-sink-mute @DEFAULT_SINK@", 5,
         else
             widget:set_markup(" ")
         end
+    end
+)
+local brightness = awful.widget.watch("brightnessctl -m", 5,
+    function(widget, stdout)
+        local brightness = string.match(stdout, "%d+%%") or "N/A"
+        widget:set_markup(" Brightness " .. brightness)
     end
 )
 
@@ -286,6 +292,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             net,
             fsroot,
+            brightness,
             volume,
             muted,
             temperature,
