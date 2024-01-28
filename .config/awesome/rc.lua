@@ -318,7 +318,7 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+    awful.key({ modkey,           }, "i",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
@@ -345,7 +345,7 @@ globalkeys = gears.table.join(
     -- System keys
     awful.key({"Control", "Shift"}, "space", function ()
         naughty.destroy_all_notifications(nil, naughty.notificationClosedReason.dismissedByUser)
-    end, {description = "close allnotifications", group = "system"}),
+    end, {description = "close all notifications", group = "system"}),
 
     awful.key({}, "XF86AudioRaiseVolume", function ()
         awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")
@@ -364,25 +364,6 @@ globalkeys = gears.table.join(
     end),
 
     -- Layout manipulation
-    awful.key({ modkey,   }, "Return",
-        function ()
-            if not client.focus then return end
-
-            local master = awful.client.getmaster()
-            if master == client.focus then
-                awful.client.focus.history.previous()
-                master:swap(client.focus)
-            else
-                master:swap(client.focus)
-                -- Forging focus history to return back when pressing Return
-                -- one more time.
-                -- The following two commands make the client focused.
-                client.focus = master
-                client.focus:raise()
-                client.focus = awful.client.getmaster()
-                client.focus:raise()
-            end
-        end, {description = "set focused client as master", group = "client"}),
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
@@ -459,6 +440,23 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+    awful.key({ modkey,   }, "Return",
+        function (c)
+            local master = awful.client.getmaster()
+            if master == c then
+                awful.client.focus.history.previous()
+                master:swap(client.focus)
+            else
+                master:swap(c)
+                -- Forging focus history to return back when pressing Return
+                -- one more time.
+                -- The following two commands make the client focused.
+                client.focus = master
+                client.focus:raise()
+                client.focus = awful.client.getmaster()
+                client.focus:raise()
+            end
+        end, {description = "move to master and back", group = "client"}),
     awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
