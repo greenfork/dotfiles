@@ -31,7 +31,8 @@ awful.spawn.single_instance("nm-applet")
 
 -- Compositor: enables opacity, smooth transitions.
 -- https://github.com/yshui/picom/issues/16#issuecomment-792739119
-awful.spawn.single_instance("picom --backend glx --fading --fade-in-step=1 --fade-out-step=1 --fade-delta=50 --inactive-opacity 1.0")
+awful.spawn.single_instance("picom --backend glx --fading --fade-in-step=1 \z
+    --fade-out-step=1 --fade-delta=50 --inactive-opacity 1.0")
 
 -- awful.spawn.single_instance("feh --bg-fill --randomize ~/wallpapers/*")
 
@@ -362,6 +363,13 @@ globalkeys = gears.table.join(
     awful.key({}, "XF86MonBrightnessDown", function ()
         awful.spawn("brightnessctl set 5%-")
     end),
+    awful.key({modkey}, "Print", function ()
+        awful.spawn.with_shell("maim --select --hidecursor | tee /tmp/screenshot.png | \z
+            xclip -selection clipboard -t image/png")
+    end, {description = "screenshot a region", group = "system"}),
+    awful.key({modkey, "Shift"}, "Print", function ()
+        awful.spawn.with_shell("maim | tee /tmp/screenshot.png | xclip -selection clipboard -t image/png")
+    end, {description = "screenshot current window", group = "system"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
