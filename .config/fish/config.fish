@@ -64,14 +64,23 @@ if status --is-interactive
 
     # Color support
     alias ip    "ip -color=auto"
-    alias l     "exa -F"
-    alias ll    "exa -lFg"
-    alias la    "exa -lFga"
+    alias l     "eza -F"
+    alias ll    "eza -lgF"
+    alias la    "eza -lgaF"
 
     # gdb
     alias gdb   "gdb -q"
 
+    # path helpers
+    alias ...    "cd ../.."
+    alias ....   "cd ../../.."
+    alias .....  "cd ../../../.."
+
     zoxide init fish | source
+
+    if type -q luarocks
+        luarocks path | source
+    end
 
     # Key bindings
     # bind \cr fzf_search_history
