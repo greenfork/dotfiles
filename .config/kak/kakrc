@@ -52,7 +52,7 @@ source "%val{config}/plugins/factor.kak/factor.kak"
 eval %sh{kak-lsp --kakoune -s $kak_session}
 # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 hook global KakEnd .* lsp-exit
-map global user -docstring 'Enter lsp user mode' l ': enter-user-mode lsp<ret>'
+map global user -docstring 'Enter lsp user mode' L ': enter-user-mode lsp<ret>'
 def lsp-engage -docstring 'Enable language server' %{
     lsp-enable-window
     lsp-auto-hover-enable
@@ -223,6 +223,14 @@ map global user c ': enter-user-mode cd<ret>' -docstring 'cd'
 # plug 'Delapouite/kakoune-buffers'
 map global user -docstring 'buffers...' b ': enter-buffers-mode<ret>'
 
+declare-user-mode lint
+map global user l -docstring 'enter lint mode' ': enter-user-mode lint<ret>'
+map global lint l -docstring 'lint' ': lint<ret>'
+map global lint n -docstring 'next message' ': lint-next-message<ret>'
+map global lint p -docstring 'previous message' ': lint-previous-message<ret>'
+map global lint h -docstring 'hide diagnostics' ': lint-hide-diagnostics<ret>'
+map global lint e -docstring 'enable lint on write' ': hook -group lint window BufWritePost .* lint<ret>'
+map global lint d -docstring 'disable lint on write' ': remove-hooks window lint<ret>'
 
 
 # Editing
@@ -276,8 +284,8 @@ map global normal <a-/> <a-/>(?i)
 
 set global disabled_hooks .*-trim-indent
 define-command lint-on-write -docstring 'Activate linting on buffer write' %{
-    hook window BufWritePost .* lint
-    lint
+    hook -group lint window BufWritePost .* lint
+    # lint
 }
 hook global WinSetOption filetype=kak %{ no-tabs 4 }
 hook global WinSetOption filetype=factor %{
@@ -287,7 +295,11 @@ hook global WinSetOption filetype=factor %{
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
-hook global WinSetOption filetype=lua %{ no-tabs 4 }
+hook global WinSetOption filetype=lua %{
+    no-tabs 2
+    set-option window lintcmd 'luacheck --no-color --filename "$kak_bufname" -'
+    lint-on-write
+}
 hook global BufCreate .*\.vy %{ set-option buffer filetype python }
 hook global WinSetOption filetype=python %{ no-tabs 2 }
 hook global WinSetOption filetype=fish %{ no-tabs 4 }
