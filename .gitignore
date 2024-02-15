@@ -18,3 +18,5 @@ tags
 /.emacs.d/custom.el
 /.emacs.d/.org-id-locations
 /.emacs.d/url/
+
+/.config/awesome/lain
