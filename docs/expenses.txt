@@ -1,0 +1,10 @@
+Tech stack:
+DNS - porkbun.com ~$25 per year, majordomo.ru ~300 RUB per year
+Email - fastmail.com $50 per year
+Hosting - vultr.com $5 per month
+
+Donations:
+Boosty living room studio - 600 RUB per month
+Boosty razzlom quietplace.xyz misskey - 200 RUB per month
+Patreon diode.zone peertube - $5 per month
+Patreon syuilo misskey dev - $3 per month
