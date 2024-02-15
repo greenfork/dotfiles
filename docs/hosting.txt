@@ -1,0 +1,9 @@
+prgmr.com -> https://tornadovps.com/
+vultr
+digital ocean
+hetzner.com
+buyvm.net - Luke's advice, censorship-resistent
+servers.guru/arm-vps/
+
+majordomo.ru
+porkbun
