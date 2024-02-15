@@ -75,8 +75,8 @@ fn h {|@a| hx $@a }
 # Misc
 fn ip  {|@a| e:ip -color=auto $@a }
 fn l   {|@a| eza -F $@a }
-fn ll  {|@a| eza -lFg $@a }
-fn la  {|@a| eza -lFga $@a }
+fn ll  {|@a| eza -lgF $@a }
+fn la  {|@a| eza -lgaF $@a }
 fn gdb {|@a| e:gdb -q $@a }
 fn ...   { cd ../.. }
 fn ....  { cd ../../.. }
