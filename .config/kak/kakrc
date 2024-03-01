@@ -523,11 +523,12 @@ define-command git-copy-current-line-url \
     -docstring 'Get a url with the current line in the web interface of source version control' %{
     nop %sh{
         ORIGIN=$(git remote get-url --push origin)
+        COMMIT_HASH=$(git rev-parse HEAD)
         case "$ORIGIN" in
             git@github.com:*)
                 ORIGIN2=${ORIGIN%.git}
                 ORIGIN3=${ORIGIN2##git@github.com:}
-                URL="https://github.com/${ORIGIN3}/tree/master/${kak_bufname}#L${kak_cursor_line}"
+                URL="https://github.com/${ORIGIN3}/blob/${COMMIT_HASH}/${kak_bufname}#L${kak_cursor_line}"
                 printf "$URL" | xclip -in -selection clipboard >/dev/null 2>&1 &
             ;;
         esac
