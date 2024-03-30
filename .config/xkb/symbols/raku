@@ -1,0 +1,100 @@
+default  partial alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+
+    name[Group1]= "English (US)";
+
+    key <TLDE> {  [     grave,  asciitilde  ]  };
+    key <AE01> {  [    1,  exclam     ]  };
+    key <AE02> {  [    2,  at    ]  };
+    key <AE03> {  [    3,  numbersign  ]  };
+    key <AE04> {  [    4,  dollar    ]  };
+    key <AE05> {  [    5,  percent    ]  };
+    key <AE06> {  [    6,  asciicircum  ]  };
+    key <AE07> {  [    7,  ampersand  ]  };
+    key <AE08> {  [    8,  asterisk  ]  };
+    key <AE09> {  [    9,  parenleft  ]  };
+    key <AE10> {  [    0,  parenright  ]  };
+    key <AE11> {  [     minus,  underscore  ]  };
+    key <AE12> {  [     equal,  plus    ]  };
+
+    key <AD01> {  [    q,  Q     ]  };
+    key <AD02> {  [    w,  W    ]  };
+    key <AD03> {  [    e,  E    ]  };
+    key <AD04> {  [    r,  R    ]  };
+    key <AD05> {  [    t,  T    ]  };
+    key <AD06> {  [    y,  Y    ]  };
+    key <AD07> {  [    u,  U    ]  };
+    key <AD08> {  [    i,  I    ]  };
+    key <AD09> {  [    o,  O    ]  };
+    key <AD10> {  [    p,  P    ]  };
+    key <AD11> {  [ bracketleft,  braceleft  ]  };
+    key <AD12> {  [ bracketright,  braceright  ]  };
+
+    key <AC01> {  [    a,  A     ]  };
+    key <AC02> {  [    s,  S    ]  };
+    key <AC03> {  [    d,  D    ]  };
+    key <AC04> {  [    f,  F    ]  };
+    key <AC05> {  [    g,  G    ]  };
+    key <AC06> {  [    h,  H    ]  };
+    key <AC07> {  [    j,  J    ]  };
+    key <AC08> {  [    k,  K    ]  };
+    key <AC09> {  [    l,  L    ]  };
+    key <AC10> {  [ semicolon,  colon    ]  };
+    key <AC11> {  [ apostrophe,  quotedbl  ]  };
+
+    key <AB01> {  [    z,  Z     ]  };
+    key <AB02> {  [    x,  X    ]  };
+    key <AB03> {  [    c,  C    ]  };
+    key <AB04> {  [    v,  V    ]  };
+    key <AB05> {  [    b,  B    ]  };
+    key <AB06> {  [    n,  N    ]  };
+    key <AB07> {  [    m,  M    ]  };
+    key <AB08> {  [     comma,  less    ]  };
+    key <AB09> {  [    period,  greater    ]  };
+    key <AB10> {  [     slash,  question  ]  };
+
+    key <BKSL> {  [ backslash,         bar  ]  };
+};
+
+partial alphanumeric_keys
+xkb_symbols "raku" {
+
+   include "raku(basic)"
+   name[Group1]= "English (raku operators, with AltGr)";
+
+   key <TLDE> { [     grave, asciitilde, dead_grave, leftsinglequotemark   ] }; //‘
+   key <AE01> { [         1,     exclam,      U00B9                        ] }; //¹
+   key <AE02> { [         2,         at,      U00B2                        ] }; //²
+   key <AE03> { [         3, numbersign,      U00B3,      U2026            ] }; //³…
+   key <AE04> { [         4,     dollar,      U2074                        ] }; //⁴
+   key <AE05> { [         5,    percent,      U2075                        ] }; //⁵
+   key <AE06> { [         6,asciicircum,      U2076                        ] }; //⁶
+   key <AE07> { [         7,  ampersand,      U2077                        ] }; //⁷
+   key <AE08> { [         8,   asterisk,      U2078,      multiply         ] }; //⁸×
+   key <AE09> { [         9,  parenleft,      U2079                        ] }; //⁹
+   key <AE10> { [         0, parenright,      U2070                        ] }; //⁰
+   key <AE11> { [     minus, underscore,      U2212,      U207B            ] }; //⁻−
+   key <AE12> { [     equal,       plus,      U2261,      U207A            ] }; //≡⁺
+   key <BKSL> { [ backslash,        bar,      U2262,      U221E            ] }; //≢∞
+   key <AD03> { [         e,          E,   EuroSign,      U1D452           ] }; //€𝑒
+   key <AD05> { [         t,          T,      U03C4,      U2296            ] }; //τ⊖
+   key <AD07> { [         u,          U,      U222A,      U2229            ] }; //∪∩
+   key <AD09> { [         o,          O,      U2218                        ] }; //∘
+   key <AD10> { [         p,          P,      U03C0                        ] }; //π
+   key <AD11> { [ bracketleft,  braceleft,    U2260,      U201E            ] }; //≠„
+   key <AD12> { [ bracketright, braceright,   U2245,      U201A            ] }; //≅‚
+   key <AC01> { [         a,          A,      U2208,      U2209            ] }; //∈∉
+   key <AC02> { [         s,          S,      U220B,      U220C            ] }; //∋∌
+   key <AC09> { [         l,          L,      UFF62,      UFF63            ] }; //｢｣
+   key <AC10> { [ semicolon,      colon,      U201C,      U201D            ] }; //“”
+   key <AC11> { [apostrophe,   quotedbl,  rightsinglequotemark             ] }; //’
+   key <AB02> { [         x,          X,      U2284,      U2285            ] }; //⊄ ⊅
+   key <AB03> { [         c,          C,      U2282,      U2283            ] }; //⊂ ⊃
+   key <AB05> { [         b,          B,      U228E,      U228D            ] }; //⊎⊍
+   key <AB06> { [         n,          N,      U269B                        ] }; //⚛
+   key <AB08> { [     comma,       less,   guillemotleft, U2264            ] }; //«≤
+   key <AB09> { [    period,    greater,  guillemotright, U2265            ] }; //»≥
+   key <AB10> { [     slash,   question,   division,      U2216            ] }; //÷∖
+
+   include "level3(ralt_switch)"
+};

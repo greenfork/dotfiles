@@ -2,9 +2,7 @@
 
 xset -b
 xbacklight -set 100
-setxkbmap -option "ctrl:nocaps"
-setxkbmap -option "shift:both_capslock"
-setxkbmap -layout us,ru -option grp:rctrl_toggle
+xkbcomp -I/home/grfork/.config/xkb/ $HOME/.config/xkb/raku.xkb $DISPLAY
 # xss-lock -- i3lock -n &
 # xidle -program "/usr/bin/slock" -timeout 630 &
 xset r rate 180 50
