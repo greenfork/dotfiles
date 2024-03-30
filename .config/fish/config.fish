@@ -88,4 +88,10 @@ if status --is-interactive
 
     # Use gpg for ssh
     gpg-connect-agent updatestartuptty /bye >/dev/null
+
+    # Raku experiments
+    fish_add_path -g ~/rakudo/share/perl6/core/bin
+    fish_add_path -g ~/rakudo/share/perl6/vendor/bin
+    fish_add_path -g ~/rakudo/share/perl6/site/bin
+    fish_add_path -g ~/rakudo/bin
 end
