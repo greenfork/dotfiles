@@ -222,7 +222,7 @@ local temperature = lain.widget.temp{
         widget:set_markup(" Temp " .. coretemp_now .. " ")
     end
 }
-local volume = awful.widget.watch("pactl get-sink-volume @DEFAULT_SINK@", 5,
+local volume = awful.widget.watch("pactl get-sink-volume @DEFAULT_SINK@", 1,
     function(widget, stdout)
         local volume = string.match(stdout, "%d+%%") or "N/A"
         widget:set_markup(" Volume " .. volume)
