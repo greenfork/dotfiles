@@ -22,16 +22,17 @@
 # plug 'occivink/kakoune-find'
 # plug 'occivink/kakoune-sudo-write'
 
+source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
 source "%val{config}/plugins/auto-pairs.kak/rc/auto-pairs.kak"
-source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
+source "%val{config}/plugins/factor.kak/factor.kak"
+source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-buffers/buffers.kak"
 source "%val{config}/plugins/kakoune-cd/cd.kak"
-source "%val{config}/plugins/active-window.kak/rc/active-window.kak"
-source "%val{config}/plugins/kakoune-mark/mark.kak"
-source "%val{config}/plugins/kakboard/kakboard.kak"
 source "%val{config}/plugins/kakoune-find/find.kak"
+source "%val{config}/plugins/kakoune-mark/mark.kak"
 source "%val{config}/plugins/kakoune-sudo-write/sudo-write.kak"
-source "%val{config}/plugins/factor.kak/factor.kak"
+source "%val{config}/plugins/smarttab.kak/rc/smarttab.kak"
+source "%val{config}/plugins/raku.kak/rc/raku.kak"
 
 # source "%val{config}/factor.kak"
 
@@ -212,6 +213,21 @@ define-command fzf-current-directory %{ evaluate-commands %{
     "
 } }
 
+# Modify default grep-jump behavior to work at any place in the file, not only
+# when at the very start.
+define-command grep-jump2 %{
+    evaluate-commands %{ # use evaluate-commands to ensure jumps are collapsed
+        try %{
+            execute-keys '<a-i><a-w>s((?:\w:)?[^:]+):(\d+)(?::(\d+))?<ret>'
+            set-option buffer grep_current_line %val{cursor_line}
+            evaluate-commands -try-client %opt{jumpclient} -verbatim -- edit -existing %reg{1} %reg{2} %reg{3}
+            try %{ focus %opt{jumpclient} }
+        }
+    }
+}
+hook global WinSetOption filetype=grep %{
+    hook buffer -group grep-hooks NormalKey <ret> grep-jump2
+}
 
 map global user f -docstring 'fzf' ': fzf<ret>'
 map global user F -docstring 'fzf' ': fzf-always-fd<ret>'
@@ -373,13 +389,35 @@ hook -group racket-highlight global WinSetOption filetype=racket %{
     add-highlighter window/scheme ref scheme
     hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/scheme }
 }
-# Set link to rubocop in /usr/local/bin/. If using rvm, use "wrappers" folder
-# to locate rubocop binary: ~/.rvm/gems/ruby-x.x.x/wrappers/rubocop
+
+declare-option -docstring "rails command" \
+    str railscmd "PARALLEL_WORKERS=12 spring rails"
+declare-option -docstring "rails command arguments" \
+    str railsargs ""
+define-command -params .. \
+    -docstring %{
+        rails [<arguments>]: rails command wrapper
+        All the optional arguments are forwarded to the rails command
+     } rails %{ evaluate-commands %sh{
+    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-make.XXXXXXXX)/fifo
+    mkfifo ${output}
+    ( eval "${kak_opt_railscmd}" "${kak_opt_railsargs}" "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    printf %s\\n "evaluate-commands -try-client '$kak_opt_toolsclient' %{
+              edit! -fifo ${output} -scroll *rails*
+              set-option buffer filetype grep
+              hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
+          }"
+}}
 hook global WinSetOption filetype=ruby %{
     set-option window lintcmd 'run() { cat "$1" | /usr/local/bin/rubocop -s "$kak_buffile" 2>/dev/null; } && run '
     set-option window formatcmd 'rubocop --stdin . -a'
     no-tabs 2
     lint-on-write
+
+    map global build t -docstring 'run test at point' \
+        ': write<ret>: rails test %sh{ echo "$kak_buffile":"$kak_cursor_line" }<ret>'
+    map global build T -docstring 'run tests in the current file' \
+        ': write<ret>: rails test %val{buffile}<ret>'
 }
 hook global WinSetOption filetype=slim %{
     set-option window lintcmd 'run () { cat "$1" | /home/grfork/.rbenv/shims/slim-lint --reporter emacs --stdin-file-path "$kak_buffile" 2>/dev/null; } && run '
@@ -457,6 +495,32 @@ hook global WinSetOption filetype=(odin) %{
     map global build f -docstring 'save and run a file' \
         ': write<ret>: odin run %val{buffile} -file %sh{ echo -out:"${TMPDIR:-/tmp}"/kak-odin-file-run }<ret>'
 }
+
+declare-option -docstring "shell command run to build the project" \
+    str rakucmd raku
+declare-option -docstring "shell command run to build the project" \
+    str rakuargs ""
+define-command -params .. \
+    -docstring %{
+        raku [<arguments>]: raku compiler wrapper
+        All the optional arguments are forwarded to the raku compiler
+     } raku %{ evaluate-commands %sh{
+    output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-make.XXXXXXXX)/fifo
+    mkfifo ${output}
+    ( eval "${kak_opt_rakucmd}" "${kak_opt_rakuargs}" "$@" > ${output} 2>&1 & ) > /dev/null 2>&1 < /dev/null
+    printf %s\\n "evaluate-commands -try-client '$kak_opt_toolsclient' %{
+              edit! -fifo ${output} -scroll *raku*
+              set-option buffer filetype grep
+              hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
+          }"
+}}
+hook global WinSetOption filetype=raku %{
+    no-tabs 4
+
+    map global build r -docstring 'save and run' \
+        ': write<ret>: raku %val{buffile}<ret>'
+}
+
 hook global WinSetOption filetype=nim %{
     set-option buffer formatcmd "nimprettify"
     set-option buffer makecmd 'nimble build'
