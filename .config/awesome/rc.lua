@@ -22,6 +22,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 local lain = require("lain")
+local theme = require("default/theme")
 
 -- Startup programs
 
@@ -124,7 +125,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
+mykeyboardlayout = require("keyboardlayout")({country_codes = {"raku"}})
 
 -- {{{ Wibar
 -- Create a textclock widget
@@ -187,61 +188,95 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 local battery = lain.widget.bat{
     settings = function()
-        local perc = (bat_now.perc or "no") .. "%"
-        local time = (bat_now.time or "no")
-        local status = (bat_now.status or "no")
-        widget:set_markup(" Battery " .. perc .. " " .. time .. " " .. status .. " ")
+        local icon = "🔌"
+        if bat_now.status == "Discharging" then icon = "⚡" end
+
+        local color = theme.fg_normal;
+        if bat_now.perc ~= "N/A" then
+          local left = tonumber(bat_now.perc)
+          if left < 40 then color = theme.fg_warn end
+          if left < 35 then color = theme.fg_crit end
+        end
+        widget:set_markup(' ' .. icon .. ' <span color="' .. color .. '">' ..
+          bat_now.perc .. '% ' .. bat_now.time .. '</span> ')
+
+        bat_notification_critical_preset["timeout"] = 0
+        -- bat_notification_low_preset["timeout"] = 0
     end,
 }
 local cpu = lain.widget.cpu{
     settings = function()
-        widget:set_markup(" CPU " .. cpu_now.usage .. "% ")
+        local usage = tonumber(cpu_now.usage)
+        local color = theme.fg_normal;
+        if usage > 70 then color = theme.fg_warn end
+        if usage > 90 then color = theme.fg_crit end
+        widget:set_markup(' 🏭 <span color="' .. color .. '">' .. cpu_now.usage .. '%</span> ')
     end
 }
 local mem = lain.widget.mem{
     settings = function()
-        widget:set_markup(" Mem " .. mem_now.perc .. "% ")
+        local usage = tonumber(mem_now.perc)
+        local color = theme.fg_normal;
+        if usage > 70 then color = theme.fg_warn end
+        if usage > 90 then color = theme.fg_crit end
+        widget:set_markup(' 🧠 <span color="' .. color .. '">' .. mem_now.perc .. '%</span> ')
     end
 }
 local fsroot = lain.widget.fs{
     settings  = function()
+        local color = theme.fg_normal;
+        if tonumber(fs_now["/"].percentage) > 95 then color = theme.fg_crit end
         local space_left = tonumber(string.format("%.2f", fs_now["/"].free))
-        widget:set_markup(" FS " ..  fs_now["/"].percentage .. "% (" ..
-            space_left .. " " .. fs_now["/"].units .. " left) ")
+        widget:set_markup(' 📁 <span color="' .. color .. '">' ..
+            fs_now['/'].percentage .. '%</span> (' ..
+            space_left .. ' ' .. fs_now['/'].units .. " left) ")
     end
 }
 local net = lain.widget.net{
     settings = function()
-        local sent = net_now.sent .. " KB (sent)"
-        local received = net_now.received .. " KB (received)"
-        widget:set_markup(" Network " .. received .. " " .. sent .. " ")
+        local sent = net_now.sent .. " KB ↥"
+        local received = net_now.received .. " KB ↧"
+        widget:set_markup(" 🌐 " .. received .. " " .. sent .. " ")
     end
 }
 local temperature = lain.widget.temp{
     settings = function()
-        widget:set_markup(" Temp " .. coretemp_now .. " ")
+        local temp = tonumber(coretemp_now)
+        local color = theme.fg_normal;
+        if temp > 70 then color = theme.fg_warn end
+        if temp > 90 then color = theme.fg_crit end
+        widget:set_markup(' <span color="' .. color .. '"> 🌡 ' .. coretemp_now .. " </span>")
     end
 }
-local volume = awful.widget.watch("pactl get-sink-volume @DEFAULT_SINK@", 1,
-    function(widget, stdout)
-        local volume = string.match(stdout, "%d+%%") or "N/A"
-        widget:set_markup(" Volume " .. volume)
-    end
-)
-local muted = awful.widget.watch("pactl get-sink-mute @DEFAULT_SINK@", 5,
+local muted = awful.widget.watch("pactl get-sink-mute @DEFAULT_SINK@", 1,
     function(widget, stdout)
         local mute = string.match(stdout, "Mute: (%S+)")
         if mute and mute == "yes" then
-            widget:set_markup(" (muted) ")
+            widget:set_markup(" 🔇 ")
         else
             widget:set_markup(" ")
         end
     end
 )
+local volume = awful.widget.watch("pactl get-sink-volume @DEFAULT_SINK@", 1,
+    function(widget, stdout)
+        local volume = string.match(stdout, "%d+%%") or "N/A"
+        local icon = "🔉"
+        if volume ~= "N/A" then
+          local volume_num = tonumber(string.sub(volume, 1, -2))
+          if volume_num > 50 then
+            icon = "🔊"
+          elseif volume_num == 0 then
+            icon = "🔇"
+          end
+        end
+        widget:set_markup(" " .. icon .. " " .. volume)
+    end
+)
 local brightness = awful.widget.watch("brightnessctl -m", 5,
     function(widget, stdout)
         local brightness = string.match(stdout, "%d+%%") or "N/A"
-        widget:set_markup(" Brightness " .. brightness)
+        widget:set_markup(" 🔅 " .. brightness)
     end
 )
 
@@ -376,6 +411,8 @@ globalkeys = gears.table.join(
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
+    awful.key({ modkey,           }, "period", function () awful.screen.focus_relative( 1) end,
+              {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,

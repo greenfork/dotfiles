@@ -24,6 +24,8 @@ theme.fg_normal     = "#aaaaaa"
 theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
+theme.fg_warn       = "yellow"
+theme.fg_crit       = "red"
 
 theme.useless_gap   = dpi(0)
 theme.border_width  = dpi(1)
@@ -122,6 +124,11 @@ if gfs.is_dir(wallpapers_path) then
     local wallpapers = scandir(wallpapers_path, is_image)
     local wallpaper = wallpapers[math.random(#wallpapers)]
     theme.wallpaper = wallpapers_path .. wallpaper
+
+    -- Write the name of the wallpaper to a file.
+    local file = io.open("/tmp/wallpaper", "w")
+    file:write(theme.wallpaper)
+    file:close()
 else
     naughty.notify({ preset = naughty.config.presets.warn,
                      text = wallpapers_path .. " path does not exist" })

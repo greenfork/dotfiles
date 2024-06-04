@@ -312,7 +312,7 @@ hook global WinSetOption filetype=yaml %{ no-tabs 2 }
 hook global WinSetOption filetype=javascript %{ no-tabs 2 }
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
 hook global WinSetOption filetype=lua %{
-    no-tabs 2
+    no-tabs 4
     set-option window lintcmd 'luacheck --no-color --filename "$kak_bufname" -'
     lint-on-write
 }
