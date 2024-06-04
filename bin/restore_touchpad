@@ -1,0 +1,10 @@
+#!/bin/sh
+
+driver=$(lsmod | grep touch | cut -f 1 -d ' ')
+
+printf "Restoring driver $driver\n"
+sudo rmmod $driver
+sudo modprobe $driver
+
+echo "Restarting libinput-gestures"
+libinput-gestures-setup restart
