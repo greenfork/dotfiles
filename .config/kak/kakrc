@@ -518,6 +518,7 @@ define-command -params .. \
               hook -always -once buffer BufCloseFifo .* %{ nop %sh{ rm -r $(dirname ${output}) } }
           }"
 }}
+hook global BufCreate .*\.(pm6|t) %{ set-option buffer filetype raku }
 hook global WinSetOption filetype=raku %{
     no-tabs 4
 
