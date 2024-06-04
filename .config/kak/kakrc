@@ -309,7 +309,11 @@ hook global WinSetOption filetype=factor %{
     set-option window auto_pairs ( ) { } [ ] '"' '"'
 }
 hook global WinSetOption filetype=yaml %{ no-tabs 2 }
-hook global WinSetOption filetype=javascript %{ no-tabs 2 }
+hook global WinSetOption filetype=javascript %{
+    no-tabs 2
+    set-option window formatcmd 'deno fmt -'
+    hook window BufWritePre .* format
+}
 hook global WinSetOption filetype=sql %{ no-tabs 2 }
 hook global WinSetOption filetype=lua %{
     no-tabs 4
