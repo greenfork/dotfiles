@@ -62,32 +62,34 @@ xkb_symbols "raku" {
    include "raku(basic)"
    name[Group1]= "English (raku operators, with AltGr)";
 
-   key <TLDE> { [     grave, asciitilde, dead_grave, leftsinglequotemark   ] }; //‘
-   key <AE01> { [         1,     exclam,      U00B9                        ] }; //¹
+   key <TLDE> { [     grave, asciitilde,   dead_greek,  dead_grave         ] }; //α à
+   key <AE01> { [         1,     exclam,      U00B9,      U2260            ] }; //¹≠
    key <AE02> { [         2,         at,      U00B2                        ] }; //²
    key <AE03> { [         3, numbersign,      U00B3,      U2026            ] }; //³…
-   key <AE04> { [         4,     dollar,      U2074                        ] }; //⁴
-   key <AE05> { [         5,    percent,      U2075                        ] }; //⁵
+   key <AE04> { [         4,     dollar,      U2074,      U00A7            ] }; //⁴§
+   key <AE05> { [         5,    percent,      U2075,      U2245            ] }; //⁵≅
    key <AE06> { [         6,asciicircum,      U2076                        ] }; //⁶
    key <AE07> { [         7,  ampersand,      U2077                        ] }; //⁷
    key <AE08> { [         8,   asterisk,      U2078,      multiply         ] }; //⁸×
-   key <AE09> { [         9,  parenleft,      U2079                        ] }; //⁹
-   key <AE10> { [         0, parenright,      U2070                        ] }; //⁰
-   key <AE11> { [     minus, underscore,      U2212,      U207B            ] }; //⁻−
-   key <AE12> { [     equal,       plus,      U2261,      U207A            ] }; //≡⁺
-   key <BKSL> { [ backslash,        bar,      U2262,      U221E            ] }; //≢∞
-   key <AD03> { [         e,          E,   EuroSign,      U1D452           ] }; //€𝑒
-   key <AD05> { [         t,          T,      U03C4,      U2296            ] }; //τ⊖
+   key <AE09> { [         9,  parenleft,      U2079,      U2296            ] }; //⁹⊖
+   key <AE10> { [         0, parenright,      U2070,      U2205            ] }; //⁰∅
+   key <AE11> { [     minus, underscore,      U2212,      U207B            ] }; //−⁻
+   key <AE12> { [     equal,       plus,      U2261,      U2262            ] }; //≡≢
+   key <BKSL> { [ backslash,        bar,      U221E                        ] }; //∞
+   key <AD03> { [         e,          E,      U1D452,     EuroSign         ] }; //𝑒€
+   key <AD05> { [         t,          T,      U03C4                        ] }; //τ
    key <AD07> { [         u,          U,      U222A,      U2229            ] }; //∪∩
    key <AD09> { [         o,          O,      U2218                        ] }; //∘
    key <AD10> { [         p,          P,      U03C0                        ] }; //π
-   key <AD11> { [ bracketleft,  braceleft,    U2260,      U201E            ] }; //≠„
-   key <AD12> { [ bracketright, braceright,   U2245,      U201A            ] }; //≅‚
-   key <AC01> { [         a,          A,      U2208,      U2209            ] }; //∈∉
-   key <AC02> { [         s,          S,      U220B,      U220C            ] }; //∋∌
-   key <AC09> { [         l,          L,      UFF62,      UFF63            ] }; //｢｣
+   key <AD11> { [ bracketleft,  braceleft,    UFF62                        ] }; //｢
+   key <AD12> { [ bracketright, braceright,   UFF63                        ] }; //｣
+   key <AC01> { [         a,          A,      U2208,      U220B            ] }; //∈ ∋
+   key <AC02> { [         s,          S,      U2209,      U220C            ] }; //∉ ∌
+   key <AC03> { [         d,          D,      U2286,      U2287            ] }; //⊆ ⊇
+   key <AC04> { [         f,          F,      U2288,      U2289            ] }; //⊈ ⊉
+   key <AC09> { [         l,          L,      U201A,      U201E            ] }; //‚„
    key <AC10> { [ semicolon,      colon,      U201C,      U201D            ] }; //“”
-   key <AC11> { [apostrophe,   quotedbl,  rightsinglequotemark             ] }; //’
+   key <AC11> { [apostrophe,quotedbl,leftsinglequotemark,rightsinglequotemark ] }; //‘’
    key <AB02> { [         x,          X,      U2284,      U2285            ] }; //⊄ ⊅
    key <AB03> { [         c,          C,      U2282,      U2283            ] }; //⊂ ⊃
    key <AB05> { [         b,          B,      U228E,      U228D            ] }; //⊎⊍

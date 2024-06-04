@@ -5,12 +5,12 @@
 # https://docs.raku.org/language/unicode_entry
 #
 # Command used to generate this file:
-# setxkbmap -print -option "ctrl:nocaps" -option "shift:both_capslock" -layout 'raku(raku),ru' -option "grp:rctrl_toggle" -option "compose:lctrl" -option "lv3:ralt_switch"
+# setxkbmap -print -option "ctrl:nocaps" -option "shift:both_capslock" -layout 'raku(raku),ru' -option "grp:rctrl_toggle" -option "compose:lctrl-altgr" -option "lv3:ralt_switch"
 
 xkb_keymap {
 	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
 	xkb_types     { include "complete"	};
 	xkb_compat    { include "complete"	};
-	xkb_symbols   { include "pc+raku(raku)+ru:2+inet(evdev)+ctrl(nocaps)+compose(lctrl)+shift(both_capslock)+level3(ralt_switch)+group(rctrl_toggle)"	};
+	xkb_symbols   { include "pc+raku(raku)+ru:2+inet(evdev)+ctrl(nocaps)+compose(lctrl-altgr)+shift(both_capslock)+level3(ralt_switch)+group(rctrl_toggle)"	};
 	xkb_geometry  { include "pc(pc105)"	};
 };
