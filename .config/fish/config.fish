@@ -86,9 +86,6 @@ if status --is-interactive
     # bind \cr fzf_search_history
     bind \en zi
 
-    # Use gpg for ssh
-    gpg-connect-agent updatestartuptty /bye >/dev/null
-
     # Raku experiments
     fish_add_path -g ~/rakudo/share/perl6/core/bin
     fish_add_path -g ~/rakudo/share/perl6/vendor/bin

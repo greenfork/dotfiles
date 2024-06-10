@@ -39,3 +39,7 @@ export PATH="${HOME}/reps/ols${PATH:+:${PATH}}"
 # For X
 export XDG_SESSION_TYPE=x11
 export GDK_BACKEND=x11
+
+# Use systemd's service for ssh-agent started with:
+# systemctl --user start ssh-agent
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
