@@ -860,6 +860,30 @@
   (straight-use-package
    '(graphviz-dot-mode :type git :flavor melpa :host github :repo "ppareit/graphviz-dot-mode"))
 #+end_src
+** Scheme
+
+#+begin_src emacs-lisp
+  (straight-use-package
+   '(rainbow-delimiters :type git :flavor melpa :host github :repo "Fanael/rainbow-delimiters"))
+  (straight-use-package
+   '(paredit :type git :flavor melpa :repo "https://mumble.net/~campbell/git/paredit.git"))
+
+  (defun sm-greek-lambda ()
+    (font-lock-add-keywords
+     nil `(("\\<lambda\\>"
+            (0 (progn (compose-region (match-beginning 0) (match-end 0)
+                                      ,(make-char 'greek-iso8859-7 107))
+                      nil))))))
+
+  (add-hook
+   'scheme-mode-hook
+   (lambda ()
+     (display-fill-column-indicator-mode 1)
+     (rainbow-delimiters-mode)
+     (paredit-mode)
+     (sm-greek-lambda)))
+#+end_src
+
 * Second brain
 ** Note taking
 #+begin_src emacs-lisp
