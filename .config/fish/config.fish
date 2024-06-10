@@ -35,6 +35,10 @@ if status --is-interactive
     abbr --add --global hl   'hg log --rev "reverse(ancestors(.))"'
     abbr --add --global hw   hg wip
 
+    # Fossil stuff
+    alias fsl fossil
+    abbr --add --global fc  fsl changes --differ
+
     # Jujutsu stuff
     abbr --add --global jd   jj diff --git
 

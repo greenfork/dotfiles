@@ -176,9 +176,11 @@ define-command fzf %{ evaluate-commands %{
     kitty-terminal --location=hsplit sh -c "
         MYTMP=$(mktemp /tmp/mykakfzf.XXXXXX)
         trap 'rm -f $MYTMP' EXIT
-        if git rev-parse --is-inside-work-tree &> /dev/null; then
+        if git rev-parse --is-inside-work-tree &>/dev/null; then
             git ls-files
-        elif chg root &> /dev/null; then
+        elif fossil branch current &>/dev/null; then
+            fossil ls
+        elif chg root &>/dev/null; then
             chg files .
         else
             fd -H --type f --type l
